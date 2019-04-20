@@ -37,7 +37,7 @@ DICE_CondRet roll_dice(int *dice, int numSides){
 	value = rand() % numSides + 1;
 	if(value > numSides || value < 1){
 		return DICE_wrong;
-	}
+	}	/* if */
 	*dice = value;
 	return DICE_ok;
-}
+}	/* Fim da função: DICE Roll_dice	/*
