@@ -40,4 +40,4 @@ DICE_CondRet roll_dice(int *dice, int numSides){
 	}	/* if */
 	*dice = value;
 	return DICE_ok;
-}	/* Fim da função: DICE Roll_dice	/*
+}	/* Fim da função: DICE Roll_dice */
