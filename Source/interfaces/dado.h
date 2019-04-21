@@ -50,5 +50,5 @@ typedef enum{
 *
 ***********************************************************************/
 
-DICE_CondRet roll_dice(int *dice, int numSide);
+DICE_CondRet DICE_roll_dice(int *dice, int numSide);
 
