@@ -31,13 +31,13 @@
 *
 **********************************************************************/
 
-DICE_CondRet roll_dice(int *dice, int numSides){
+DICE_CondRet DICE_RolarDado(int *dado, int numLados){
 	int value;
 	srand( ((unsigned int)time(NULL)) * rand() );
-	value = rand() % numSides + 1;
-	if(value > numSides || value < 1){
+	value = rand() % numLados + 1;
+	if(value > numLados || value < 1){
 		return DICE_wrong;
 	}	/* if */
-	*dice = value;
+	*dado = value;
 	return DICE_ok;
-}	/* Fim da função: DICE Roll_dice */
+}	/* Fim da função: DICE RolarDado */

@@ -30,9 +30,9 @@
 
 typedef enum{
 	DICE_ok = 0,
-		/*	Valor correto, entre 1 e 6 */
+		/*	Valor correto, entre 1 e o número de lados do dado */
 	DICE_wrong = 1	
-		/*	Valor invalido, menor que 1 ou maior que o numero de lados*/
+		/*	Valor invalido, menor que 1 ou maior que o numero de lados do dado */
 } DICE_CondRet ;
 
 /***********************************************************************
@@ -44,11 +44,11 @@ typedef enum{
 *		em um parâmetro
 *
 *	$EP Parâmetros:
-*		$P	*dice	 -	Referência para uma variavel onde será salvo o 
+*		$P	*dado	 -	Referência para uma variavel onde será salvo o 
 *						valor
-*		$P	numSides -	Número de lados do dado
+*		$P	numLados -	Número de lados do dado
 *
 ***********************************************************************/
 
-DICE_CondRet DICE_roll_dice(int *dice, int numSide);
+DICE_CondRet DICE_RolarDado(int *dado, int numLados);
 
