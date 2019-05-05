@@ -14,6 +14,7 @@
 *	$HA Histórico e evolução:
 *		Versão  Autor	Data		Observações
 *		1.00	rdms	21/04/2019	Inicio do desnvolvimento
+*		2.00	rdms	05/05/2019	Modificação na assinatura da função de destruir uma peça
 *
 *******************************************************************************************/
 
@@ -71,9 +72,10 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca){
 *
 **********************************************************************/
 
-PEC_CondRet PEC_DestruirPeca(PecaHead peca){
-	free(peca);
-	peca = NULL;
+PEC_CondRet PEC_DestruirPeca(PecaHead* peca){
+	if (*peca == NULL) return PEC_ok;
+	free(*peca);
+	*peca = NULL;
 	return PEC_ok;
 }
 
