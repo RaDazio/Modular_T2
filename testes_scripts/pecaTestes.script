@@ -1,0 +1,51 @@
+// Script:	pecaTestes.script
+//
+// Autor:	Rafael Damazio
+//		
+//
+// Data:	05/05/2019
+//
+// Proposito:	Testar os comandos básicos relacionados a
+//		estrutura de peças
+
+
+// Tipos de retorno
+//0	/* Executou corretamente */
+//1	/* Não existe a peça */
+//2	/* A cor fornecida não é preta nem branca */
+//3	/* A variavel ja possui uma peça associada */
+//4	/* Faltou memoria */
+
+// CORES:
+// 0    /* Preto */
+// 1    /* Branco */
+
+== Criar peça com cor que não existe
+=criar 2 0
+=recuperar
+
+== Criar peça aonde ja existe uma
+=criar 0 0 
+=criar 0 0
+=recuperar
+
+== Destruir uma peça
+=destroi
+
+== Criar uma peça preta
+=criar 0 0
+
+== Obter a cor da peça preta
+=obter 0 0
+
+== Destruir uma peça
+=destroi
+
+== Criar uma peça branca
+=criar 1 0
+
+== Obter a cor de um peça branca
+=obter 1 0
+
+== Destruir uma peça
+=destroi

@@ -9,11 +9,14 @@
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
 *
-*	Autores:	rdms - Rafael Damazio Monteiro da Silva
+*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
+				rdms - Rafael Damazio Monteiro da Silva
+*				fo	 - Felipe de Oliveira
 *
 *	$HA Histórico e evolução:
 *		Versão  Autor	Data		Observações
 *		1.00	rdms	21/04/2019	Inicio do desnvolvimento
+*		2.00	rdms	05/05/2019	Modificação na assinatura da função de destruir uma peça.
 *
 *	$ED Descrição do módulo:
 *		Este módulo implementa e gerencia a estrutura de peças.
@@ -30,16 +33,16 @@
 
 typedef enum{
 
-	PEC_notEnoughMemory = -1,
-		/* Faltou memoria */
 	PEC_ok = 0,
 		/* Executou corretamente */
 	PEC_doNotExist = 1,
 		/* Não existe a peça */
 	PEC_colorNotExist = 2,
 		/*	A cor fornecida não é preta nem branca */
-	PEC_alreadyExists = 3
+	PEC_alreadyExists = 3,
 		/*	A variavel ja possui uma peça associada */
+	PEC_notEnoughMemory = 4,
+		/* Faltou memoria */
 } PEC_CondRet;
 
 
@@ -107,4 +110,5 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca);
 *
 ***********************************************************************/
 
-PEC_CondRet PEC_DestruirPeca(PecaHead peca);
+PEC_CondRet PEC_DestruirPeca(PecaHead *peca);
+

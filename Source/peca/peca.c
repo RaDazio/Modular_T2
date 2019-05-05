@@ -7,11 +7,14 @@
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
 *
-*	Autores:	rdms - Rafael Damazio Monteiro da Silva
+*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
+				rdms - Rafael Damazio Monteiro da Silva
+*				fo	 - Felipe de Oliveira
 *
 *	$HA Histórico e evolução:
 *		Versão  Autor	Data		Observações
 *		1.00	rdms	21/04/2019	Inicio do desnvolvimento
+*		2.00	rdms	05/05/2019	Modificação na assinatura da função de destruir uma peça
 *
 *******************************************************************************************/
 
@@ -45,11 +48,11 @@ struct peca{
 **********************************************************************/
 
 PEC_CondRet PEC_CriaPeca(PEC_color color, PecaHead* ret){
+	if (*ret != NULL) return PEC_alreadyExists;
+	if(color != COLOR_White && color != COLOR_Black) return PEC_colorNotExist;
 	*ret = (PecaHead)malloc(sizeof(PecaHead));
 	if(*ret == NULL) return PEC_notEnoughMemory;
-	if(color != COLOR_White && color != COLOR_Black) return PEC_colorNotExist;
 	(*ret)->color = color;
-
 	return PEC_ok;
 }
 
@@ -69,9 +72,11 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca){
 *
 **********************************************************************/
 
-PEC_CondRet PEC_DestruirPeca(PecaHead peca){
-	free(peca);
-	peca = NULL;
+PEC_CondRet PEC_DestruirPeca(PecaHead* peca){
+	if (*peca == NULL) return PEC_ok;
+	free(*peca);
 	return PEC_ok;
 }
+
+
 

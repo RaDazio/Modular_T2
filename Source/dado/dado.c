@@ -7,7 +7,9 @@
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
 *
-*	Autores:	rdms - Rafael Damazio Monteiro da Silva
+*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
+				rdms - Rafael Damazio Monteiro da Silva
+*				fo	 - Felipe de Oliveira
 *
 *	$HA Histórico e evolução:
 *		Versão  Autor	Data		Observações
@@ -27,7 +29,7 @@
 /*******************************************************/
 
 /***********************************************************************
-*	$FC Função:	DICE Roll dice
+*	$FC Função:	DICE Rolar dado
 *
 **********************************************************************/
 
@@ -38,6 +40,9 @@ DICE_CondRet DICE_RolarDado(int *dado, int numLados){
 	if(value > numLados || value < 1){
 		return DICE_wrong;
 	}	/* if */
+	if(value == 0){
+		value = 1;
+	}/* if */
 	*dado = value;
 	return DICE_ok;
 }	/* Fim da função: DICE RolarDado */
