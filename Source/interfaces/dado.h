@@ -10,7 +10,7 @@
 *	Gestor:		DI/PUC-Rio
 *
 *	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
-				rdms - Rafael Damazio Monteiro da Silva
+*				rdms - Rafael Damazio Monteiro da Silva
 *				fo	 - Felipe de Oliveira
 *
 *	$HA Histórico e evolução:

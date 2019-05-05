@@ -1,0 +1,39 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: dado.exe
+
+      Arquivo de teste:    pecaTestes.script
+
+
+!!!    0  Linha:     2  //0	/* Executou corretamente */ 
+!!!    0  Linha:     3  //1	/* Não existe a peça */ 
+!!!    0  Linha:     4  //2	/* A cor fornecida não é preta nem branca */ 
+!!!    0  Linha:     5  //3	/* A variavel ja possui uma peça associada */ 
+!!!    0  Linha:     6  //4	/* Faltou memoria */ 
+    8  == Criar peça com cor que não existe
+>>>    1  Linha:     9  Retorno errado ao criar peça. Deveria ser: 0  É: 2
+<<<    0  Linha:    10  Falha esperada foi recuperada. 
+   12  == Criar peça aonde ja existe uma
+>>>    1  Linha:    14  Retorno errado ao criar peça. Deveria ser: 0  É: 3
+<<<    0  Linha:    15  Falha esperada foi recuperada. 
+   17  == Destruir uma peça
+   20  == Criar uma peça preta
+   23  == Obter a cor da peça preta
+   26  == Destruir uma peça
+   29  == Criar uma peça branca
+   32  == Obter a cor de um peça branca
+   35  == Destruir uma peça
+
+!!! Número de linhas lidas:          36
+!!! Número de casos de teste:         9
+!!! Número comandos corretos:         6
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

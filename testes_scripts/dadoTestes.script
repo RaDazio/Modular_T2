@@ -1,0 +1,15 @@
+// Script:	dadoTestes.script
+//
+// Autor:	Rafael Damazio
+//		
+//
+// Data:	05/05/2019
+//
+// Proposito:	Testar os comandos básicos relacionados a
+//		Rolar o dado
+
+== Rolar o dado de 6 lados
+=rolar 6 0
+
+== Rolar o dado de 20 lados
+=rolar 20 0

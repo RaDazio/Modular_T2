@@ -111,3 +111,4 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca);
 ***********************************************************************/
 
 PEC_CondRet PEC_DestruirPeca(PecaHead *peca);
+
