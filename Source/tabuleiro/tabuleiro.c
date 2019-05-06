@@ -51,7 +51,7 @@ typedef struct tabuleiro {
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro, void ( * ExcluirValor ) ( void * pDado ) )
+TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro)
 {
 	int i, addBranca = 0,addPreta = 0;
 	LIS_tppLista casasTabuleiro[24]; 
@@ -59,11 +59,11 @@ TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro, void ( * ExcluirValor 
 	PecaHead pecasPretas[15]; 
 
 	*tabuleiro = (TabuleiroHead)malloc(sizeof(Tabuleiro));
-	(*tabuleiro)->Casas = LIS_CriarLista(ExcluirValor);
+	(*tabuleiro)->Casas = LIS_CriarLista(LIS_DestruirLista);
 
 	/* Criação das peças */
 	for(i = 0; i < 15; i++)
-	{
+	{	
 		pecasBrancas[i] = NULL;
 		if(Pec_CriarPeca(COLOR_White, &pecasBrancas[i]) != PEC_ok)
 			return TBL_erroCriarPeca;
@@ -77,7 +77,7 @@ TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro, void ( * ExcluirValor 
 	for(i = 0; i < 24; i++)
 	{
 		casasTabuleiro[i] = NULL;
-		casasTabuleiro[i] = LIS_CriarLista(ExcluirValor);
+		casasTabuleiro[i] = LIS_CriarLista(PEC_DestruirPeca);
 	}
 
 	// Preencher as casas com as posições iniciais das peças

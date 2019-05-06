@@ -66,7 +66,7 @@ typedef struct tabuleiro* TabuleiroHead;
 ***********************************************************************/
 
 
-   TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead* tabuleiro, void   ( * ExcluirValor ) ( void * pDado ) ) ;
+   TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead* tabuleiro ) ;
 
 
 /***********************************************************************
