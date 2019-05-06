@@ -30,12 +30,12 @@
 #include    <stdio.h>
 #include    <malloc.h>
 
-#include    "TST_Espc.h"
+#include    "../../TESTES_GENERICO/TST_Espc.h"
 
-#include    "Generico.h"
-#include    "LerParm.h"
+#include    "../../TESTES_GENERICO/generico.h"
+#include    "../../TESTES_GENERICO/LerParm.h"
 
-#include    "../interfaces/DADOPONTOS.h"
+#include    "../../Source/interfaces/DADOPONTOS.h"
 
 static const char RESET_DADOPONTOS_CMD             [] = "=resetteste";
 static const char CRIAR_DADOPONTOS_CMD             [] = "=criardadopontos";
