@@ -44,7 +44,7 @@ typedef struct dadopontos DPT_DadoPontos;
 ***********************************************************************/
 
    typedef enum {
-   	     DPT_FalhaMemoria = -1
+   	     DPT_FalhaMemoria = -1,
           /* Faltou memória ao alocar dados */
 
          DPT_OK = 0,
@@ -96,7 +96,7 @@ typedef struct dadopontos DPT_DadoPontos;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, Pec_color CorPeca);
+   DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca);
 
 /***********************************************************************
 *
@@ -116,7 +116,7 @@ typedef struct dadopontos DPT_DadoPontos;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, Pec_color CorPeca);
+   DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca);
 
 /***********************************************************************
 *
@@ -136,7 +136,7 @@ typedef struct dadopontos DPT_DadoPontos;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, Pec_color *pCorPeca);
+   DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, PEC_color *pCorPeca);
 
 /***********************************************************************
 *
