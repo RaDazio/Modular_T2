@@ -34,9 +34,9 @@
 #include<stdio.h>
 #include<string.h>
 
-#include    "../../TESTES_GENERICO/TST_ESPC.H"
-#include    "../../TESTES_GENERICO/generico.h"
-#include    "../../TESTES_GENERICO/lerparm.h"
+#include    "../TESTES_GENERICO/TST_ESPC.H"
+#include    "../TESTES_GENERICO/generico.h"
+#include    "../TESTES_GENERICO/lerparm.h"
 
 #include	"../../Source/interfaces/peca.h"
 

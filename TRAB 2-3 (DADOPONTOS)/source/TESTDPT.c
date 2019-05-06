@@ -30,10 +30,9 @@
 #include    <stdio.h>
 #include    <malloc.h>
 
-#include    "../../TESTES_GENERICO/TST_Espc.h"
-
-#include    "../../TESTES_GENERICO/generico.h"
-#include    "../../TESTES_GENERICO/LerParm.h"
+#include    "../TESTES_GENERICO/TST_Espc.h"
+#include    "../TESTES_GENERICO/generico.h"
+#include    "../TESTES_GENERICO/LerParm.h"
 
 #include    "../../Source/interfaces/DADOPONTOS.h"
 
