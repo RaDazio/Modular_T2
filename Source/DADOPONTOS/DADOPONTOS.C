@@ -21,7 +21,7 @@
 #include   <stdio.h>
 
 #define DADOPONTOS_OWN
-#include "DADOPONTOS.H"
+#include "../interfaces/DADOPONTOS.H"
 #undef DADOPONTOS_OWN
 
 /***********************************************************************
@@ -38,7 +38,7 @@ typedef struct dadopontos
 	int Pontuacao;
 	/* Pontuação  do jogo no momento*/
 
-	Pec_color CorPeca;
+	PEC_color CorPeca;
 	/* Cor da peça do jogador que pode dobrar o jogo */
 
 } DPT_DadoPontos;
@@ -70,7 +70,7 @@ DPT_CondRet DPT_CriarDadoPontos(DPT_DadoPontos **pDadoPontos)
 *  Função: DPT Atualizar jogador
 *  
 ****/
-DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, Pec_color CorPeca)
+DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca)
 {
 	if(pDadoPontos == NULL) 
 	{
@@ -87,7 +87,7 @@ DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, Pec_color Cor
 *  Função: DPT Dobrar pontuação da partida
 *  
 ****/
-DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, Pec_color CorPeca)
+DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca)
 {
 	if(pDadoPontos == NULL) 
 	{
@@ -108,7 +108,7 @@ DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, Pec_color Co
 *  Função: DPT Obter jogador que possui o dado de pontos
 *  
 ****/
-DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, Pec_color *pCorPeca)
+DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, PEC_color *pCorPeca)
 {
 	if(pDadoPontos == NULL)
 	{

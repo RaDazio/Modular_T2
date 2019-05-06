@@ -34,11 +34,11 @@
 #include<stdio.h>
 #include<string.h>
 
-#include    "TST_ESPC.H"
-#include    "generico.h"
-#include    "lerparm.h"
+#include    "../TESTES_GENERICO/TST_ESPC.H"
+#include    "../TESTES_GENERICO/generico.h"
+#include    "../TESTES_GENERICO/lerparm.h"
 
-#include "../interfaces/peca.h"
+#include	"../../Source/interfaces/peca.h"
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
