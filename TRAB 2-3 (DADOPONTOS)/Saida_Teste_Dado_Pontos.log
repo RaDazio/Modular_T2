@@ -1,0 +1,54 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: Release\TRAB2-3.EXE.exe
+
+      Arquivo de teste:    testes_scripts\TesteDadoPontos.script
+
+
+!!!    0  Linha:     1  // Script:    TesteDadoPontos.script 
+!!!    0  Linha:     2  // Autores:   Felipe de Oliveira 
+!!!    0  Linha:     3  // // Data:      05/05/2019 
+!!!    0  Linha:     4  // Proposito: Testar o modulo dado de pontos 
+!!!    0  Linha:     5  // 
+    7  == Inicializar valores
+   23  == Testar Comando Recuperar
+>>>    1  Linha:    24  Erro ao destruir Dado de Pontos. Deveria ser: 0  É: 1
+<<<    0  Linha:    25  Falha esperada foi recuperada. 
+   27  == Criar dado de pontos
+   30  == Criar dado de pontos
+   33  == Destruir dado de pontos
+   36  == Destruir dado de pontos que nao existe e recupera o erro
+>>>    1  Linha:    37  Erro ao destruir Dado de Pontos. Deveria ser: 0  É: 1
+<<<    0  Linha:    38  Falha esperada foi recuperada. 
+   40  == Destruir dado de pontos que nao existe sem recuperar erro
+>>>    1  Linha:    41  Erro ao destruir Dado de Pontos. Deveria ser: 0  É: 1
+   43  == Destruir dado de pontos que  nao existe
+   47  == Atualizar jogador de dobra dado de pontos sem o dado existir e recuperando o erro
+>>>    2  Linha:    48  Erro ao atualizar jogador de dobra. Deveria ser: 0  É: 1
+<<<    1  Linha:    49  Falha esperada foi recuperada. 
+   51  == Atualizar jogador de dobra  de dado de pontos que nao existe
+   55  == Obter jogador que possui o dado de pontos
+   58  == Atualizar jogador de dobra
+   61  == Dobrar pontuacao partida
+   64  == Dobrar pontuacao partida dado pontos nao existe
+   67  == Dobrar pontuacao partida jogador nao possui dado pontos
+   70  == Obter jogador que possui o dado de pontos
+   73  == Obter jogador que possui o dado de pontos
+   76  == Obter pontuacao partida
+   79  == Obter pontuacao partida dado pontos nao existe
+   82  == Destruir dado de pontos
+!!!    1  Linha:    85  // fim 
+
+!!! Número de linhas lidas:          85
+!!! Número de casos de teste:        20
+!!! Número comandos corretos:        27
+!!! Número de falhas encontradas:     1
+
+!!! Foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
