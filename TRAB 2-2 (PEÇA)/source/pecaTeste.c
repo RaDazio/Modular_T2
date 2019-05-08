@@ -1,5 +1,5 @@
 /***************************************************************************
-*  $MCI Módulo de implementação: Módulo de teste específico
+*  $MCI MÃ³dulo de implementaÃ§Ã£o: MÃ³dulo de teste especÃ­fico
 *
 *  Arquivo gerado:              pecaTeste.C
 *  Letras identificadoras:      TPEC
@@ -12,22 +12,22 @@
 *				rdms - Rafael Damazio Monteiro da Silva
 *				fo	 - Felipe de Oliveira
 *
-*  $HA Histórico de evolução:
-*     Versão  Autor    Data		 Observações
-*       1.00   rmds   05/05/2019 Início do desenvolvimento
+*  $HA HistÃ³rico de evoluÃ§Ã£o:
+*     VersÃ£o  Autor    Data		 ObservaÃ§Ãµes
+*       1.00   rmds   05/05/2019 InÃ­cio do desenvolvimento
 *
-*  $ED Descrição do módulo
-*     Este módulo visa o teste utilizando as funções específicas do
-*      módulo de peças
+*  $ED DescriÃ§Ã£o do mÃ³dulo
+*     Este mÃ³dulo visa o teste utilizando as funÃ§Ãµes especÃ­ficas do
+*      mÃ³dulo de peÃ§as
 *
 *
 *
-*  $EIU Interface com o usuário pessoa
-*     Comandos de teste específicos para testar o módulo árvore:
+*  $EIU Interface com o usuÃ¡rio pessoa
+*     Comandos de teste especÃ­ficos para testar o mÃ³dulo peca:
 *
-*     "=criar"		    - chama a função PEC_CriaPeca()
-*     "=destroi"		- chama a função PEC_DestruirPeca()
-*	  "=obterCor"		- chama a função PEC_ObterCor()
+*     "=criar"		    - chama a funÃ§Ã£o PEC_CriaPeca()
+*     "=destroi"		- chama a funÃ§Ã£o PEC_DestruirPeca()
+*	  "=obterCor"		- chama a funÃ§Ã£o PEC_ObterCor()
 *
 ***************************************************************************/
 
@@ -40,7 +40,7 @@
 
 #include	"../../Source/interfaces/peca.h"
 
-/* Tabela dos nomes dos comandos de teste específicos */
+/* Tabela dos nomes dos comandos de teste especÃ­ficos */
 
 #define CRIAR		"=criar"
 #define OBTER_COR	"=obterCor"
@@ -49,18 +49,18 @@
 	  PecaHead peca = NULL;
 
 
-/*****  Código das funções exportadas pelo módulo  *****/
+/*****  CÃ³digo das funÃ§Ãµes exportadas pelo mÃ³dulo  *****/
 
 
 /***********************************************************************
 *
-*  $FC Função: TPECA Efetuar operações de teste específicas para peças
+*  $FC FunÃ§Ã£o: TPECA Efetuar operaÃ§Ãµes de teste especÃ­ficas para peÃ§as
 *
-*  $ED Descrição da função
-*     Efetua os diversos comandos de teste específicos para o módulo
-*     peças sendo testado.
+*  $ED DescriÃ§Ã£o da funÃ§Ã£o
+*     Efetua os diversos comandos de teste especÃ­ficos para o mÃ³dulo
+*     peÃ§as sendo testado.
 *
-*  $EP Parâmetros
+*  $EP ParÃ¢metros
 *     $P ComandoTeste - String contendo o comando
 *
 *  $FV Valor retornado
@@ -84,7 +84,7 @@
 
       TST_tpCondRet Ret ;
 
-      /* Testar PEC Criar peça */
+      /* Testar PEC Criar peÃ§a */
 
          if ( strcmp( ComandoTeste , CRIAR ) == 0 )
          {
@@ -97,9 +97,9 @@
 			CondRetObtido = PEC_CriaPeca(cor_inserir,&peca);
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar peça." );
+                                    "Retorno errado ao criar peÃ§a." );
 
-         } /* fim ativa: Testar PEC Criar peça */
+         } /* fim ativa: Testar PEC Criar peÃ§a */
 
 
       /* Testar PEC Obter cor */
@@ -125,11 +125,11 @@
 			
 
 			return TST_CompararInt( cor_esperada, cor_retorno,
-                                     "Conteúdo da peça está errado." ) ;
+                                     "ConteÃºdo da peÃ§a estÃ¡ errado." ) ;
 
          } /* fim ativa: Testar PEC Obter cor */
 
-      /* Testar PEC Destruir peça */
+      /* Testar PEC Destruir peÃ§a */
 
          else if ( strcmp( ComandoTeste , DESTROI ) == 0 )
          {
@@ -137,10 +137,10 @@
 			peca = NULL;
 			return TST_CondRetOK ;
 
-         } /* fim ativa: Testar PEC Destruir peça */
+         } /* fim ativa: Testar PEC Destruir peÃ§a */
 
 		 else{
 			 return TST_CondRetNaoConhec;
 		 }
 
-   } /* Fim função: TPEC Efetuar operações de teste específicas para peças */
+   } /* Fim funÃ§Ã£o: TPEC Efetuar operaÃ§Ãµes de teste especÃ­ficas para peÃ§as */
