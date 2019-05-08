@@ -52,7 +52,6 @@
 
 /******* TIPOS E FUN��ES EXPORTADOS DO M�DULO *****************************/
 
-typedef struct tabuleiro* TabuleiroHead;
 
 
 /***********************************************************************
@@ -66,7 +65,7 @@ typedef struct tabuleiro* TabuleiroHead;
 ***********************************************************************/
 
 
-   TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead* tabuleiro ) ;
+   TBL_CondRet TBL_CriarTabuleiro() ;
 
 
 /***********************************************************************
@@ -79,7 +78,7 @@ typedef struct tabuleiro* TabuleiroHead;
 *
 ***********************************************************************/
 
-   TBL_CondRet TBL_DestruirTabuleiro(TabuleiroHead pTab ) ;
+   TBL_CondRet TBL_DestruirTabuleiro() ;
 
 
 /***********************************************************************
@@ -96,7 +95,7 @@ typedef struct tabuleiro* TabuleiroHead;
 *
 ***********************************************************************/
 
-   TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas, TabuleiroHead tabuleiro);
+   TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas);
 
 
 /***********************************************************************
@@ -115,7 +114,7 @@ typedef struct tabuleiro* TabuleiroHead;
 *
 ***********************************************************************/
 
-   TBL_CondRet TBL_MoverPeca(TabuleiroHead tabuleiro, int casaInicio, int casaFim ) ;
+   TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim ) ;
 
 
 

@@ -41,6 +41,7 @@ typedef struct tabuleiro {
 
 } Tabuleiro;
 
+static Tabuleiro * tabuleiroSingleton = NULL ;
 
 /*******************************************************/
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -51,15 +52,19 @@ typedef struct tabuleiro {
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro)
+TBL_CondRet TBL_CriarTabuleiro()
 {
 	int i, addBranca = 0,addPreta = 0;
 	LIS_tppLista casasTabuleiro[24]; 
 	PecaHead pecasBrancas[15]; 
 	PecaHead pecasPretas[15]; 
 
-	*tabuleiro = (TabuleiroHead)malloc(sizeof(Tabuleiro));
-	(*tabuleiro)->Casas = LIS_CriarLista( LIS_DestruirLista );
+	if(tabuleiroSingleton != NULL){
+		TBL_DestruirTabuleiro(tabuleiroSingleton);
+	}
+
+	tabuleiroSingleton = (Tabuleiro *)malloc(sizeof(Tabuleiro));
+	(tabuleiroSingleton)->Casas = LIS_CriarLista( LIS_DestruirLista );
 
 	/* Criação das peças */
 	for(i = 0; i < 15; i++)
@@ -103,7 +108,7 @@ TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro)
 
 	// Criar lista de casas no tabuleiro
 	for(i = 0; i < 24; i++)
-		LIS_InserirElementoApos((*tabuleiro)->Casas, casasTabuleiro[i]);
+		LIS_InserirElementoApos((tabuleiroSingleton)->Casas, casasTabuleiro[i]);
 
 	return TBL_ok;
 }
@@ -113,11 +118,15 @@ TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro)
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_DestruirTabuleiro (TabuleiroHead tabuleiro)
+TBL_CondRet TBL_DestruirTabuleiro ()
 {
-	LIS_DestruirLista(tabuleiro->Casas);
-	free(tabuleiro);
-	tabuleiro = NULL;
+	if (tabuleiroSingleton == NULL) {
+		return TBL_ok;
+	}
+	
+	LIS_DestruirLista(tabuleiroSingleton->Casas);
+	free(tabuleiroSingleton);
+	tabuleiroSingleton = NULL;
 	return TBL_ok;
 }
 
@@ -126,9 +135,9 @@ TBL_CondRet TBL_DestruirTabuleiro (TabuleiroHead tabuleiro)
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas, TabuleiroHead tabuleiro)
+TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas)
 {
-	*casas = tabuleiro->Casas;
+	*casas = tabuleiroSingleton->Casas;
 	return TBL_ok;
 }
 
@@ -137,16 +146,16 @@ TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas, TabuleiroHead tabuleiro)
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_MoverPeca(TabuleiroHead tabuleiro, int casaInicio, int casaFim ) 
+TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim ) 
 {
 	LIS_tppLista listaAux;
 	PecaHead pecaAux1, pecaAux2;
 	PEC_color color;
 
 	// Pegar lista de peças na casa inicial
-	IrInicioLista(tabuleiro->Casas);
-	LIS_AvancarElementoCorrente(tabuleiro->Casas, casaInicio);
-	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiro->Casas);
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casaInicio);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
 
 	// pegar uma peça da casa inicial
 	pecaAux1 = (PecaHead)LIS_ObterValor(listaAux);
@@ -166,9 +175,9 @@ TBL_CondRet TBL_MoverPeca(TabuleiroHead tabuleiro, int casaInicio, int casaFim )
 		return TBL_erroMovimentarPeca;
 
 	// Pegar lista de peças na casa final
-	IrInicioLista(tabuleiro->Casas);
-	LIS_AvancarElementoCorrente(tabuleiro->Casas, casaFim);
-	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiro->Casas);
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casaFim);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
 
 	// Criar nova peça
 	if(PEC_ObterCor(&color, pecaAux2) != PEC_ok)
