@@ -59,17 +59,17 @@ TBL_CondRet TBL_CriarTabuleiro(TabuleiroHead * tabuleiro)
 	PecaHead pecasPretas[15]; 
 
 	*tabuleiro = (TabuleiroHead)malloc(sizeof(Tabuleiro));
-	(*tabuleiro)->Casas = LIS_CriarLista(LIS_DestruirLista);
+	(*tabuleiro)->Casas = LIS_CriarLista( LIS_DestruirLista );
 
 	/* Criação das peças */
 	for(i = 0; i < 15; i++)
 	{	
 		pecasBrancas[i] = NULL;
-		if(Pec_CriarPeca(COLOR_White, &pecasBrancas[i]) != PEC_ok)
+		if(PEC_DestruirPeca(&pecasBrancas[i]) != PEC_ok)
 			return TBL_erroCriarPeca;
 
 		pecasPretas[i] = NULL;
-		if(Pec_CriarPeca(COLOR_Black, &pecasPretas[i]) != PEC_ok)
+		if(PEC_CriaPeca(COLOR_Black, &pecasPretas[i]) != PEC_ok)
 			return TBL_erroCriarPeca;
 	}
 
@@ -154,7 +154,7 @@ TBL_CondRet TBL_MoverPeca(TabuleiroHead tabuleiro, int casaInicio, int casaFim )
 	// se a casa não estiver vazia, buscar cor da peça, senão dar throw
 	if(pecaAux1 != NULL)
 	{
-		Pec_ObterCor(&color, pecaAux1);
+		PEC_ObterCor(&color, pecaAux1);
 	}
 	else 
 	{
@@ -171,7 +171,7 @@ TBL_CondRet TBL_MoverPeca(TabuleiroHead tabuleiro, int casaInicio, int casaFim )
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiro->Casas);
 
 	// Criar nova peça
-	if(Pec_CriarPeca(color, &pecaAux2) != PEC_ok)
+	if(PEC_ObterCor(&color, pecaAux2) != PEC_ok)
 		return TBL_erroCriarPeca;
 
 	// Adicionar nova peça na casa
