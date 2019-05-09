@@ -46,7 +46,8 @@
 #define OBTER_COR	"=obterCor"
 #define DESTROI		"=destroi"
 
-	  PecaHead peca = NULL;
+/* Singleton para realização dos testes */
+static PecaHead peca = NULL;
 
 
 /*****  Código das funções exportadas pelo módulo  *****/

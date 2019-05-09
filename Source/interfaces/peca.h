@@ -75,7 +75,13 @@ typedef struct peca* PecaHead;
 *	$EP Parâmetros:
 *		$P	color	 -	Enum de cor definida no módulo
 *
-*		$P	ret		 -	Referência de retorno da peça
+*		$P	ret		 -	Referência de retorno da peça]
+*
+*	$FV Valor retornado:
+*		PEC_alreadyExists	-	Caso a variavel passada já possua uma peça alocada
+*		PEC_colorNotExist	-	Caso a cor passada para criar a peça não seja suportada
+*		PEC_notEnoughMemory	-	Caso falhe ao alocar espaço
+*		PEC_ok				-	Caso a função ocorra normalmente
 *
 ***********************************************************************/
 
@@ -93,6 +99,10 @@ PEC_CondRet PEC_CriaPeca(PEC_color color, PecaHead* ret);
 *
 *		$P	peca -	Peça, tipo de dado exportado pelo módulo.
 *
+*	$FV Valor retornado:
+*		PEC_doNotExist	-	Caso a variavel passada aponte para NULL
+*		PEC_ok			-	Caso a função ocorra normalmente
+*
 ***********************************************************************/
 
 PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca);
@@ -107,6 +117,9 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca);
 *	$EP Parâmetros
 *
 *		$P	peca -	Peça, tipo de dado exportado pelo módulo.
+*
+*	$FV Valor retornado:
+*		PEC_ok
 *
 ***********************************************************************/
 

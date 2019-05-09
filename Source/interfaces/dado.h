@@ -50,6 +50,10 @@ typedef enum{
 *						valor
 *		$P	numLados -	Número de lados do dado
 *
+*	$FV Valor retornado:
+*		DICE_ok		-	Caso o valor seja entre 1 e o número de lados
+*		DICE_wrong	-	Caso contrário
+*
 ***********************************************************************/
 
 DICE_CondRet DICE_RolarDado(int *dado, int numLados);
