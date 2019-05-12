@@ -4,9 +4,9 @@ LES - Laboratório de Engenharia de Software DI/PUC-Rio
       Arcabouço de teste de módulos C  (c) 2006
 
 ---------------------------------------------
-      Construto sob teste: dado.exe
+      Construto sob teste: Release\TRAB2-4.exe
 
-      Arquivo de teste:    dadoTestes.script
+      Arquivo de teste:    testes_scripts\dadoTestes.script
 
 
 !!!    0  Linha:     1  // Script:	dadoTestes.script 
