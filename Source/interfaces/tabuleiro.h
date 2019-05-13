@@ -41,13 +41,8 @@
          /* Executou corretamente */
       TBL_erro = 1,
          /* Ocorreu erro na execução */
-      TBL_erroCriarPeca = 2,
-         /* Ocorreu erro na criação da peça */
-      TBL_erroGetCasas = 3,
-         /* Ocorreu ao buscar casas */
-      TBL_erroMovimentarPeca = 4
-         /* Ocorreu erro na movimentação da peça */
-
+      TBL_tabNaoExiste = 2
+		/* Tabuleiro Nao existe */
    } TBL_CondRet ;
 
 

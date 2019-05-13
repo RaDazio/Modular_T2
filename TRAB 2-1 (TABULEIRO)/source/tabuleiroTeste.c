@@ -88,14 +88,14 @@
          {
 
             NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
-            if ( NumLidos != 0 )
+            if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
             } 
 			CondRetObtido = TBL_CriarTabuleiro();
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar peça." );
+                                    "Retorno errado ao utilizar tabuleiro." );
 
          } /* fim ativa: Testar PEC Criar peça */
 
@@ -104,7 +104,7 @@
          else if ( strcmp( ComandoTeste , DESTRUIR ) == 0 )
          {
 			 NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
-            if ( NumLidos != 0 )
+            if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
             } 
@@ -118,12 +118,13 @@
 		 
 		 else if ( strcmp( ComandoTeste , OBTER_CASAS ) == 0 )
          {
+			LIS_tppLista casas = NULL;
 			 NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
-            if ( NumLidos != 0 )
+            if ( NumLidos != 1 )
             {
                return TST_CondRetParm ;
             } 
-			LIS_tppLista casas = NULL;
+			
             CondRetObtido = TBL_ObterCasas(&casas);
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar peça." );
@@ -136,7 +137,7 @@
          {
 			int casaInicio, casaFim = 0;
 			NumLidos = LER_LerParametros("iii", &casaInicio, &casaFim, &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
+            if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;
             } 

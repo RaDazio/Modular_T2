@@ -74,12 +74,12 @@ TBL_CondRet TBL_CriarTabuleiro()
 	for(i = 0; i < 15; i++)
 	{	
 		pecasBrancas[i] = NULL;
-		if(PEC_DestruirPeca(&pecasBrancas[i]) != PEC_ok)
-			return TBL_erroCriarPeca;
+		if(PEC_CriaPeca(COLOR_White, &pecasBrancas[i]) != PEC_ok)
+			return TBL_erro;
 
 		pecasPretas[i] = NULL;
 		if(PEC_CriaPeca(COLOR_Black, &pecasPretas[i]) != PEC_ok)
-			return TBL_erroCriarPeca;
+			return TBL_erro;
 	}
 
 	/* Criação das casas*/
@@ -124,8 +124,8 @@ TBL_CondRet TBL_CriarTabuleiro()
 
 TBL_CondRet TBL_DestruirTabuleiro ()
 {
-	if (tabuleiroSingleton == NULL) {
-		return TBL_ok;
+	if(tabuleiroSingleton == NULL){
+		return TBL_tabNaoExiste;
 	}
 	
 	LIS_DestruirLista(tabuleiroSingleton->Casas);
@@ -141,6 +141,9 @@ TBL_CondRet TBL_DestruirTabuleiro ()
 
 TBL_CondRet TBL_ObterCasas(LIS_tppLista* casas)
 {
+	if(tabuleiroSingleton == NULL)
+		return TBL_tabNaoExiste;
+
 	*casas = tabuleiroSingleton->Casas;
 	return TBL_ok;
 }
@@ -155,6 +158,10 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	LIS_tppLista listaAux;
 	PecaHead pecaAux1, pecaAux2;
 	PEC_color color;
+
+	if(tabuleiroSingleton == NULL){
+		return TBL_tabNaoExiste;
+	}
 
 	// Pegar lista de peças na casa inicial
 	IrInicioLista(tabuleiroSingleton->Casas);
@@ -171,12 +178,12 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	}
 	else 
 	{
-		return TBL_erroMovimentarPeca;
+		return TBL_erro;
 	}
 
 	// remover peça da casa inicial
 	if(LIS_ExcluirElemento(listaAux) != LIS_CondRetOK)
-		return TBL_erroMovimentarPeca;
+		return TBL_erro;
 
 	// Pegar lista de peças na casa final
 	IrInicioLista(tabuleiroSingleton->Casas);
@@ -184,12 +191,13 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
 
 	// Criar nova peça
+	pecaAux2 = NULL; 
 	if(PEC_CriaPeca(color, &pecaAux2) != PEC_ok)
-		return TBL_erroCriarPeca;
+		return TBL_erro;
 
 	// Adicionar nova peça na casa
 	if(LIS_InserirElementoApos(listaAux, pecaAux2) != LIS_CondRetOK)
-		return TBL_erroMovimentarPeca;
+		return TBL_erro;
 
 	return TBL_ok;
 }
@@ -199,7 +207,7 @@ void ExcluirCasa(void *pCasa)
 	LIS_tppLista pCasaTemp = (LIS_tppLista) pCasa;
 	//LiberaPecas(pCasaTemp->Pecas);
 	LIS_DestruirLista(pCasaTemp);
-	free(pCasa);
+	//free(pCasa);
 }
 
 void LiberaPecas(void *pPeca)
