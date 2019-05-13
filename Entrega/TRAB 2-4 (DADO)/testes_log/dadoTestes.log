@@ -1,0 +1,32 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: Release\TRAB2-4.exe
+
+      Arquivo de teste:    testes_scripts\dadoTestes.script
+
+
+!!!    0  Linha:     1  // Script:	dadoTestes.script 
+!!!    0  Linha:     2  // 
+!!!    0  Linha:     3  // Autor:	Rafael Damazio 
+!!!    0  Linha:     4  // 
+!!!    0  Linha:     5  // 
+!!!    0  Linha:     6  // Data:	05/05/2019 
+!!!    0  Linha:     7  // 
+!!!    0  Linha:     8  // Proposito:	Testar os comandos básicos relacionados a 
+!!!    0  Linha:     9  //		Rolar o dado 
+   11  == Rolar o dado de 6 lados
+   14  == Rolar o dado de 20 lados
+
+!!! Número de linhas lidas:          15
+!!! Número de casos de teste:         2
+!!! Número comandos corretos:         2
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0

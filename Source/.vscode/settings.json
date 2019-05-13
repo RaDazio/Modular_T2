@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "tabuleiro.h": "c",
-        "lista.h": "c",
-        "peca.h": "c",
-        "LISTA.C": "cpp"
-    }
-}
