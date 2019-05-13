@@ -5,11 +5,6 @@
 //
 
 == Inicializar valores
-=declararparm   dpt0  int 0
-=declararparm   dpt1  int 1
-=declararparm   dpt2  int 2
-=declararparm   dpt3  int 3
-=declararparm   dpt4  int 4
 
 =declararparm   OK             	               int  0
 =declararparm   DadoPontosNaoExiste            int  1
@@ -21,65 +16,89 @@
 =declararparm	CorPreta    int 1
 
 == Testar Comando Recuperar
-=destruirdadopontos dpt0 OK
+=destruirdadopontos  OK
 =recuperar
 
 == Criar dado de pontos
-=criardadopontos    dpt0 OK
+=criardadopontos     OK
 
 == Criar dado de pontos
-=criardadopontos    dpt1 OK
+=criardadopontos     OK
  
 == Destruir dado de pontos
-=destruirdadopontos dpt0 OK
+=destruirdadopontos  OK
 
 == Destruir dado de pontos que nao existe e recupera o erro
-=destruirdadopontos dpt0 OK
+=destruirdadopontos OK
 =recuperar
 
-== Destruir dado de pontos que nao existe sem recuperar erro
-=destruirdadopontos dpt0 OK
 
 == Destruir dado de pontos que  nao existe 
-=destruirdadopontos dpt0 DadoPontosNaoExiste
+=destruirdadopontos  DadoPontosNaoExiste
 
 
 == Atualizar jogador de dobra dado de pontos sem o dado existir e recuperando o erro
-=atualizarjogadordobra dpt0 CorBranca OK
+=atualizarjogadordobra  CorBranca OK
 =recuperar
 
 == Atualizar jogador de dobra  de dado de pontos que nao existe 
-=atualizarjogadordobra dpt0 CorBranca DadoPontosNaoExiste
+=atualizarjogadordobra  CorBranca DadoPontosNaoExiste
 
 
-== Obter jogador que possui o dado de pontos
-=obterjogadordobrapartida dpt1 CorBranca NaoHaJogadorDadoPontos
+== Obter jogador que possui o dado de pontos que nao existe e recuperar
+=obterjogadordobrapartida  CorBranca NaoHaJogadorDadoPontos
+=recuperar
 
-== Atualizar jogador de dobra
-=atualizarjogadordobra dpt1 CorBranca OK
+== Atualizar jogador de dobra e recuperar
+=atualizarjogadordobra  CorBranca OK
+=recuperar
 
-== Dobrar pontuacao partida
-=dobrarpontuacaopartida dpt1 CorBranca OK
+== Dobrar pontuacao partida dado pontos que nao existe e recuperar
+=dobrarpontuacaopartida  CorBranca OK
+=recuperar
 
 == Dobrar pontuacao partida dado pontos nao existe
-=dobrarpontuacaopartida dpt0 CorBranca DadoPontosNaoExiste
+=dobrarpontuacaopartida  CorBranca DadoPontosNaoExiste
 
-== Dobrar pontuacao partida jogador nao possui dado pontos
-=dobrarpontuacaopartida dpt1 CorPreta JogadorNaoPossuiDadoPontos
-
-== Obter jogador que possui o dado de pontos
-=obterjogadordobrapartida dpt0 CorBranca DadoPontosNaoExiste
+== Dobrar pontuacao partida jogador nao possui dado pontos e recuperar
+=dobrarpontuacaopartida  CorPreta JogadorNaoPossuiDadoPontos
+=recuperar
 
 == Obter jogador que possui o dado de pontos
-=obterjogadordobrapartida dpt1 CorBranca OK
+=obterjogadordobrapartida  CorBranca DadoPontosNaoExiste
+
+== Obter jogador que possui o dado de pontos
+=obterjogadordobrapartida  CorBranca OK
+=recuperar
 
 == Obter pontuacao partida
-=obterpontuacaopartida dpt1 2 OK
+=obterpontuacaopartida  2 OK
+=recuperar
 
 == Obter pontuacao partida dado pontos nao existe
-=obterpontuacaopartida dpt0 2 DadoPontosNaoExiste
+=obterpontuacaopartida  2 DadoPontosNaoExiste
 
-== Destruir dado de pontos
-=destruirdadopontos dpt1 OK
+== Destruir dado de pontos 
+=destruirdadopontos  OK
+=recuperar
+
+== Recriar dado de pontos
+=criardadopontos     OK
+
+== Atualizar jogador de dobra 
+=atualizarjogadordobra  CorBranca OK
+
+
+== Dobrar pontuacao partida 
+=dobrarpontuacaopartida  CorBranca OK
+
+== Dobrar pontuacao partida 
+=dobrarpontuacaopartida  CorBranca OK
+
+== Obter pontuacao partida 
+=obterpontuacaopartida  4 OK
+
+== Destruir dado de pontos 
+=destruirdadopontos  OK
 
 // fim

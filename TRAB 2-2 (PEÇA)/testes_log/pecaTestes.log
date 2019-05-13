@@ -1,0 +1,52 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: Release\TRAB2-2.exe
+
+      Arquivo de teste:    testes_scripts\pecaTestes.script
+
+
+!!!    0  Linha:     1  // Script:	pecaTestes.script 
+!!!    0  Linha:     2  // 
+!!!    0  Linha:     3  // Autor:	Rafael Damazio 
+!!!    0  Linha:     4  // 
+!!!    0  Linha:     5  // 
+!!!    0  Linha:     6  // Data:	05/05/2019 
+!!!    0  Linha:     7  // 
+!!!    0  Linha:     8  // Proposito:	Testar os comandos básicos relacionados a 
+!!!    0  Linha:     9  //		estrutura de peças 
+!!!    0  Linha:    12  // Tipos de retorno 
+!!!    0  Linha:    13  //0	/* Executou corretamente */ 
+!!!    0  Linha:    14  //1	/* Não existe a peça */ 
+!!!    0  Linha:    15  //2	/* A cor fornecida não é preta nem branca */ 
+!!!    0  Linha:    16  //3	/* A variavel ja possui uma peça associada */ 
+!!!    0  Linha:    17  //4	/* Faltou memoria */ 
+!!!    0  Linha:    19  // CORES: 
+!!!    0  Linha:    20  // 0    /* Preto */ 
+!!!    0  Linha:    21  // 1    /* Branco */ 
+   23  == Criar peça com cor que não existe
+>>>    1  Linha:    24  Retorno errado ao criar peça. Deveria ser: 0  É: 2
+<<<    0  Linha:    25  Falha esperada foi recuperada. 
+   27  == Criar peça aonde ja existe uma
+>>>    1  Linha:    29  Retorno errado ao criar peça. Deveria ser: 0  É: 3
+<<<    0  Linha:    30  Falha esperada foi recuperada. 
+   32  == Destruir uma peça
+   35  == Criar uma peça preta
+   38  == Obter a cor da peça preta
+   41  == Destruir uma peça
+   44  == Criar uma peça branca
+   47  == Obter a cor de um peça branca
+   50  == Destruir uma peça
+
+!!! Número de linhas lidas:          51
+!!! Número de casos de teste:         9
+!!! Número comandos corretos:         6
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
