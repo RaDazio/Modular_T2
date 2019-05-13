@@ -1,9 +1,9 @@
 #pragma once
 /***************************************************************************
 *
-*	$MCD MÛdulo de definiÁ„o:	MÛdulo PeÁas
+*	$MCD M√≥dulo de defini√ß√£o:	M√≥dulo Pe√ßas
 *	
-*	Arquivo gerado:			PE«A.h
+*	Arquivo gerado:			PE√áA.h
 *	Letras identificadoras:	PEC
 *
 *	Projeto:	Disciplinas INF 1628 / 1301
@@ -13,20 +13,20 @@
 				rdms - Rafael Damazio Monteiro da Silva
 *				fo	 - Felipe de Oliveira
 *
-*	$HA HistÛrico e evoluÁ„o:
-*		Vers„o  Autor	Data		ObservaÁıes
+*	$HA Hist√≥rico e evolu√ß√£o:
+*		Vers√£o  Autor	Data		Observa√ß√µes
 *		1.00	rdms	21/04/2019	Inicio do desnvolvimento
-*		2.00	rdms	05/05/2019	ModificaÁ„o na assinatura da funÁ„o de destruir uma peÁa.
+*		2.00	rdms	05/05/2019	Modifica√ß√£o na assinatura da fun√ß√£o de destruir uma pe√ßa.
 *
-*	$ED DescriÁ„o do mÛdulo:
-*		Este mÛdulo implementa e gerencia a estrutura de peÁas.
+*	$ED Descri√ß√£o do m√≥dulo:
+*		Este m√≥dulo implementa e gerencia a estrutura de pe√ßas.
 *
 ***************************************************************************/
 
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: PEC CondiÁıes de retorno
+*  $TC Tipo de dados: PEC Condi√ß√µes de retorno
 *
 *
 ***********************************************************************/
@@ -36,11 +36,11 @@ typedef enum{
 	PEC_ok = 0,
 		/* Executou corretamente */
 	PEC_doNotExist = 1,
-		/* N„o existe a peÁa */
+		/* N√£o existe a pe√ßa */
 	PEC_colorNotExist = 2,
-		/*	A cor fornecida n„o È preta nem branca */
+		/*	A cor fornecida n√£o √© preta nem branca */
 	PEC_alreadyExists = 3,
-		/*	A variavel ja possui uma peÁa associada */
+		/*	A variavel ja possui uma pe√ßa associada */
 	PEC_notEnoughMemory = 4,
 		/* Faltou memoria */
 } PEC_CondRet;
@@ -61,27 +61,35 @@ typedef enum{
 }PEC_color;
 
 
-/******* TIPOS E FUN«’ES EXPORTADOS DO M”DULO *****************************/
+/******* TIPOS E FUN√á√ïES EXPORTADOS DO M√ìDULO *****************************/
 
 typedef struct peca* PecaHead;
 
 /***********************************************************************
 *
-*	$FC FunÁ„o:	PEC Cria peÁa
+*	$FC Fun√ß√£o:	PEC Cria pe√ßa
 *
-*	$ED DescriÁ„o da funÁ„o:
-*		Esta funÁ„o cria uma peÁa.
+*	Assertiva de entrada:
+*		Deve existir um ponteiro para qual a pe√ßa criada ser√° retornada por
+*		refer√™ncia.
+*		A cor passada deve ser um enum exportado pelo m√≥dulo.
+*	Assertiva de sa√≠da:
+*			A pe√ßa criada com a cor passada ser√° salva no ponteiro passado por
+*			refer√™ncia.
 *
-*	$EP Par‚metros:
-*		$P	color	 -	Enum de cor definida no mÛdulo
+*	$ED Descri√ß√£o da fun√ß√£o:
+*		Esta fun√ß√£o cria uma pe√ßa.
 *
-*		$P	ret		 -	ReferÍncia de retorno da peÁa]
+*	$EP Par√¢metros:
+*		$P	color	 -	Enum de cor definida no m√≥dulo
+*
+*		$P	ret		 -	Refer√™ncia de retorno da pe√ßa]
 *
 *	$FV Valor retornado:
-*		PEC_alreadyExists	-	Caso a variavel passada j· possua uma peÁa alocada
-*		PEC_colorNotExist	-	Caso a cor passada para criar a peÁa n„o seja suportada
-*		PEC_notEnoughMemory	-	Caso falhe ao alocar espaÁo
-*		PEC_ok				-	Caso a funÁ„o ocorra normalmente
+*		PEC_alreadyExists	-	Caso a variavel passada j√° possua uma pe√ßa alocada
+*		PEC_colorNotExist	-	Caso a cor passada para criar a pe√ßa n√£o seja suportada
+*		PEC_notEnoughMemory	-	Caso falhe ao alocar espa√ßo
+*		PEC_ok				-	Caso a fun√ß√£o ocorra normalmente
 *
 ***********************************************************************/
 
@@ -89,19 +97,26 @@ PEC_CondRet PEC_CriaPeca(PEC_color color, PecaHead* ret);
 
 /***********************************************************************
 *
-*	$FC FunÁ„o:	PEC Obter cor
+*	$FC Fun√ß√£o:	PEC Obter cor
 *
-*	$ED DescriÁ„o da funÁ„o:
-*		Esta funÁ„o obtem a cor de uma peÁa.
+*	Assertiva de entrada:
+*			Deve existir uma √°rea de mem√≥ria do tipo PEC_Color para qual
+*	 		ser√° retornado o tipo da cor.
+*	Assertiva de sa√≠da:
+*			Caso n√£o exista a pe√ßa a fun√ß√£o n√£o retornar√° a cor na √°rea de mem√≥ria
+*			do retorno da cor
 *
-*	$EP Par‚metros:
-*		$P	ret	 -	Referencia de retorno de cor de peÁa
+*	$ED Descri√ß√£o da fun√ß√£o:
+*		Esta fun√ß√£o obtem a cor de uma pe√ßa.
 *
-*		$P	peca -	PeÁa, tipo de dado exportado pelo mÛdulo.
+*	$EP Par√¢metros:
+*		$P	ret	 -	Referencia de retorno de cor de pe√ßa
+*
+*		$P	peca -	Pe√ßa, tipo de dado exportado pelo m√≥dulo.
 *
 *	$FV Valor retornado:
 *		PEC_doNotExist	-	Caso a variavel passada aponte para NULL
-*		PEC_ok			-	Caso a funÁ„o ocorra normalmente
+*		PEC_ok			-	Caso a fun√ß√£o ocorra normalmente
 *
 ***********************************************************************/
 
@@ -109,14 +124,19 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca);
 
 /***********************************************************************
 *
-*	$FC FunÁ„o:	PEC Destruir PeÁa
+*	$FC Fun√ß√£o:	PEC Destruir Pe√ßa
 *
-*	$ED DescriÁ„o da funÁ„o:
-*		Esta funÁ„o destroi uma peÁa
+*	Assertiva de entrada:
+*			O espa√ßo de dados passado deve possuir uma pe√ßa alocada
+*	Assertiva de Sa√≠da
+*			Ap√≥s a destrui√ß√£o da pe√ßa, o ponteiro passado ter√° o valor de NULL.
 *
-*	$EP Par‚metros
+*	$ED Descri√ß√£o da fun√ß√£o:
+*		Esta fun√ß√£o destroi uma pe√ßa
 *
-*		$P	peca -	PeÁa, tipo de dado exportado pelo mÛdulo.
+*	$EP Par√¢metros
+*
+*		$P	peca -	Pe√ßa, tipo de dado exportado pelo m√≥dulo.
 *
 *	$FV Valor retornado:
 *		PEC_ok
