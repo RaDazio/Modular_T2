@@ -1,7 +1,7 @@
 #pragma once
 /***************************************************************************
 *
-*	$MCD Módulo de definição:	Módulo Dado
+*	$MCD MÃ³dulo de definiÃ§Ã£o:	MÃ³dulo Dado
 *	
 *	Arquivo gerado:			DADO.h
 *	Letras identificadoras:	DICE
@@ -13,46 +13,54 @@
 *				rdms - Rafael Damazio Monteiro da Silva
 *				fo	 - Felipe de Oliveira
 *
-*	$HA Histórico e evolução:
-*		Versão  Autor	Data		Observações
+*	$HA HistÃ³rico e evoluÃ§Ã£o:
+*		VersÃ£o  Autor	Data		ObservaÃ§Ãµes
 *		1.00	rdms	20/04/2019	Inicio do desnvolvimento
 *
-*	$ED Descrição do módulo:
-*		Este módulo implementa a geração de números aleatórios (um dado) cujo
+*	$ED DescriÃ§Ã£o do mÃ³dulo:
+*		Este mÃ³dulo implementa a geraÃ§Ã£o de nÃºmeros aleatÃ³rios (um dado) cujo
 *		possui n lados.
 *
 ***************************************************************************/
 
 /***********************************************************************
 *
-*  $TC Tipo de dados:	DICE Condições de retorno
+*  $TC Tipo de dados:	DICE CondiÃ§Ãµes de retorno
 *
 *
 ***********************************************************************/
 
 typedef enum{
 	DICE_ok = 0,
-		/*	Valor correto, entre 1 e o número de lados do dado */
+		/*	Valor correto, entre 1 e o nÃºmero de lados do dado */
 	DICE_wrong = 1	
 		/*	Valor invalido, menor que 1 ou maior que o numero de lados do dado */
 } DICE_CondRet ;
 
 /***********************************************************************
 *
-*	$FC Função:	DICE Roll dice
+*	$FC FunÃ§Ã£o:	DICE Roll dice
 *
-*	$ED Descrição da função:
-*		Esta função gera um número aleatorio e o guarda por referencia 
-*		em um parâmetro
+*		Assertivas de entrada:
+*			Deve ser fornecido um espaÃ§o de dados que irÃ¡ receber por referÃªncia o
+* 			resultado da rolagem do dado.
+*			Deve ser fornecido quantos lados possui o dado.
+*		Assertivas de saÃ­da:
+*			SerÃ¡ retornado por referÃªncia um nÃºmero aleatÃ³rio entre 0 e o nÃºmero de
+*			lados fornecidos.
 *
-*	$EP Parâmetros:
-*		$P	*dado	 -	Referência para uma variavel onde será salvo o 
+*	$ED DescriÃ§Ã£o da funÃ§Ã£o:
+*		Esta funÃ§Ã£o gera um nÃºmero aleatorio e o guarda por referencia 
+*		em um parÃ¢metro
+*
+*	$EP ParÃ¢metros:
+*		$P	*dado	 -	ReferÃªncia para uma variavel onde serÃ¡ salvo o 
 *						valor
-*		$P	numLados -	Número de lados do dado
+*		$P	numLados -	NÃºmero de lados do dado
 *
 *	$FV Valor retornado:
-*		DICE_ok		-	Caso o valor seja entre 1 e o número de lados
-*		DICE_wrong	-	Caso contrário
+*		DICE_ok		-	Caso o valor seja entre 1 e o nÃºmero de lados
+*		DICE_wrong	-	Caso contrÃ¡rio
 *
 ***********************************************************************/
 
