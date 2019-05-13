@@ -87,7 +87,7 @@
          if ( strcmp( ComandoTeste , CRIAR ) == 0 )
          {
 
-            NumLidos = LER_LerParametros( &CondRetEsperada ) ;
+            NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
             if ( NumLidos != 0 )
             {
                return TST_CondRetParm ;
@@ -101,9 +101,9 @@
 
 		/* Testar TBL Destruir Tabuleiro */
 
-         else if ( strcmp( ComandoTeste , DESTROI ) == 0 )
+         else if ( strcmp( ComandoTeste , DESTRUIR ) == 0 )
          {
-			 NumLidos = LER_LerParametros( &CondRetEsperada ) ;
+			 NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
             if ( NumLidos != 0 )
             {
                return TST_CondRetParm ;
@@ -116,14 +116,14 @@
 		 
 		 /* Testar TBL Obter Casas */
 		 
-		 else if ( strcmp( ComandoTeste , DESTROI ) == 0 )
+		 else if ( strcmp( ComandoTeste , OBTER_CASAS ) == 0 )
          {
-			 NumLidos = LER_LerParametros( &CondRetEsperada ) ;
+			 NumLidos = LER_LerParametros("i", &CondRetEsperada ) ;
             if ( NumLidos != 0 )
             {
                return TST_CondRetParm ;
             } 
-			LIS_tppLista* casas = NULL;
+			LIS_tppLista casas = NULL;
             CondRetObtido = TBL_ObterCasas(&casas);
 			return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar peça." );
@@ -132,10 +132,10 @@
 		 
 		 /* Testar TBL Mover Peca */
 		 
-		 else if ( strcmp( ComandoTeste , DESTROI ) == 0 )
+		 else if ( strcmp( ComandoTeste , MOVER_PECA ) == 0 )
          {
 			int casaInicio, casaFim = 0;
-			NumLidos = LER_LerParametros(&casaInicio, &casaFim, &CondRetEsperada ) ;
+			NumLidos = LER_LerParametros("iii", &casaInicio, &casaFim, &CondRetEsperada ) ;
             if ( NumLidos != 2 )
             {
                return TST_CondRetParm ;
