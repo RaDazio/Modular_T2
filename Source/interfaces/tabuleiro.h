@@ -56,6 +56,11 @@
 *
 *	$ED Descri��o da fun��o:
 *		Esta fun��o cria um tabuleiro.
+*	Assertiva de entrada:
+*		Deve existir um ponteiro para qual o tabuleiro criado será retornado por
+*		referência.
+*	Assertiva de saída:
+*		O tabuleiro criado será salvo no ponteiro passado por referência, ele terá uma lista de 24 casas com as peças iniciais posicionadas.
 *
 *
 ***********************************************************************/
@@ -71,6 +76,10 @@
 *	$ED Descri��o da fun��o:
 *		Esta fun��o destrói um tabuleiro.
 *
+*	Assertiva de entrada:
+*		O espaço de dados passado deve possuir um tabuleiro alocado
+*	Assertiva de Saída
+*		Após a destruição do tabuleiro, o ponteiro passado terá o valor de NULL.
 *
 ***********************************************************************/
 
@@ -79,6 +88,12 @@
 /***********************************************************************
 *
 *	$FC Fun��o:	TBL Obter casas
+*
+*	Assertiva de entrada:
+*		Deve existir uma área de memória do tipo LIS_tppLista para qual
+*		será retornada a lista de casas.
+*	Assertiva de saída:
+*		Caso não exista o tabuleiro a função não retornará a lista de casas.
 *
 *	$ED Descri��o da fun��o:
 *		Esta fun��o busca todas as casas do tabuleiro e as peças contidas nelas.
@@ -95,6 +110,12 @@
 /***********************************************************************
 *
 *	$FC Fun��o:	TBL Destruir Tabuleiro
+*
+*	Assertiva de entrada:
+*		O espaço de dados passado deve possuir um tabuleiro alocado
+*		Os paramêtros casaInicio e casaFim devem ser casas válidas do tabuleiro
+*	Assertiva de saída:
+*		Uma peça da casa inicial deve ser movida para a casa final
 *
 *	$ED Descri��o da fun��o:
 *		Esta fun��o destrói um tabuleiro.
