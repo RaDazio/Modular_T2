@@ -43,6 +43,10 @@ typedef struct tabuleiro {
 
 static Tabuleiro * tabuleiroSingleton = NULL ;
 
+static void ExcluirCasa(void* casa);
+static void LiberaPecas(void* pPeca);
+static void ExcluirPeca(void* pPeca);
+
 /*******************************************************/
 /*****  Código das funções exportadas pelo módulo  *****/
 /*******************************************************/
@@ -60,11 +64,11 @@ TBL_CondRet TBL_CriarTabuleiro()
 	PecaHead pecasPretas[15]; 
 
 	if(tabuleiroSingleton != NULL){
-		TBL_DestruirTabuleiro(tabuleiroSingleton);
+		TBL_DestruirTabuleiro();
 	}
 
 	tabuleiroSingleton = (Tabuleiro *)malloc(sizeof(Tabuleiro));
-	(tabuleiroSingleton)->Casas = LIS_CriarLista( LIS_DestruirLista );
+	(tabuleiroSingleton)->Casas = LIS_CriarLista( ExcluirCasa );
 
 	/* Criação das peças */
 	for(i = 0; i < 15; i++)
@@ -82,7 +86,7 @@ TBL_CondRet TBL_CriarTabuleiro()
 	for(i = 0; i < 24; i++)
 	{
 		casasTabuleiro[i] = NULL;
-		casasTabuleiro[i] = LIS_CriarLista(PEC_DestruirPeca);
+		casasTabuleiro[i] = LIS_CriarLista(ExcluirPeca);
 	}
 
 	// Preencher as casas com as posições iniciais das peças
@@ -135,7 +139,7 @@ TBL_CondRet TBL_DestruirTabuleiro ()
 *  
 **********************************************************************/
 
-TBL_CondRet TBL_ObterCasas(LIS_tppLista *casas)
+TBL_CondRet TBL_ObterCasas(LIS_tppLista* casas)
 {
 	*casas = tabuleiroSingleton->Casas;
 	return TBL_ok;
@@ -180,7 +184,7 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
 
 	// Criar nova peça
-	if(PEC_ObterCor(&color, pecaAux2) != PEC_ok)
+	if(PEC_CriaPeca(color, &pecaAux2) != PEC_ok)
 		return TBL_erroCriarPeca;
 
 	// Adicionar nova peça na casa
@@ -190,4 +194,23 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	return TBL_ok;
 }
 
+void ExcluirCasa(void *pCasa)
+{
+	LIS_tppLista pCasaTemp = (LIS_tppLista) pCasa;
+	//LiberaPecas(pCasaTemp->Pecas);
+	LIS_DestruirLista(pCasaTemp);
+	free(pCasa);
+}
+
+void LiberaPecas(void *pPeca)
+{
+	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PEC_DestruirPeca(pPecaTemp);
+}
+
+void ExcluirPeca(void *pPeca)
+{
+	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PEC_DestruirPeca(pPecaTemp);
+}
 

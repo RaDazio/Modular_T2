@@ -1,0 +1,34 @@
+// Script:	tabuleiroTestes.script
+//
+// Autor:	Gabriel Mascheroni
+//		
+//
+// Data:	07/05/2019
+//
+// Proposito:	Testar os comandos básicos relacionados a
+//		estrutura do tabuleiro
+
+
+// Tipos de retorno
+//-1	/* Faltou memoria */
+//0	/* Executou corretamente */
+//1	/* Ocorreu erro na execução */
+//2	/* Ocorreu erro na criação da peça */
+//3	/* Ocorreu ao buscar casas */
+//4	/* Ocorreu erro na movimentação da peça */
+
+==Tentar Buscar peças com tabuleiro nao criado
+=obterCasas 0
+=recuperar
+
+== Criar um tabuleiro
+=criar 0
+
+== Destruir uma peça
+=destruir 0
+
+==Buscar peças
+=obterCasas 0
+
+==Mover peca 
+=moverPeca 1 5 0
