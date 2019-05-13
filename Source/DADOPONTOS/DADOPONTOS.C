@@ -21,7 +21,7 @@
 #include   <stdio.h>
 
 #define DADOPONTOS_OWN
-#include "../interfaces/DADOPONTOS.H"
+#include "DADOPONTOS.H"
 #undef DADOPONTOS_OWN
 
 /***********************************************************************
@@ -52,10 +52,10 @@ typedef struct dadopontos
 *  Função: DPT Criar dado de pontos
 * 
 ****/
-DPT_CondRet DPT_CriarDadoPontos(DPT_DadoPontos **pDadoPontos)
+DPT_CondRet DPT_CriarDadoPontos(DPT_DadoHead * pDadoPontos)
 {
-	*pDadoPontos = (DPT_DadoPontos *) malloc(sizeof(DPT_DadoPontos));
-	if(*pDadoPontos == NULL)
+	*pDadoPontos = (DPT_DadoHead) malloc(sizeof(DPT_DadoPontos));
+	if(pDadoPontos == NULL)
 	{
 		return DPT_FalhaMemoria ;
 	} 
@@ -70,7 +70,7 @@ DPT_CondRet DPT_CriarDadoPontos(DPT_DadoPontos **pDadoPontos)
 *  Função: DPT Atualizar jogador
 *  
 ****/
-DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca)
+DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoHead pDadoPontos, PEC_color CorPeca)
 {
 	if(pDadoPontos == NULL) 
 	{
@@ -87,7 +87,7 @@ DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoPontos *pDadoPontos, PEC_color Cor
 *  Função: DPT Dobrar pontuação da partida
 *  
 ****/
-DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, PEC_color CorPeca)
+DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoHead pDadoPontos, PEC_color CorPeca)
 {
 	if(pDadoPontos == NULL) 
 	{
@@ -108,7 +108,7 @@ DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoPontos *pDadoPontos, PEC_color Co
 *  Função: DPT Obter jogador que possui o dado de pontos
 *  
 ****/
-DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, PEC_color *pCorPeca)
+DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoHead pDadoPontos, PEC_color* pCorPeca)
 {
 	if(pDadoPontos == NULL)
 	{
@@ -131,7 +131,7 @@ DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoPontos *pDadoPontos, PEC_color 
 *  Função: DPT Obter pontuação da partida
 *  
 ****/
-DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoPontos *pDadoPontos, int *pPontuacao)
+DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoHead pDadoPontos, int* pPontuacao)
 {
 	if(pDadoPontos == NULL) 
 	{
@@ -148,17 +148,17 @@ DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoPontos *pDadoPontos, int *pPontuac
 *  Função: DPT Destruir dado de pontos
 *  
 ****/
-DPT_CondRet DPT_DestruirDadoPontos(DPT_DadoPontos **pDadoPontos)
+DPT_CondRet DPT_DestruirDadoPontos(DPT_DadoHead* pDadoPontos)
 {
 	if(*pDadoPontos == NULL) 
 	{
 		return DPT_NaoHaDadoPontos;
 	} /* if */
-
 	free(*pDadoPontos);
 	*pDadoPontos = NULL;
 
 	return DPT_OK;
+
 
 } /* Fim função: DPT Destruir dado de pontos */
 
