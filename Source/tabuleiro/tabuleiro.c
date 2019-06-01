@@ -44,7 +44,6 @@ typedef struct tabuleiro {
 static Tabuleiro * tabuleiroSingleton = NULL ;
 
 static void ExcluirCasa(void* casa);
-static void LiberaPecas(void* pPeca);
 static void ExcluirPeca(void* pPeca);
 
 /*******************************************************/
@@ -205,15 +204,7 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 void ExcluirCasa(void *pCasa)
 {
 	LIS_tppLista pCasaTemp = (LIS_tppLista) pCasa;
-	//LiberaPecas(pCasaTemp->Pecas);
 	LIS_DestruirLista(pCasaTemp);
-	//free(pCasa);
-}
-
-void LiberaPecas(void *pPeca)
-{
-	PecaHead* pPecaTemp = (PecaHead*) pPeca;
-	PEC_DestruirPeca(pPecaTemp);
 }
 
 void ExcluirPeca(void *pPeca)
