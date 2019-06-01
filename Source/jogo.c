@@ -12,19 +12,21 @@
 
 int dices[2];
 
+void setUp (){
+	system("echo off");	
+	system("mode 800");
+	system("color 70");
 
+	TBL_CriarTabuleiro();
+}
 
 
 int main (void){
-	TBL_CriarTabuleiro();
+	setUp();
 	RenderizarTabuleiro();
-	TBL_MoverPeca(0,5);
+	TBL_MoverPeca(12,15);
 	system("timeout 5");
 	RenderizarTabuleiro();
-
-
-
-
 
 	return 0;
 }
