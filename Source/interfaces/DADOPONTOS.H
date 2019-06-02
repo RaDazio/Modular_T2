@@ -1,7 +1,7 @@
 #if ! defined(DADOPONTOS_)
 #define DADOPONTOS_
 
-#include "peca.h"
+#include "PECA.h"
 /********************************************************************************************
 *	$MCI Módulo de definição:	 Módulo dado pontos
 *	Arquivo gerado:			DADOPONTOS.C
@@ -33,7 +33,7 @@
 
 /* Tipo referência para um dado de pontos*/
 
-typedef struct dadopontos DPT_DadoPontos;
+typedef struct dadopontos* DPT_DadoHead;
 
 /***********************************************************************
 /***********************************************************************
@@ -67,11 +67,6 @@ typedef struct dadopontos DPT_DadoPontos;
 *
 *  $ED Descrição da função
 *     Cria um novo dado de pontos.
-*	Assertivas de Entrada:
-*		Deve existir um ponteiro para qual  o dado de pontos  criado será retornada por
-*		referência.
-*	Assertivas de Saída:
-*		- Dado de pontos foi criado e pDadosPontos foi atualizado.
 *
 *  $EP Parâmetros
 *     $P pDadoPontos - ponteiro para o dado de pontos a ser criado. Passado por referência.
@@ -87,11 +82,6 @@ typedef struct dadopontos DPT_DadoPontos;
 /***********************************************************************
 *
 *  $FC Função: DPT Atualizar jogador que pode dobrar a partida
-*
-*	Assertivas de Entrada:
-*		- Deve existir uma cor associada ao jogador que está dobrando a pontuação.
-*	Assertivas de Saída:
-*		- O jogador que pode dobrar a partida é atualizado através da cor da peça;
 *
 *  $ED Descrição da função
 *     Atualiza o jogador que pode dobrar a partida.
@@ -111,12 +101,6 @@ typedef struct dadopontos DPT_DadoPontos;
 /***********************************************************************
 *
 *  $FC Função: DPT Dobrar pontuação da partida
-*	Assertivas de Entrada:
-*		- Deve existir ponteiro para o dado de pontos que será utilizado;
-*		- Deve existir uma cor de peça associada ao jogador que está dobrando a pontuação.
-*	Assertivas de Saída:
-*		- Se dado pontos não existir ou cor da peça não for igual a cor autorizada a dobrar a pontuação o ponteiro pDadosPontos não é atualizado;
-*		- Caso contrário, a pontuação é dobrada e o ponteiro é atualizado.
 *
 *  $ED Descrição da função
 *     Dobra a pontuação da partida.
@@ -137,11 +121,6 @@ typedef struct dadopontos DPT_DadoPontos;
 /***********************************************************************
 *
 *  $FC Função: DPT Obter jogador que pode dobrar partida
-*	Assertivas de Entrada:
-*		-Deve existir uma área de memória do tipo PEC_Color para qual será retornado o tipo da cor.
-*	Assertivas de Saída:
-*		-Se dado pontos não existir ou não tiver possuídor no momento, o ponteiro não será atualizado.
-*	-Caso contrário, o ponteiro é atualizado com a cor correta.
 *
 *  $ED Descrição da função
 *     Obtém o jogador que pode dobrar a partida.
@@ -163,11 +142,6 @@ typedef struct dadopontos DPT_DadoPontos;
 *
 *  $FC Função: DPT Obter pontuação da partida
 *
-*	Assertivas de Entrada:
-*		- Deve existir uma área de memória do tipo int para qual será retornada a pontuação.
-*	Assertivas de Saída:
-*		- Se dado de pontos existir, a pontuação será obtida e o conteúdo do ponteiro pPontuacao será atualizado.
-*
 *  $ED Descrição da função
 *     Obtém a pontuação da partida.
 *
@@ -186,12 +160,6 @@ typedef struct dadopontos DPT_DadoPontos;
 /***********************************************************************
 *
 *  $FC Função: DPT Destruir dado de pontos
-*
-*	Assertivas de Entrada:
-*		O espaço de dados passado deve possuir um dadopontos alocado.
-*	Assertivas de Saída:
-*		- após a destruição do dadopontos,o ponteiro passado terá o valor  de NULL.
-*
 *
 *  $ED Descrição da função
 *     Destrói a peça.
