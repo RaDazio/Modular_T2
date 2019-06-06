@@ -21,7 +21,7 @@
 #include   <stdio.h>
 
 #define DADOPONTOS_OWN
-#include "DADOPONTOS.H"
+#include "..\interfaces\DADOPONTOS.H"
 #undef DADOPONTOS_OWN
 
 /***********************************************************************

@@ -1,9 +1,9 @@
 ﻿#define TABSIZE		24
 #define MAXPERCASA	15
-#define WIDTH		146
+#define WIDTH		300
 #define EMPTY		"        "
-#define BLACK		"    p   "
-#define WHITE		"    b   "
+#define BLACK		"    O   "
+#define WHITE		"   \033[1;33m O \033[0m  "
 
 #define DEBUG
 
@@ -13,6 +13,7 @@
 
 
 #include "..\interfaces\user_interface.h"
+#include "..\interfaces\DADOPONTOS.H"
 #include "..\interfaces\tabuleiro.h"
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
@@ -73,7 +74,31 @@ void RenderizarStatus(){
 	printf("\n  ==============================================================================================================================================\n");
 }
 
+void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int casasPossiveis[], int n_casas_possiveis, int pode_dobrar){
+	int idx;
+	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "Branco": "Preto");
+	printf("Dados disponiveis: ");
+	if(dices[0] == dices[1]){
+		printf(" %d %d %d %d\n", dices[0], dices[0], dices[0], dices[0]);
+	}
+	else{
+		printf("%d %d\n", dices[0], dices[1]);
+	}
+	printf("Casas possiveis: ");
+	for(idx = 0 ; idx < n_casas_possiveis ; idx++){
+		printf(" %d ",casasPossiveis[idx]);
+	}
+	printf("\n");
+	if(pode_dobrar){
+		printf("Jogador: %s, deseja dobrar a potuação para: %d\n",(jogadorAtual == COLOR_Black)? "Preto":"Branco", 0);
+	}
+	printf("\n");
+
+}
+
+
 void RenderizarTabuleiro(){
+	
 
 	/* Inicialização de variaveis */
 	LIS_tppLista casas;
@@ -85,6 +110,7 @@ void RenderizarTabuleiro(){
 	int finish_flags[TABSIZE];
 	
 	char buffer[MAXPERCASA][WIDTH];
+
 	/*****************************/
 
 	// Preenchimento do buffer //
@@ -98,14 +124,20 @@ void RenderizarTabuleiro(){
 	}
 
 	// Verificação de assertiva //
-	if(tab_cond != TBL_ok) exit(1);	
+	if(tab_cond != TBL_ok){
+		printf("NAO HA TABULEIRO\n");
+		exit(1);	
+	}
 
 	// Settando inicialização //
 	IrInicioLista(casas);
 
 	// Verificação de assertiva //
 	lis_cond = LIS_AvancarElementoCorrente(casas,0);
-	if(lis_cond != LIS_CondRetOK) exit(-1);
+	if(lis_cond != LIS_CondRetOK){
+		printf("ERRO AO ANDAR NAS CASAS\n");
+		exit(-1);
+	}
 
 	// Preenchimento do vetor de pecas para facilitação na renderizção //
 	idx = 0;
@@ -155,7 +187,9 @@ void RenderizarTabuleiro(){
 			}
 			strcat_s(buffer[idx], WIDTH, "|");
 		}
-		strcat_s(buffer[idx], WIDTH,"\n");
+		if(idx != MAXPERCASA-1){
+			strcat_s(buffer[idx], WIDTH,"\n");
+		}
 	}
 
 	// Dump do buffer //
