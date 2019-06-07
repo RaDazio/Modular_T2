@@ -109,7 +109,7 @@
 
 /***********************************************************************
 *
-*	$FC Fun��o:	TBL Destruir Tabuleiro
+*	$FC Fun��o:	TBL Mover peças
 *
 *	Assertiva de entrada:
 *		O espaço de dados passado deve possuir um tabuleiro alocado
@@ -118,7 +118,7 @@
 *		Uma peça da casa inicial deve ser movida para a casa final
 *
 *	$ED Descri��o da fun��o:
-*		Esta fun��o destrói um tabuleiro.
+*		Esta fun��o move peças.
 *
 *	$EP Par�metros:
 *		$P	tabuleiro	 -	tabuleiro onde serão movidas as peças
@@ -130,6 +130,48 @@
 ***********************************************************************/
 
    TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim ) ;
+
+/***********************************************************************
+*
+*	$FC Fun��o:	TBL Quantidade peças casa
+*
+*  Assertiva de entrada:
+*		O espaço de dados passado deve possuir um tabuleiro alocado
+*		O parâmetro casa deve ser uma casa válida do tabuleiro
+*	Assertiva de saída:
+*
+*	$ED Descri��o da fun��o:
+*		Esta fun��o retorna a quantidade de peças em uma casa.
+*
+*	$EP Par�metros:
+*		$P	quantidade	 -	quantidade de peças na casa
+*
+*		$P	casa -	casa que terá as peças contabilizadas.
+*
+***********************************************************************/
+
+   TBL_CondRet  TBL_QuantidadePecasCasa(int* quantidade, int casa);
+
+/***********************************************************************
+*
+*	$FC Fun��o:	TBL Cor Peças casa
+*
+*	Assertiva de entrada:
+*		O espaço de dados passado deve possuir um tabuleiro alocado
+*		O parâmetro casa deve ser uma casa válida do tabuleiro
+*	Assertiva de saída:
+*
+*	$ED Descri��o da fun��o:
+*		Esta fun��o retorna o dono da casa escolhida.
+*
+*	$EP Par�metros:
+*		$P	color	 -	cor das peças na casa
+*
+*		$P	casa -	casa de onde serão buscadas as peças.
+*
+***********************************************************************/
+
+   TBL_CondRet  TBL_CorPecasCasa(PEC_color* color, int casa);
 
 
 

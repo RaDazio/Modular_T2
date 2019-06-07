@@ -201,6 +201,57 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	return TBL_ok;
 }
 
+/***************************************************************************
+*	$FC Fun��o:	TBL Quantidade de peças na casa
+*	Retorna quantidade de peças em determinada casa
+*  
+**********************************************************************/
+
+TBL_CondRet  TBL_QuantidadePecasCasa(int* quantidade, int casa)
+{
+	LIS_tppLista listaAux;
+	PecaHead pecaAux1;
+
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casa);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+
+	quantidade = LIS_ObterTamanho(listaAux);
+
+	return TBL_ok;
+}
+
+/***************************************************************************
+*	$FC Fun��o:	TBL Cor peças na casa
+*	Retorna a cor das peças de uma casa (dono)
+*  
+**********************************************************************/
+
+TBL_CondRet  TBL_CorPecasCasa(PEC_color* color, int casa)
+{
+	LIS_tppLista listaAux;
+	PecaHead pecaAux1;
+
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casa);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+
+	// pegar uma peça da casa inicial
+	pecaAux1 = (PecaHead)LIS_ObterValor(listaAux);
+
+	// se a casa não estiver vazia, buscar cor da peça, senão dar throw
+	if(pecaAux1 != NULL)
+	{
+		PEC_ObterCor(&color, pecaAux1);
+	}
+	else 
+	{
+		return TBL_erro;
+	}
+
+	return TBL_ok;
+}
+
 void ExcluirCasa(void *pCasa)
 {
 	LIS_tppLista pCasaTemp = (LIS_tppLista) pCasa;
