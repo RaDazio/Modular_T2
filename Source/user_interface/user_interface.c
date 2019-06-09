@@ -11,13 +11,11 @@
 #include <string.h>
 #include <Windows.h>
 
-
 #include "..\interfaces\user_interface.h"
 #include "..\interfaces\DADOPONTOS.H"
 #include "..\interfaces\tabuleiro.h"
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
-
 
 void RenderizarTabuleiro();
 void LimparRender();
@@ -75,23 +73,19 @@ void RenderizarStatus(){
 	printf("\n  ==============================================================================================================================================\n");
 }
 
-void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int vector[24], int qtd_casas, int pode_dobrar){
+void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas, int pode_dobrar){
 	int idx;
-	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "Branco": "Preto");
+	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "\033[1;33mBranco\033[0m": "Preto");
 	printf("Dados disponiveis: ");
-	if(dices[0] == dices[1]){
-		printf(" %d %d %d %d\n", dices[0], dices[0], dices[0], dices[0]);
+	for(idx = 0; idx < qtd_dice_valid ; idx++){
+		if(dices[idx] != 0){
+			printf(" %d ", dices[idx]);
+		}
 	}
-	else{
-		printf("%d %d\n", dices[0], dices[1]);
-	}
-
-	printf("Casas possiveis: ");
+	printf("\t\tCasas possiveis: ");
 	for(idx = 0; idx < qtd_casas; idx++){
 		printf(" %d ",vector[idx]);
-
 	}
-
 	printf("\n");
 	if(pode_dobrar){
 		printf("Jogador: %s, deseja dobrar a potuação para: %d\n",(jogadorAtual == COLOR_Black)? "Preto":"Branco", 0);
@@ -103,7 +97,6 @@ void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int vector[24],
 
 void RenderizarTabuleiro(){
 	
-
 	/* Inicialização de variaveis */
 	LIS_tppLista casas;
 	LIS_tppLista vec_list_pec[TABSIZE];
