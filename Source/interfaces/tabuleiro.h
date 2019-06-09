@@ -18,13 +18,15 @@
 *		Vers�o  Autor	Data		Observa��es
 *		1.00	gmc	03/05/2019	Inicio do desenvolvimento
 *		1.00	gmc	05/05/2019	Finalização do desenvolvimento
+*		2.00	rdms 08/06/2019	Expansão de funcionalidades
 *
 *	$ED Descri��o do m�dulo:
 *		Este m�dulo implementa e gerencia o tabuleiro do jogo de gamão
 *
 ***************************************************************************/
 
-#include "../interfaces/LISTA.H"
+#include "LISTA.H"
+#include "peca.h"
 
 /***********************************************************************
 *
@@ -173,6 +175,30 @@
 
    TBL_CondRet  TBL_CorPecasCasa(PEC_color* color, int casa);
 
+/***********************************************************************
+*
+*	$FC Fun��o:	TBL ObterCasasPorDono
+*
+*	Assertiva de entrada:
+*		O espaço de dados passado deve possuir um tabuleiro alocado
+*		Deve existir o vetor que será preenchido
+*		Deve existir a variavel de retorno para o número de casas
+*	Assertiva de saída:
+*		O vetor será preenchido somente do inicio até o numero de casas 
+*		encontrado, ou seja, o vetor serve como um buffer parcialmente 
+*		preenchido
+*
+*	$ED Descri��o da fun��o:
+*		Esta função preenche um vetor com as casas de uma cor
+*
+*	$EP Par�metros:
+*		$P	color_a_procurar -	cor de procura
+*
+*		$P	vector -	Vetor de inteiros de tamanho 24 (tamanho maximo do tabuleiro)
+*
+*		$P	num_casa - Variavel de retorno do número de casas encontrado
+*
+***********************************************************************/
 
-
+   TBL_CondRet TBL_ObterCasasPorDono(PEC_color color_a_procurar, int vector[24], int* num_casa);
 

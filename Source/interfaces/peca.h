@@ -54,9 +54,11 @@ typedef enum{
 ***********************************************************************/
 
 typedef enum{
-	COLOR_Black = 0,
+	COLOR_Colorless, 
+		/* Sem cor */
+	COLOR_Black,
 		/* Cor preta */
-	COLOR_White = 1
+	COLOR_White
 		/* Cor branca */
 }PEC_color;
 

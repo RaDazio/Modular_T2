@@ -210,13 +210,12 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 TBL_CondRet  TBL_QuantidadePecasCasa(int* quantidade, int casa)
 {
 	LIS_tppLista listaAux;
-	PecaHead pecaAux1;
 
 	IrInicioLista(tabuleiroSingleton->Casas);
 	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casa);
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
 
-	quantidade = LIS_ObterTamanho(listaAux);
+	*quantidade = LIS_ObterTamanho(listaAux);
 
 	return TBL_ok;
 }
@@ -225,7 +224,7 @@ TBL_CondRet  TBL_QuantidadePecasCasa(int* quantidade, int casa)
 *	$FC Fun��o:	TBL Cor peças na casa
 *	Retorna a cor das peças de uma casa (dono)
 *  
-**********************************************************************/
+***************************************************************************/
 
 TBL_CondRet  TBL_CorPecasCasa(PEC_color* color, int casa)
 {
@@ -242,13 +241,53 @@ TBL_CondRet  TBL_CorPecasCasa(PEC_color* color, int casa)
 	// se a casa não estiver vazia, buscar cor da peça, senão dar throw
 	if(pecaAux1 != NULL)
 	{
-		PEC_ObterCor(&color, pecaAux1);
+		PEC_ObterCor(color, pecaAux1);
 	}
 	else 
 	{
-		return TBL_erro;
+		*color = COLOR_Colorless;
+		return TBL_ok;
 	}
 
+	return TBL_ok;
+}
+
+/***************************************************************************
+*	$FC Fun��o:	TBL Cor peças na casa
+*	Preenche um vetor com as casas de uma peça e retorna o número de casas
+*	encontrada
+*  
+***************************************************************************/
+
+TBL_CondRet TBL_ObterCasasPorDono(PEC_color color_a_procurar, int vector[24], int* num_casa){
+	LIS_tppLista casas;
+	TBL_CondRet tab_ret = TBL_ObterCasas(&casas);
+	PEC_color color_aux;
+
+	int aux_n_casas = 0;
+	int aux_vector[24] = {0} ;	
+	int idx;
+
+	if( tab_ret != TBL_ok ) return TBL_erro;
+
+	// Inicialização
+	IrInicioLista(casas);
+
+	//Contar o número de casas de cada cor e preenchendo o vetor auxilixar
+	for(idx = 0; idx<24; idx++){
+		tab_ret = TBL_CorPecasCasa(&color_aux,idx);
+		if(tab_ret != TBL_erro){
+			if(color_a_procurar == color_aux){
+				aux_vector[aux_n_casas] = idx;
+				aux_n_casas += 1;
+			}
+		}
+	}
+	for(idx=0 ; idx < aux_n_casas; idx++){
+		vector[idx] = aux_vector[idx]+1;
+	}	
+	
+	*num_casa = aux_n_casas;
 	return TBL_ok;
 }
 

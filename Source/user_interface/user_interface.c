@@ -18,6 +18,7 @@
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
 
+
 void RenderizarTabuleiro();
 void LimparRender();
 void RenderizarStatus();
@@ -74,7 +75,7 @@ void RenderizarStatus(){
 	printf("\n  ==============================================================================================================================================\n");
 }
 
-void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int casasPossiveis[], int n_casas_possiveis, int pode_dobrar){
+void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int vector[24], int qtd_casas, int pode_dobrar){
 	int idx;
 	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "Branco": "Preto");
 	printf("Dados disponiveis: ");
@@ -84,10 +85,13 @@ void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[2], int casasPossiv
 	else{
 		printf("%d %d\n", dices[0], dices[1]);
 	}
+
 	printf("Casas possiveis: ");
-	for(idx = 0 ; idx < n_casas_possiveis ; idx++){
-		printf(" %d ",casasPossiveis[idx]);
+	for(idx = 0; idx < qtd_casas; idx++){
+		printf(" %d ",vector[idx]);
+
 	}
+
 	printf("\n");
 	if(pode_dobrar){
 		printf("Jogador: %s, deseja dobrar a potuação para: %d\n",(jogadorAtual == COLOR_Black)? "Preto":"Branco", 0);
@@ -144,7 +148,7 @@ void RenderizarTabuleiro(){
 	while(lis_cond != LIS_CondRetFimLista){
 		LIS_tppLista aux;
 		vec_list_pec[idx] = (LIS_tppLista) LIS_ObterValor(casas);
-		aux= vec_list_pec[idx];
+		aux = vec_list_pec[idx];
 		idx++;
 		IrInicioLista(aux);
 		lis_cond = LIS_AvancarElementoCorrente(casas,1);
