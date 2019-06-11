@@ -150,7 +150,7 @@ TBL_CondRet TBL_ObterCasas(LIS_tppLista* casas)
 /***************************************************************************
 *	$FC Fun��o:	TBL Mover Peca
 *  
-**********************************************************************/
+***************************************************************************/
 
 TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim ) 
 {
@@ -290,6 +290,66 @@ TBL_CondRet TBL_ObterCasasPorDono(PEC_color color_a_procurar, int vector[24], in
 	*num_casa = aux_n_casas;
 	return TBL_ok;
 }
+
+/***************************************************************************
+*	$FC Fun��o:	TBL RetirarPecaDoTabuleiro
+*  
+***************************************************************************/
+
+TBL_CondRet RetirarPecaDoTabuleiro(PEC_color* ret, int casa){
+	LIS_tppLista listaAux;
+	PecaHead pecaAux1;
+	PEC_color color;
+
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casa);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+
+	pecaAux1 = (PecaHead)LIS_ObterValor(listaAux);
+
+	if(pecaAux1 != NULL)
+	{
+		PEC_ObterCor(&color, pecaAux1);
+	}
+	else 
+	{
+		return TBL_erro;
+	}
+
+	if(LIS_ExcluirElemento(listaAux) != LIS_CondRetOK){
+		return TBL_erro;
+	}
+	else{
+		return TBL_ok;
+	}
+	*ret = color;
+	return TBL_ok;
+}
+
+/***************************************************************************
+*	$FC Fun��o:	TBL InserirPecaNoTabuleiro
+*  
+***************************************************************************/
+
+TBL_CondRet InserirPecaNoTabuleiro(PEC_color color,int casa){
+	LIS_tppLista listaAux;
+	PecaHead pecaAux1;
+
+	IrInicioLista(tabuleiroSingleton->Casas);
+	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casa);
+	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+	
+	pecaAux1 = NULL; 
+	if(PEC_CriaPeca(color, &pecaAux1) != PEC_ok)
+		return TBL_erro;
+
+	// Adicionar nova peça na casa
+	if(LIS_InserirElementoApos(listaAux, pecaAux1) != LIS_CondRetOK)
+		return TBL_erro;
+
+	return TBL_ok;
+}
+
 
 void ExcluirCasa(void *pCasa)
 {

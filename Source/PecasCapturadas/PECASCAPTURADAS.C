@@ -21,10 +21,10 @@
 #include   <stdio.h>
 
 #define PECASCAPTURADAS_OWN
-#include "PECASCAPTURADAS.H"
+#include "..\interfaces\PECASCAPTURADAS.H"
 #undef PECASCAPTURADAS_OWN
-#include "PECA.h"
-#include "LISTA.h"
+#include "..\interfaces\PECA.h"
+#include "..\interfaces\LISTA.h"
 
 
 /***********************************************************************
@@ -40,6 +40,10 @@ typedef struct BAR_tagPecasCapturadas {
 	/* Lista de peças capturadas */
 
 } BAR_tpPecasCapturadas;
+
+/* Tipo refer�ncia para a estrutura de pecas finalizadas */
+
+typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
 
 static BAR_tpPecasCapturadas * BARSingleton = NULL ;
 
