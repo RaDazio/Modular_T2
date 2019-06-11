@@ -1,8 +1,8 @@
 /***************************************************************************
-*  $MCI MÃ³dulo de implementaÃ§Ã£o: MÃ³dulo peÃ§as capturadas
+*  $MCI Módulo de implementação: Módulo peças capturadas
 *
 *  Arquivo gerado:              PECASCAPTURADAS.C
-*  Letras identificadoras:      BAR
+*  Letras identificadoras:      PCAP
 *
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
@@ -11,9 +11,9 @@
 				rdms - Rafael Damazio Monteiro da Silva
 *				fo	 - Felipe de Oliveira
 *
-*  $HA HistÃ³rico de evoluÃ§Ã£o:
-*     VersÃ£o       Autor          Data         ObservaÃ§Ãµes
-*       1.00   		fo   		10/06/2019 		InÃºâ‚¬io do desenvolvimento
+*  $HA Histórico de evolução:
+*     Versão       Autor          Data         Observações
+*       1.00   		fo   		10/06/2019 		Inú€io do desenvolvimento
 *
 ***************************************************************************/
 
@@ -29,185 +29,250 @@
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: BAR Descritor da peÃ§a capturadas
+*  $TC Tipo de dados: PCAP Descritor da peça capturadas
 *
 *
 ***********************************************************************/
 
-typedef struct BAR_tagPecasCapturadas {
+typedef struct PCAP_tagPecasCapturadas {
 
-	LIS_tppLista listaPecas;
-	/* Lista de peÃ§as capturadas */
+	LIS_tppLista listaPecasBrancas;
+	LIS_tppLista listaPecasPretas;
+	/* Lista de peças capturadas */
 
-} BAR_tpPecasCapturadas;
+} PCAP_tpPecasCapturadas;
 
-static BAR_tpPecasCapturadas * BARSingleton = NULL ;
+static PCAP_tpPecasCapturadas * PCAPSingleton = NULL ;
 
-/*****  Dados encapsulados no mÃ³dulo  *****/
+/*****  Dados encapsulados no módulo  *****/
 
-/***** ProtÃ³tipos das funÃ§Ãµes encapsuladas no mÃ³dulo *****/
+/***** Protótipos das funções encapsuladas no módulo *****/
 
 void RemoverPeca(void *pPeca);
 
-/*****  CÃ³digo das funÃ§vÃµes exportadas pelo mÃ³dulo  *****/
+/*****  Código das funçvões exportadas pelo módulo  *****/
 
 /***************************************************************************
 *
-*  FunÃ§Ã£o: BAR Criar lista de peÃ§as capturadas
+*  Função: PCAP Criar lista de peças capturadas
 * 
 ****/
-BAR_tpCondRet BAR_CriarListaPecasCapturadas()
+PCAP_tpCondRet PCAP_CriarListaPecasCapturadas()
 {
 
-	BARSingleton = (BAR_tpPecasCapturadas *) malloc(sizeof(BAR_tpPecasCapturadas));
-	if(BARSingleton == NULL)
+	PCAPSingleton = (PCAP_tpPecasCapturadas *) malloc(sizeof(PCAP_tpPecasCapturadas));
+	if(PCAPSingleton == NULL)
 	{
-		return BAR_CondRetFaltouMemoria ;
+		return PCAP_CondRetFaltouMemoria ;
 	} /* if */
 
-	BARSingleton->listaPecas = LIS_CriarLista(RemoverPeca);
+	PCAPSingleton->listaPecasBrancas = LIS_CriarLista(RemoverPeca);
+	PCAPSingleton->listaPecasPretas = LIS_CriarLista(RemoverPeca);
 
-	return BAR_CondRetOK ;
+	return PCAP_CondRetOK ;
 
-} /* Fim funÃ§Ã£o: BAR Criar lista de peÃ§as capturadas */
+} /* Fim função: PCAP Criar lista de peças capturadas */
 
 /***************************************************************************
 *
-*  FunÃ§Ã£o: BAR Inserir peÃ§a
+*  Função: PCAP Inserir peça Branca
 *  
 ****/
-BAR_tpCondRet BAR_InserirPeca(PecaHead pPeca)
+PCAP_tpCondRet PCAP_InserirPecaCapBranca(PecaHead pPeca)
 {
-	if(BARSingleton== NULL) 
+	if(PCAPSingleton== NULL) 
 	{
-		return BAR_CondRetListaPecasCapturadasNaoExiste;
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
 	} /* if */
-	
-	LIS_InserirElementoAntes(BARSingleton->listaPecas, pPeca);
-	
-	return BAR_CondRetOK;
 
-} /* Fim funÃ§Ã£o: BAR Inserir peÃ§a */
+    PEC_color CorPecaTemp;
+    PEC_ObterCor (&CorPecaTemp,pPeca);		
+	if(CorPecaTemp!=COLOR_White)
+		return PCAP_CondRetCorErrada;
 
+	LIS_InserirElementoAntes(PCAPSingleton->listaPecas, pPeca);
+	
+	return PCAP_CondRetOK;
+
+} /* Fim função: PCAP Inserir peça */
 /***************************************************************************
 *
-*  FunÃ§Ã£o: BAR Remover peÃ§a
+*  Função: PCAP Inserir peça Preta
 *  
 ****/
-BAR_tpCondRet BAR_RemoverPeca(PEC_color CorPeca, PecaHead *pPeca)
+PCAP_tpCondRet PCAP_InserirPecaCapPreta(PecaHead pPeca)
+{
+	if(PCAPSingleton== NULL) 
+	{
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
+	} /* if */
+
+    PEC_color CorPecaTemp;
+    PEC_ObterCor (&CorPecaTemp,pPeca);		
+	if(CorPecaTemp!=COLOR_Black)
+		return PCAP_CondRetCorErrada;
+	
+	LIS_InserirElementoAntes(PCAPSingleton->listaPecas, pPeca);
+	
+	return PCAP_CondRetOK;
+
+} /* Fim função: PCAP Inserir peça */
+/***************************************************************************
+*
+*  Função: PCAP Remover peça
+*  
+****/
+PCAP_tpCondRet PCAP_RemoverPeca(PEC_color CorPeca, PecaHead *pPeca)
 {
 	PEC_color CorPecaTemp;
 	PecaHead pPecaTemp;
 
-	if(BARSingleton == NULL)
+	if(PCAPSingleton == NULL)
 	{
-		return BAR_CondRetListaPecasCapturadasNaoExiste;
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
 	} /*if*/
 
-	IrInicioLista(BARSingleton->listaPecas);
+	IrInicioLista(PCAPSingleton->listaPecas);
 
 	do
 	{
-		pPecaTemp = (PecaHead) LIS_ObterValor(BARSingleton->listaPecas);
+		pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
 
 		PEC_ObterCor( &CorPecaTemp,pPecaTemp);
 
 		if(CorPecaTemp == CorPeca)
 		{
 			*pPeca = pPecaTemp;
-			LIS_ExcluirElemento(BARSingleton->listaPecas);
+			LIS_ExcluirElemento(PCAPSingleton->listaPecas);
 
-			return BAR_CondRetOK;
+			return PCAP_CondRetOK;
 		} /* if */
-	} while(LIS_AvancarElementoCorrente(BARSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
+	} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
 
-	return BAR_CondRetPecaNaoExiste;
+	return PCAP_CondRetPecaNaoExiste;
 
-} /* Fim funÃ§Ã£o: BAR Remover peÃ§a */
+} /* Fim função: PCAP Remover peça */
 
 /***************************************************************************
 *
-*  FunÃ§Ã£o: BAR Conta peÃ§as
+*  Função: PCAP Conta peças brancas
 *  
 ****/
-BAR_tpCondRet BAR_ContarPecas( PEC_color CorPeca, int *pContagem)
+PCAP_tpCondRet PCAP_ObterPecasCapBrancas( int *pContagem)
 {
 	PEC_color CorPecaTemp;
 	PecaHead pPecaTemp;
 
-	if(BARSingleton == NULL) 
+	if(PCAPSingleton == NULL) 
 	{
-		return BAR_CondRetListaPecasCapturadasNaoExiste;
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
 	} /* if */
 
 	*pContagem = 0;
 
-	IrInicioLista(BARSingleton->listaPecas);
+	IrInicioLista(PCAPSingleton->listaPecas);
 
-	if(LIS_ObterValor(BARSingleton->listaPecas) != NULL)
+	if(LIS_ObterValor(PCAPSingleton->listaPecas) != NULL)
 	{
 		do
 		{
-			pPecaTemp = (PecaHead) LIS_ObterValor(BARSingleton->listaPecas);
+			pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
 			
 			PEC_ObterCor(&CorPecaTemp,pPecaTemp);
 
-			if(CorPecaTemp == CorPeca)
+			if(CorPecaTemp == COLOR_White)
 			{
 				(*pContagem)++;
 			} /* if */
-		} while(LIS_AvancarElementoCorrente(BARSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
+		} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
 	} /* if */
 
-	return BAR_CondRetOK ;
+	return PCAP_CondRetOK ;
 
-} /* Fim funÃ§Ã£o: BAR Conta peÃ§as */
+} /* Fim função: PCAP Conta peças */
 
 /***************************************************************************
 *
-*  FunÃ§Ã£o: BAR Destruir lista de peÃ§as capturadas
+*  Função: PCAP Conta peças pretas
 *  
 ****/
-BAR_tpCondRet BAR_DestruirListaPecasCapturadas()
+PCAP_tpCondRet PCAP_ObterPecasCapPretas( int *pContagem)
+{
+	PEC_color CorPecaTemp;
+	PecaHead pPecaTemp;
+
+	if(PCAPSingleton == NULL) 
+	{
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
+	} /* if */
+
+	*pContagem = 0;
+
+	IrInicioLista(PCAPSingleton->listaPecas);
+
+	if(LIS_ObterValor(PCAPSingleton->listaPecas) != NULL)
+	{
+		do
+		{
+			pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
+			
+			PEC_ObterCor(&CorPecaTemp,pPecaTemp);
+
+			if(CorPecaTemp == COLOR_Black)
+			{
+				(*pContagem)++;
+			} /* if */
+		} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
+	} /* if */
+
+	return PCAP_CondRetOK ;
+
+}
+/***************************************************************************
+*
+*  Função: PCAP Destruir lista de peças capturadas
+*  
+****/
+PCAP_tpCondRet PCAP_DestruirListaPecasCapturadas()
 {
 	PecaHead pPecaTemp;
 
-	if(BARSingleton == NULL) 
+	if(PCAPSingleton == NULL) 
 	{
-		return BAR_CondRetListaPecasCapturadasNaoExiste;
+		return PCAP_CondRetListaPecasCapturadasNaoExiste;
 	} /* if */
 
-	IrInicioLista(BARSingleton->listaPecas);
+	IrInicioLista(PCAPSingleton->listaPecas);
 
-	pPecaTemp = (PecaHead) LIS_ObterValor(BARSingleton->listaPecas);
+	pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
 	
 	while(pPecaTemp != NULL)
 	{
 		PEC_DestruirPeca(&pPecaTemp);
 		
-		if(LIS_AvancarElementoCorrente(BARSingleton->listaPecas, 1) != PEC_ok)
+		if(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) != PEC_ok)
 		{
 			break;
 		} /* if */
 
-		pPecaTemp = (PecaHead) LIS_ObterValor(BARSingleton->listaPecas);
+		pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
 	} /* while */
 
-	free(BARSingleton);
-	BARSingleton = NULL;
+	free(PCAPSingleton);
+	PCAPSingleton = NULL;
 
-	return BAR_CondRetOK ;
+	return PCAP_CondRetOK ;
 
-} /* Fim funÃ§Ã£o: BAR Destruir lista de peÃ§as capturadas */
+} /* Fim função: PCAP Destruir lista de peças capturadas */
 
-/*****  CÃ³digo das funÃ§Ãµes encapsuladas no mÃ³dulo  *****/
+/*****  Código das funções encapsuladas no módulo  *****/
 
 /***********************************************************************
 *
-*  $FC FunÃ§Ã£o: Remove peÃ§a
+*  $FC Função: Remove peça
 *
-*  $ED DescriÃ§Ã£o da funÃ§Ã£o
-*     FunÃ§Ã£o chamada ao remover uma peÃ§a da lista.
+*  $ED Descrição da função
+*     Função chamada ao remover uma peça da lista.
 *
 ***********************************************************************/
 void RemoverPeca(void* pPeca)
@@ -216,4 +281,4 @@ void RemoverPeca(void* pPeca)
 	PEC_DestruirPeca(pPecaTemp);
 }
 
-/********** Fim do mÃ³dulo de implementaÃ§Ã£o: MÃ³dulo peÃ§as capturadas **********/
+/********** Fim do módulo de implementação: Módulo peças capturadas **********/
