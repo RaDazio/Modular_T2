@@ -1,14 +1,14 @@
 #if ! defined(PECASCAPTURADAS_)
-#define BAR_EXT
+#define PCAP_EXT
 
 #include "PECA.H"
 
 /***************************************************************************
 *
-*  $MCD M√≥dulo de defini√ß√£o: M√≥dulo pe√ßas capturadas
+*  $MCD MÛdulo de definiÁ„o: MÛdulo peÁas capturadas
 *
 *  Arquivo gerado:              PECASCAPTURADAS.H
-*  Letras identificadoras:      BAR
+*  Letras identificadoras:      PCAP
 *
 *  Projeto: Disciplina INF 1301
 *
@@ -16,14 +16,14 @@
             rdms - Rafael Damazio Monteiro da Silva
 *           fo  - Felipe de Oliveira
 *
-*  $HA Hist√≥rico de evolu√ß√£o:
-*     Vers√£o       Autor          Data         Observa√ß√µes
-*       1.00         fo       10/06/2019     In√∫‚Ç¨io do desenvolvimento
+*  $HA HistÛrico de evoluÁ„o:
+*     Vers„o       Autor          Data         ObservaÁıes
+*       1.00         fo       10/06/2019     In˙Äio do desenvolvimento
 *
-*  $ED Descri√ß√£o do m√≥dulo
-*     Este m√≥dulo implementa fun√ß√µes para operar uma lista de pe√ßas capturadas
-*     O m√≥dulo ¬ÅEcapaz de trabalhar com n pe√ßas.
-*     Ao iniciar a execu√ß√£o do programa n√£o existe lista de pe√ßas.
+*  $ED DescriÁ„o do mÛdulo
+*     Este mÛdulo implementa funÁıes para operar uma lista de peÁas capturadas
+*     O mÛdulo ÅEcapaz de trabalhar com n peÁas.
+*     Ao iniciar a execuÁ„o do programa n„o existe lista de peÁas.
 *
 ***************************************************************************/
  
@@ -33,136 +33,175 @@
    #define PECASCAPTURADAS_EXT extern
 #endif
 
-/***** Declara√ß√µes exportadas pelo m√≥dulo *****/
+/***** DeclaraÁıes exportadas pelo mÛdulo *****/
 
-/* Tipo refer√™ncia para uma lista de pe√ßas capturadas */
+/* Tipo referÍncia para uma lista de peÁas capturadas */
 
-typedef struct BAR_tagPecasCapturadas BAR_tpPecasCapturadas;
+typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: BAR Condi√ß√µes de retorno
+*  $TC Tipo de dados: PCAP CondiÁıes de retorno
 *
 *
 ***********************************************************************/
 
    typedef enum {
 
-         BAR_CondRetOK,
+         PCAP_CondRetOK,
                /* Executou correto */
 
-		 BAR_CondRetListaPecasCapturadasNaoExiste,
-			   /* Lista de pe√ßas capturadas n√£o existe */
+		 PCAP_CondRetListaPecasCapturadasNaoExiste,
+			   /* Lista de peÁas capturadas n„o existe */
 
-		 BAR_CondRetPecaNaoExiste,
-			   /* Pe√ßa n√£o existe na lista de pe√ßas capturadas */
+		 PCAP_CondRetPecaNaoExiste,
+			   /* PeÁa n„o existe na lista de peÁas capturadas */
 
-         BAR_CondRetFaltouMemoria
-               /* Faltou mem√≥ria ao alocar dados */
+         PCAP_CondRetFaltouMemoria,
+               /* Faltou memÛria ao alocar dados */
+         PCAP_CondRetCorErrada
 
-   } BAR_tpCondRet;
+   } PCAP_tpCondRet;
 
-
-/***********************************************************************
-*
-*  $FC Fun√ß√£o: BAR Criar lista de pe√ßas capturadas
-*
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Cria uma nova lista de pe√ßas capturadas.
-*
-*  $EP Par√¢metros
-*     $P pPecasCapturadas - ponteiro para a lista de pe√ßas capturadas a ser criada. Passado por refer√™ncia.
-*
-*  $FV Valor retornado
-*     BAR_CondRetOK
-*     BAR_CondRetFaltouMemoria
-*
-***********************************************************************/
-
-   BAR_tpCondRet BAR_CriarListaPecasCapturadas();
 
 /***********************************************************************
 *
-*  $FC Fun√ß√£o: BAR Inserir pe√ßa
+*  $FC FunÁ„o: PCAP Criar lista de peÁas capturadas
 *
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Insere uma pe√ßa na lista de pe√ßas capturadas.
+*  $ED DescriÁ„o da funÁ„o
+*     Cria uma nova lista de peÁas capturadas.
 *
-*  $EP Par√¢metros
-*     $P pPecasCapturadas - ponteiro para a lista de pe√ßas capturadas a ser utilizada.
-*     $P pPeca - ponteiro para a pe√ßa a ser utilizada.
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser criada. Passado por referÍncia.
 *
 *  $FV Valor retornado
-*     BAR_CondRetOK
-*     BAR_CondRetListaPecasCapturadasNaoExiste
-*	  BAR_CondRetFaltouMemoria
+*     PCAP_CondRetOK
+*     PCAP_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   BAR_tpCondRet BAR_InserirPeca( PecaHead pPeca);
+   PCAP_tpCondRet PCAP_CriarListaPecasCapturadas();
 
 /***********************************************************************
 *
-*  $FC Fun√ß√£o: BAR Remover pe√ßa
+*  $FC FunÁ„o: PCAP Inserir peÁa Branca
 *
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Removee uma pe√ßa na lista de pe√ßas capturadas.
+*  $ED DescriÁ„o da funÁ„o
+*     Insere uma peÁa na lista de peÁas capturadas.
 *
-*  $EP Par√¢metros
-*     $P pPecasCapturadas - ponteiro para a lista de pe√ßas capturadas a ser utilizada.
-*     $P pPeca - ponteiro para a pe√ßa a ser utilizada.
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada.
+*     $P pPeca - ponteiro para a peÁa a ser utilizada.
 *
 *  $FV Valor retornado
-*     BAR_CondRetOK
-*     BAR_CondRetListaPecasCapturadasNaoExiste
-*     BAR_CondRetPecaNaoExiste
-*	  BAR_CondRetFaltouMemoria
+*     PCAP_CondRetOK
+*     PCAP_CondRetListaPecasCapturadasNaoExiste
+*	  PCAP_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   BAR_tpCondRet BAR_RemoverPeca( PEC_color CorPeca, PecaHead *pPeca);
+ PCAP_tpCondRet PCAP_InserirPecaCapBranca(PecaHead pPeca);
 
 /***********************************************************************
 *
-*  $FC Fun√ß√£o: BAR Contar pe√ßas
+*  $FC FunÁ„o: PCAP Remover peÁa Preta
 *
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Conta as pe√ßas de uma determinada cor na lista de pe√ßas capturadas
+*  $ED DescriÁ„o da funÁ„o
+*     Removee uma peÁa na lista de peÁas capturadas.
 *
-*  $EP Par√¢metros
-*     $P pPecasCapturadas - ponteiro para a lista de pe√ßas capturadas a ser utilizada.
-*     $P CorPeca - cor das pe√ßas a serem contadas.
-*     $P pContagem - ponteiro para o inteiro onde ser¬ÅEarmazenado o n√∫mero de pe√ßas.
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada.
+*     $P pPeca - ponteiro para a peÁa a ser utilizada.
 *
 *  $FV Valor retornado
-*     BAR_CondRetOK
-*	  BAR_CondRetListaPecasCapturadasNaoExiste
+*     PCAP_CondRetOK
+*     PCAP_CondRetListaPecasCapturadasNaoExiste
+*     PCAP_CondRetPecaNaoExiste
+*    PCAP_CondRetFaltouMemoria
 *
 ***********************************************************************/
 
-   BAR_tpCondRet BAR_ContarPecas( PEC_color CorPeca, int *pContagem);
+
+ PCAP_tpCondRet PCAP_InserirPecaCapPreta(PecaHead pPeca);
 
 /***********************************************************************
 *
-*  $FC Fun√ß√£o: BAR Destruir lista de pe√ßas capturadas
+*  $FC FunÁ„o: PCAP Remover peÁa 
 *
-*  $ED Descri√ß√£o da fun√ß√£o
-*     Destr√≥i a lista de pe√ßas capturadas.
+*  $ED DescriÁ„o da funÁ„o
+*     Removee uma peÁa na lista de peÁas capturadas.
 *
-*  $EP Par√¢metros
-*     $P pPecasCapturadas - ponteiro para a lista de pe√ßas capturadas a ser utilizada. Passado por refer√™ncia.
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada.
+*     $P pPeca - ponteiro para a peÁa a ser utilizada.
 *
 *  $FV Valor retornado
-*     BAR_CondRetOK
-*	  BAR_CondRetListaPecasCapturadasNaoExiste
+*     PCAP_CondRetOK
+*     PCAP_CondRetListaPecasCapturadasNaoExiste
+*     PCAP_CondRetPecaNaoExiste
+*    PCAP_CondRetFaltouMemoria*/
+
+   PCAP_tpCondRet PCAP_RemoverPeca( PEC_color CorPeca, PecaHead *pPeca);
+
+/***********************************************************************
+*
+*  $FC FunÁ„o: PCAP Obter peÁas Brancas
+*
+*  $ED DescriÁ„o da funÁ„o
+*     Conta as peÁas de uma determinada cor na lista de peÁas capturadas
+*
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada.
+*     $P CorPeca - cor das peÁas a serem contadas.
+*     $P pContagem - ponteiro para o inteiro onde serÅEarmazenado o n˙mero de peÁas.
+*
+*  $FV Valor retornado
+*     PCAP_CondRetOK
+*	  PCAP_CondRetListaPecasCapturadasNaoExiste
 *
 ***********************************************************************/
 
-   BAR_tpCondRet BAR_DestruirListaPecasCapturadas();
+   PCAP_tpCondRet PCAP_ObterPecasCapBrancas( int *pContagem);
 
-#undef BAR_EXT
+/***********************************************************************
+*
+*  $FC FunÁ„o: PCAP Obter peÁas Pretas
+*
+*  $ED DescriÁ„o da funÁ„o
+*     Conta as peÁas de uma determinada cor na lista de peÁas capturadas
+*
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada.
+*     $P CorPeca - cor das peÁas a serem contadas.
+*     $P pContagem - ponteiro para o inteiro onde serÅEarmazenado o n˙mero de peÁas.
+*
+*  $FV Valor retornado
+*     PCAP_CondRetOK
+*    PCAP_CondRetListaPecasCapturadasNaoExiste
+*
+***********************************************************************/
 
-/********** Fim do m√≥dulo de defini√ß√£o: M√≥dulo pe√ßas capturadas **********/
+   PCAP_tpCondRet PCAP_ObterPecasCapPretas( int *pContagem);
+*
+*  $FC FunÁ„o: PCAP Destruir lista de peÁas capturadas
+*
+*  $ED DescriÁ„o da funÁ„o
+*     DestrÛi a lista de peÁas capturadas.
+*
+*  $EP Par‚metros
+*     $P pPecasCapturadas - ponteiro para a lista de peÁas capturadas a ser utilizada. Passado por referÍncia.
+*
+*  $FV Valor retornado
+*     PCAP_CondRetOK
+*	  PCAP_CondRetListaPecasCapturadasNaoExiste
+*
+**********************************************************************
+
+   PCAP_tpCondRet PCAP_DestruirListaPecasCapturadas();
+
+#undef PCAP_EXT
+
+/********** Fim do mÛdulo de definiÁ„o: MÛdulo peÁas capturadas **********/
 
 #else
 #endif
