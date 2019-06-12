@@ -57,6 +57,32 @@ DICE_RETRY_CHOOSER:
 
 }
 
+void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta){
+
+	FILE *fp;
+
+	printf("Salvando jogo.....");
+
+	fp = fopen("./gamao-save.txt", "w");
+	if (fp == NULL){
+		perror("Erro ao acessar arquivo de save");
+		printf("O jogo nao sera salvo\n");
+		return;
+	}
+
+	// SALVA PONTUACOES //
+	fprintf(fp, "%d %d\n", pontuacao_global_branca, pontuacao_geral_preta);
+	// SALVA VEZ (2 = JOGADOR BRANCO, 1 = JOGADOR PRETO)
+	fprintf(fp, "%d\n", jogador_da_vez);
+
+	// CLEANUP //
+	fclose(fp);
+
+	printf("pronto!\n");
+
+	return;
+}
+
 PEC_color TrocarJogador(PEC_color jogador){
 	return (jogador == COLOR_Black)? COLOR_White: COLOR_Black;
 }
@@ -80,6 +106,7 @@ int PrimeiraCasaValida(int casa_from, PEC_color jogador_da_vez){
 int SegundaCasaValida(int casa_from, int casa_to, PEC_color jogador_da_vez){
 
 }
+
 int ObterDado(int value, int vector[4], int* used_idx){
 	int idx, real_value=-100;
 	if(value == -1) return -1;
@@ -95,6 +122,7 @@ int ObterDado(int value, int vector[4], int* used_idx){
 	}
 	return real_value;
 }
+
 void RestaurarDado(int value, int idx, int vector[4]){
 	if(idx >= 0 && idx < 4 && vector[idx] == 0){
 		vector[idx] = value;
@@ -228,7 +256,9 @@ ESCOLHER_NOVAMENTE:
 				}
 				if(response == 1) exit(0);
 				else if(response == 2){
-					//salvar
+					
+					// SALVA PONTUACAO E VEZ //
+					SalvarJogo(jogador_da_vez, pontuacao_global_branca, pontuacao_global_preta);
 					exit(0);
 				}
 				else{
