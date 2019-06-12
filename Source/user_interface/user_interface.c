@@ -21,6 +21,17 @@ void RenderizarTabuleiro();
 void LimparRender();
 void RenderizarStatus();
 void RenderizarNumCasas(int ini, int fim);
+void Menu(int* resposta);
+
+void Menu(int* resposta){
+	int r;
+	printf("Voce deseja:\n");
+	printf("1 - Novo jogo\n");
+	printf("2 - Carregar jogo\n");
+	printf("Digite a opcao: ");
+	scanf("%d",&r);
+	*resposta = r;
+}
 
 
 void DumpBuffer(char buffer[][WIDTH], int n_linhas){

@@ -115,19 +115,29 @@ int main (void){
 	int casas_to_possiveis[24];
 
 	int idx;
+	int response;
 
 	PEC_color jogador_da_vez;
 	TBL_CondRet tbl_ret;
 	DICE_CondRet dice_ret;
 	
-	setUp(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+	Menu(&response);
+	while(response != 1 && response != 2){
+			Menu(&response);
+		}
+	if(response == 1){
+		setUp(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+	}
+	else if(response == 2){
+		//carregar
+	}
 
 	while(1){
 		/*********** Rolando  Dados ***************/
 		dice_ret = DICE_RolarDado(&dices[0],DADOS_LADOS);
 		if(dice_ret == DICE_ok) dice_ret = DICE_RolarDado(&dices[1],DADOS_LADOS);
 		if(dice_ret == DICE_wrong){
-			printf("ERRO AO ROLAR DADOS");
+			printf("ERRO AO ROLAR DADOS\n");
 			exit(1);
 		}
 		if(dices[0] == dices[1]){
@@ -148,7 +158,7 @@ int main (void){
 			/*** Obtendo as casas do jogador da vez ***/
 			tbl_ret = TBL_ObterCasasPorDono(jogador_da_vez, casas_from_possiveis, &qtd_casas_from_possiveis);
 			if( tbl_ret != TBL_ok ){
-				printf(" Erro ao obter as casas do jogador da vez ");
+				printf(" Erro ao obter as casas do jogador da vez\n");
 				exit(1);
 			}
 			/******************************************/
@@ -184,15 +194,24 @@ ESCOLHER_DADO_NOVAMENTE:
 		/**** Finalização das peças *****/
 			if(jogador_da_vez == COLOR_White){
 				casa_to = casa_from + use_dice_value;
-				if(casa_to > 24){
+				if(casa_to >= 24){
 					flag_peca_finalizada = 1;
+					tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
+					if(tbl_ret != TBL_ok){
+						printf("ERRO AO FINALIZAR PECA\n");
+						exit(1);
+					}
 				}
 			}
 			else {
 				casa_to = casa_from - use_dice_value;
 				if(casa_to < 0){
-					// Finalizar peça preta
 					flag_peca_finalizada = 1;
+					tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
+					if(tbl_ret != TBL_ok){
+						printf("ERRO AO FINALIZAR PECA\n");
+						exit(1);
+					}
 				}
 			}
 		/*******************************/
@@ -218,7 +237,7 @@ ESCOLHER_DADO_NOVAMENTE:
 					}
 					
 				}
-				if(qtd > 1){
+				if(qtd > 1 && !flag_peca_finalizada){
 					printf("Casa invalida\n");
 					system("timeout 2");
 					RestaurarDado(use_dice_value, utilized_dice_idx,dices);
