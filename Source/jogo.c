@@ -9,14 +9,20 @@
 #include "interfaces\tabuleiro.h"
 #include "interfaces\user_interface.h"
 
-void setUp (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
+void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
 
 	// Inicialização de variaveis //
 	int dice[2];
 	TBL_CondRet tab_ret ;
 	DICE_CondRet d_ret;
+	DPT_CondRet dpt_ret;
 	/******************************/
-
+	// Criação do dadoPontos //
+	dpt_ret = DPT_CriarDadoPontos();
+	if(dpt_ret != DPT_OK){
+		printf("ERRO AO CRIAR O DADO PONTOS\n");
+		exit(1);
+	}
 	// Criação do tabuleiro //
 	tab_ret = TBL_CriarTabuleiro();
 	if(tab_ret != TBL_ok){
@@ -26,11 +32,6 @@ void setUp (PEC_color* first_player, int* pontuacao_global_color1, int* pontuaca
 
 	// Settando variaveis globais do jogo //
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
-	
-	// Settando a aparencia do cmd //
-	system("echo off");	
-	system("mode 800");
-	system("color 90");
 
 /* DEFINIÇÃO DO PRIMEIRO JOGADOR */
 DICE_RETRY_CHOOSER:
@@ -111,9 +112,6 @@ int main (void){
 	int qtd_casas_from_possiveis;
 	int casas_from_possiveis[24];
 
-	int qtd_casas_to_possiveis;
-	int casas_to_possiveis[24];
-
 	int idx;
 	int response;
 
@@ -121,12 +119,18 @@ int main (void){
 	TBL_CondRet tbl_ret;
 	DICE_CondRet dice_ret;
 	
-	Menu(&response);
+	// Settando a aparencia do cmd //
+	system("echo off");	
+	system("mode 800");
+	system("color 90");
+
+
+	Menu_Inicial(&response);
 	while(response != 1 && response != 2){
-			Menu(&response);
-		}
+		Menu_Inicial(&response);
+	}
 	if(response == 1){
-		setUp(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+		NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 	else if(response == 2){
 		//carregar
@@ -166,13 +170,28 @@ ESCOLHER_NOVAMENTE:
 			/**** Renderizando tabuleiro e jogadas possiveis de mover****/
 			RenderizarTabuleiro();
 			RenderizarJogadaAtual(jogador_da_vez, dices, qtd_dice_valid, casas_from_possiveis, qtd_casas_from_possiveis,0);
+			//RenderizarMenuDePontos(&response);
 			/************************************************************/
 		
 			/*********************** Movendo peça ***********************/
-			printf("Esolha uma casa de origem dentre as disponiveis, -1 para pular a vez: ");
+			printf("Esolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
 			casa_from = LerCasaDoTeclado();
 			if(casa_from == -2) break;
-
+			if(casa_from == -3){
+				LimparRender();
+				Menu_Sair(&response);
+				while(response != 1 && response != 2 && response != 3){
+					Menu_Sair(&response);
+				}
+				if(response == 1) exit(0);
+				else if(response == 2){
+					//salvar
+					exit(0);
+				}
+				else{
+					goto ESCOLHER_NOVAMENTE;
+				}
+			}
 			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) ){
 				printf("Casa invalida, escolha novamente: ");
 				system("timeout 2");

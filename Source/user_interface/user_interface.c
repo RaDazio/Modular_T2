@@ -21,13 +21,25 @@ void RenderizarTabuleiro();
 void LimparRender();
 void RenderizarStatus();
 void RenderizarNumCasas(int ini, int fim);
-void Menu(int* resposta);
+void Menu_Inicial(int* resposta);
+void Menu_Sair(int *resposta);
 
-void Menu(int* resposta){
+void Menu_Inicial(int* resposta){
 	int r;
 	printf("Voce deseja:\n");
 	printf("1 - Novo jogo\n");
 	printf("2 - Carregar jogo\n");
+	printf("Digite a opcao: ");
+	scanf("%d",&r);
+	*resposta = r;
+}
+
+void Menu_Sair(int *resposta){
+	int r;
+	printf("Voce deseja:\n");
+	printf("1 - Sair sem salvar\n");
+	printf("2 - Sair e salvar\n");
+	printf("3 - Continuar\n");
 	printf("Digite a opcao: ");
 	scanf("%d",&r);
 	*resposta = r;
@@ -79,8 +91,10 @@ void RenderizarNumCasas(int ini, int fim){
 }
 
 void RenderizarStatus(){
+	int pontuacao;
+	DPT_CondRet dpt_ret = DPT_ObterPontuacaoPartida(&pontuacao);
 	printf("\n  ==============================================================================================================================================\n");
-	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",0, 0, 0, 0 ,0);
+	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",0, 0, 0, 0 ,pontuacao);
 	printf("\n  ==============================================================================================================================================\n");
 }
 

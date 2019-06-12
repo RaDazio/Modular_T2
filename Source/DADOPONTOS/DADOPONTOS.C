@@ -23,6 +23,7 @@
 #define DADOPONTOS_OWN
 #include "..\interfaces\DADOPONTOS.H"
 #undef DADOPONTOS_OWN
+#include "..\interfaces\PECA.h"
 
 /***********************************************************************
 *
@@ -34,7 +35,6 @@
 
 typedef struct dadopontos
 {
-
 	int Pontuacao;
 	/* Pontuação  do jogo no momento*/
 
@@ -45,6 +45,8 @@ typedef struct dadopontos
 
 /*****  Dados encapsulados no módulo  *****/
 
+static DPT_DadoPontos *DadoPontosSingletoon = NULL;
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 /***************************************************************************
@@ -52,15 +54,19 @@ typedef struct dadopontos
 *  Função: DPT Criar dado de pontos
 * 
 ****/
-DPT_CondRet DPT_CriarDadoPontos(DPT_DadoHead * pDadoPontos)
+DPT_CondRet DPT_CriarDadoPontos()
 {
-	*pDadoPontos = (DPT_DadoHead) malloc(sizeof(DPT_DadoPontos));
-	if(pDadoPontos == NULL)
+	if(DadoPontosSingletoon != NULL)
+	{
+		return DPT_JaExisteDadoPontos;
+	}
+	DadoPontosSingletoon = (DPT_DadoPontos*) malloc(sizeof(DPT_DadoPontos));
+	if(DadoPontosSingletoon == NULL)
 	{
 		return DPT_FalhaMemoria ;
 	} 
 
-	(*pDadoPontos)->Pontuacao = 1;
+	DadoPontosSingletoon->Pontuacao = 1;
 
 	return DPT_OK ;
 
@@ -70,14 +76,14 @@ DPT_CondRet DPT_CriarDadoPontos(DPT_DadoHead * pDadoPontos)
 *  Função: DPT Atualizar jogador
 *  
 ****/
-DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoHead pDadoPontos, PEC_color CorPeca)
+DPT_CondRet DPT_AtualizarJogadorDobra(PEC_color CorPeca)
 {
-	if(pDadoPontos == NULL) 
+	if(DadoPontosSingletoon == NULL) 
 	{
 		return DPT_NaoHaDadoPontos;
 	} 
 
-	pDadoPontos->CorPeca = CorPeca;
+	(DadoPontosSingletoon)->CorPeca = CorPeca;
 
 	return DPT_OK ;
 
@@ -87,18 +93,18 @@ DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoHead pDadoPontos, PEC_color CorPec
 *  Função: DPT Dobrar pontuação da partida
 *  
 ****/
-DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoHead pDadoPontos, PEC_color CorPeca)
+DPT_CondRet DPT_DobrarPontuacaoPartida(PEC_color CorPeca)
 {
-	if(pDadoPontos == NULL) 
+	if(DadoPontosSingletoon == NULL) 
 	{
 		return DPT_NaoHaDadoPontos;
 	} 
-	if(pDadoPontos->CorPeca != CorPeca)
+	if(DadoPontosSingletoon->CorPeca != CorPeca)
 	{
 		return DPT_JogadorNaoPossuiDadoPontos;
 	} /* if */
 
-	pDadoPontos->Pontuacao *= 2;
+	DadoPontosSingletoon->Pontuacao *= 2;
 
 	return DPT_OK ;
 }
@@ -108,19 +114,19 @@ DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoHead pDadoPontos, PEC_color CorPe
 *  Função: DPT Obter jogador que possui o dado de pontos
 *  
 ****/
-DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoHead pDadoPontos, PEC_color* pCorPeca)
+DPT_CondRet DPT_ObterJogadorDobraPartida(PEC_color* pCorPeca)
 {
-	if(pDadoPontos == NULL)
+	if(DadoPontosSingletoon == NULL)
 	{
 		return DPT_NaoHaDadoPontos;
 	} /* if */
 
-	if(pDadoPontos->Pontuacao == 1)
+	if(DadoPontosSingletoon->Pontuacao == 1)
 	{
 		return DPT_NaoHaJogadorDadoPontos;
 	}
 
-	*pCorPeca = pDadoPontos->CorPeca;
+	*pCorPeca = DadoPontosSingletoon->CorPeca;
 
 	return DPT_OK ;
 }
@@ -131,14 +137,14 @@ DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoHead pDadoPontos, PEC_color* pC
 *  Função: DPT Obter pontuação da partida
 *  
 ****/
-DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoHead pDadoPontos, int* pPontuacao)
+DPT_CondRet DPT_ObterPontuacaoPartida(int* pPontuacao)
 {
-	if(pDadoPontos == NULL) 
+	if(DadoPontosSingletoon == NULL) 
 	{
 		return DPT_NaoHaDadoPontos;
 	} /* if */
 
-	*pPontuacao = pDadoPontos->Pontuacao;
+	*pPontuacao = DadoPontosSingletoon->Pontuacao;
 
 	return DPT_OK ;
 }
@@ -148,17 +154,16 @@ DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoHead pDadoPontos, int* pPontuacao)
 *  Função: DPT Destruir dado de pontos
 *  
 ****/
-DPT_CondRet DPT_DestruirDadoPontos(DPT_DadoHead* pDadoPontos)
+DPT_CondRet DPT_DestruirDadoPontos()
 {
-	if(*pDadoPontos == NULL) 
+	if(DadoPontosSingletoon == NULL) 
 	{
-		return DPT_NaoHaDadoPontos;
+		return DPT_OK;
 	} /* if */
-	free(*pDadoPontos);
-	*pDadoPontos = NULL;
+	free(DadoPontosSingletoon);
+	DadoPontosSingletoon = NULL;
 
 	return DPT_OK;
-
 
 } /* Fim função: DPT Destruir dado de pontos */
 

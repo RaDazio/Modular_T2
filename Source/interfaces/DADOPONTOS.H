@@ -31,10 +31,6 @@
 
 /***** Declarações exportadas pelo módulo *****/
 
-/* Tipo referência para um dado de pontos*/
-
-typedef struct dadopontos* DPT_DadoHead;
-
 /***********************************************************************
 /***********************************************************************
 *
@@ -59,6 +55,8 @@ typedef struct dadopontos* DPT_DadoHead;
 		 DPT_NaoHaJogadorDadoPontos = 3 ,
 			   /* Não há jogador atual do dado de pontos */
 
+	     DPT_JaExisteDadoPontos
+
  } DPT_CondRet;
 
 /***********************************************************************
@@ -77,7 +75,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_CriarDadoPontos(DPT_DadoHead* pDadoPontos);
+   DPT_CondRet DPT_CriarDadoPontos();
 
 /***********************************************************************
 *
@@ -96,7 +94,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_AtualizarJogadorDobra(DPT_DadoHead pDadoPontos, PEC_color CorPeca);
+   DPT_CondRet DPT_AtualizarJogadorDobra(PEC_color CorPeca);
 
 /***********************************************************************
 *
@@ -116,7 +114,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_DobrarPontuacaoPartida(DPT_DadoHead pDadoPontos, PEC_color CorPeca);
+   DPT_CondRet DPT_DobrarPontuacaoPartida(PEC_color CorPeca);
 
 /***********************************************************************
 *
@@ -136,7 +134,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_ObterJogadorDobraPartida(DPT_DadoHead pDadoPontos, PEC_color *pCorPeca);
+   DPT_CondRet DPT_ObterJogadorDobraPartida(PEC_color *pCorPeca);
 
 /***********************************************************************
 *
@@ -155,7 +153,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_ObterPontuacaoPartida(DPT_DadoHead pDadoPontos, int *pPontuacao);
+   DPT_CondRet DPT_ObterPontuacaoPartida(int *pPontuacao);
 
 /***********************************************************************
 *
@@ -173,7 +171,7 @@ typedef struct dadopontos* DPT_DadoHead;
 *
 ***********************************************************************/
 
-   DPT_CondRet DPT_DestruirDadoPontos(DPT_DadoHead* pDadoPontos);
+   DPT_CondRet DPT_DestruirDadoPontos();
 
 #undef DADOPONTOS_EXT
 
