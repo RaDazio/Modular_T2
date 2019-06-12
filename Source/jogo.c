@@ -57,6 +57,53 @@ DICE_RETRY_CHOOSER:
 
 }
 
+void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
+
+	// Inicializacao de variaveis //
+	TBL_CondRet tab_ret ;
+	DPT_CondRet dpt_ret;
+	FILE *fp;
+	/******************************/
+	
+	// Criacao do dadoPontos //
+	dpt_ret = DPT_CriarDadoPontos();
+	if(dpt_ret != DPT_OK){
+		printf("ERRO AO CRIAR O DADO PONTOS\n");
+		exit(1);
+	}
+	/*****************************/
+
+	// Criacao do tabuleiro //
+	tab_ret = TBL_CriarTabuleiro();
+	if(tab_ret != TBL_ok){
+		printf("ERRO AO CRIAR O TABULEIRO\n");
+		exit(1);
+	}
+	/*****************************/
+
+	// RECUPERACAO DAS PONTUACOES GLOBAIS E VEZ DO JOGADOR //
+	printf("Recuperando dados.....\n");
+
+	fp = fopen("gamao-save.txt", "r");
+	// EXIT SE FALHAR //
+	if (fp == NULL){
+		perror("Erro ao acessar arquivo de save");
+		printf("O jogo nao pode ser recuperado\n");
+		exit(1);
+	}
+
+	// CARREGA PONTUACOES //
+	fscanf(fp, "%d\n", pontuacao_global_color1);
+	fscanf(fp, "%d\n", pontuacao_global_color2);
+	//CARREGA VEZ DO JOGADOR
+	fscanf(fp, "%d\n", first_player);
+
+	// CLEANUP //
+	fclose(fp);
+
+	return;
+}
+
 void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta){
 
 	FILE *fp;
@@ -161,7 +208,9 @@ int main (void){
 		NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 	else if(response == 2){
-		//carregar
+		
+		// RECUPERAR JOGO (CARREGAR) //
+		RecuperarJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 
 	while(1){
