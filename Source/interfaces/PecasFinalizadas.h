@@ -72,7 +72,7 @@ typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
 *
 ***********************************************************************/
 
-   PF_CondRet PF_CriarPecasFinalizadas(PF_tppFinalizadas *pPF, PEC_color cor) ;
+   PF_CondRet PF_CriarPecasFinalizadas() ;
 
 /***********************************************************************
 *
@@ -87,7 +87,7 @@ typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
 *
 ***********************************************************************/
 
-   PF_CondRet PF_AdicionarPecaFinalizada(PF_tppFinalizadas pPF) ;
+   PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor) ;
 
 /***********************************************************************
 *
@@ -103,23 +103,8 @@ typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
 *
 ***********************************************************************/
 
-   PF_CondRet PF_ObterTamanhoPecasFinalizadas(PF_tppFinalizadas pPF, int *tam) ;
+   PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam) ;
 
-/***********************************************************************
-*
-*  $FC Fun��o: PF Obter Cor da PF
-*
-*  $ED Descri��o da fun��o
-*		Obtem a cor das pe�as da PF
-*
-*  $EP Par�metros
-*	  pPF		    - A PF que se deseja saber a cor
-*	  *cor			- Cor esperada
-*
-*
-***********************************************************************/
-
-   PF_CondRet PF_ObterCorPecasFinalizadas(PF_tppFinalizadas pPF, PEC_color *cor) ;
 
 /***********************************************************************
 *
@@ -133,5 +118,5 @@ typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
 *
 ***********************************************************************/
 
-   PF_CondRet PF_DestruirPecasFinalizadas(PF_tppFinalizadas pPF) ;
+   PF_CondRet PF_DestruirPecasFinalizadas() ;
 

@@ -36,13 +36,15 @@
 
 typedef struct PF_tagFinalizadas {
 
-	LIS_tppLista PecasFinalizadas;
+	LIS_tppLista PecasFinalizadasBrancas;
 	/* Lista de Pe�as Finalizadas*/
 
-	PEC_color cor;
-	/* Cor das peças finalizadas */
+	LIS_tppLista PecasFinalizadasPretas;
+	/* Lista de Pe�as Finalizadas*/
 
 } PF_tpFinalizadas ;
+
+static PF_tpFinalizadas * pecasFinalizadasSingleton = NULL ;
 
 /*******************************************************/
 /*****  Código das funções exportadas pelo módulo  *****/
@@ -53,13 +55,13 @@ typedef struct PF_tagFinalizadas {
 *  
 **********************************************************************/
 
-PF_CondRet PF_CriarPecasFinalizadas(PF_tppFinalizadas *pPF, PEC_color cor)
+PF_CondRet PF_CriarPecasFinalizadas()
 {
 
-	*pPF = (PF_tppFinalizadas)malloc(sizeof(PF_tpFinalizadas));
+	pecasFinalizadasSingleton = (PF_tppFinalizadas)malloc(sizeof(PF_tpFinalizadas));
 
-	(*pPF)->PecasFinalizadas = LIS_CriarLista(PEC_DestruirPeca);
-	(*pPF)->cor = cor;
+	(pecasFinalizadasSingleton)->PecasFinalizadasPretas = LIS_CriarLista(PEC_DestruirPeca);
+	(pecasFinalizadasSingleton)->PecasFinalizadasBrancas = LIS_CriarLista(PEC_DestruirPeca);
 
 	return PF_OK;
 }
@@ -69,20 +71,33 @@ PF_CondRet PF_CriarPecasFinalizadas(PF_tppFinalizadas *pPF, PEC_color cor)
 *  
 **********************************************************************/
 
-PF_CondRet PF_AdicionarPecaFinalizada(PF_tppFinalizadas pPF)
+PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 {
-	PEC_color cor = pPF->cor;
 	PecaHead newPeca;
 	if(Pec_CriarPeca(cor, newPeca) != PEC_ok)
 	{
 		printf("Erro ao criar peca finalizada\n");
 		return PF_Erro;
 	}
-	if(LIS_InserirElementoApos(pPF->PecasFinalizadas, newPeca) != LIS_CondRetOK)
+	if (cor == COLOR_White)
 	{
-		printf("Erro ao inserir pe�a na lista (PF) \n");
-		return PF_Erro;
+		if(LIS_InserirElementoApos(pecasFinalizadasSingleton->PecasFinalizadasBrancas, newPeca) != LIS_CondRetOK)
+		{
+			printf("Erro ao inserir pe�a na lista (PF) \n");
+			return PF_Erro;
+		}	
 	}
+	else if (cor == COLOR_Black)
+	{
+		if(LIS_InserirElementoApos(pecasFinalizadasSingleton->PecasFinalizadasPretas, newPeca) != LIS_CondRetOK)
+		{
+			printf("Erro ao inserir pe�a na lista (PF) \n");
+			return PF_Erro;
+		}
+	}
+	
+	
+	
 
 	return PF_OK;
 }
@@ -93,30 +108,24 @@ PF_CondRet PF_AdicionarPecaFinalizada(PF_tppFinalizadas pPF)
 *  
 **********************************************************************/
 
-PF_CondRet PF_ObterTamanhoPecasFinalizadas(PF_tppFinalizadas pPF, int *tam)
+PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 {
 	if(tam == NULL)
 		return PF_Erro;
 
-	*tam = LIS_ObterTamanho(pPF->PecasFinalizadas);
+
+	if (cor == COLOR_White)
+	{
+		*tam = LIS_ObterTamanho(pecasFinalizadasSingleton->PecasFinalizadasBrancas);
+	}
+	else if (cor == COLOR_Black)
+	{
+		*tam = LIS_ObterTamanho(pecasFinalizadasSingleton->PecasFinalizadasPretas);
+	}
+	
 
 	if(*tam == 0)
 		return PF_Vazia;
-
-	return PF_OK;
-}
-
-/***************************************************************************
-*	$FC Fun��o:	PF Obter cor Peças finalizasas
-*  
-**********************************************************************/
-
-PF_CondRet PF_ObterCorPecasFinalizadas(PF_tppFinalizadas pPF, PEC_color *cor)
-{
-	if(cor == NULL)
-		return PF_Erro;
-
-	*cor = pPF->cor;
 
 	return PF_OK;
 }
@@ -126,9 +135,10 @@ PF_CondRet PF_ObterCorPecasFinalizadas(PF_tppFinalizadas pPF, PEC_color *cor)
 *  
 **********************************************************************/
 
-PF_CondRet PF_DestruirPecasFinalizadas(PF_tppFinalizadas pPF)
+PF_CondRet PF_DestruirPecasFinalizadas()
 {
-	LIS_DestruirLista(pPF->PecasFinalizadas);
-	free(pPF);
+	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasBrancas);
+	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasPretas);
+	free(pecasFinalizadasSingleton);
 	return PF_OK;
 }
