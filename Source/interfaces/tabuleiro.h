@@ -202,3 +202,39 @@
 
    TBL_CondRet TBL_ObterCasasPorDono(PEC_color color_a_procurar, int vector[24], int* num_casa);
 
+/***********************************************************************
+*
+*	$FC Fun��o:	TBL RetirarPecaDoTabuleiro
+*
+*	Assertiva de entrada:
+*		Deve existir a casa do tabuleiro, caso contrario sera retirado o ultimo
+*		Deve existir pelo menos uma peça
+*	Assertiva de saída:
+*		Remove a peça de determinada casa
+*
+*	$EP Par�metros:
+*		$P	*ret	 -	retorno da cor 
+*
+*		$P	casa -	casa de onde será removida a peças.
+*
+***********************************************************************/
+
+   TBL_CondRet RetirarPecaDoTabuleiro(PEC_color* ret, int casa);
+
+/***********************************************************************
+*
+*	$FC Fun��o:	TBL InserirPecaNoTabuleiro
+*
+*	Assertiva de entrada:
+*		Deve existir a casa do tabuleiro, caso contrario sera inserida na ultima
+*	Assertiva de saída:
+*		Insere a peça em determinada casa
+*
+*	$EP Par�metros:
+*		$P	*ret	 -	retorno da cor 
+*
+*		$P	casa -	casa de onde será inserida a peça.
+*
+***********************************************************************/
+
+   TBL_CondRet InserirPecaNoTabuleiro(PEC_color color,int casa);
