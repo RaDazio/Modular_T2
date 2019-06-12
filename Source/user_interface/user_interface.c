@@ -23,6 +23,7 @@ void RenderizarStatus();
 void RenderizarNumCasas(int ini, int fim);
 void Menu_Inicial(int* resposta);
 void Menu_Sair(int *resposta);
+void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez);
 
 void Menu_Inicial(int* resposta){
 	int r;
@@ -30,7 +31,7 @@ void Menu_Inicial(int* resposta){
 	printf("1 - Novo jogo\n");
 	printf("2 - Carregar jogo\n");
 	printf("Digite a opcao: ");
-	scanf("%d",&r);
+	scanf_s("%d",&r,sizeof(int));
 	*resposta = r;
 }
 
@@ -41,7 +42,7 @@ void Menu_Sair(int *resposta){
 	printf("2 - Sair e salvar\n");
 	printf("3 - Continuar\n");
 	printf("Digite a opcao: ");
-	scanf("%d",&r);
+	scanf_s("%d",&r,sizeof(int));
 	*resposta = r;
 }
 
@@ -98,7 +99,16 @@ void RenderizarStatus(){
 	printf("\n  ==============================================================================================================================================\n");
 }
 
-void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas, int pode_dobrar){
+void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
+	int r;
+	printf("Jogador %s, deseja duplicar os pontos?\n",(jogador_da_vez == COLOR_White)? "\033[1;33mBranco\033[0m": "Preto");
+	printf("1 - Sim\n");
+	printf("2 - Nao\n");
+	scanf_s("%d",&r);
+	*response = r;
+}
+
+void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas){
 	int idx;
 	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "\033[1;33mBranco\033[0m": "Preto");
 	printf("Dados disponiveis: ");
@@ -112,15 +122,10 @@ void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_va
 		printf(" %d ",vector[idx]);
 	}
 	printf("\n");
-	if(pode_dobrar){
-		printf("Jogador: %s, deseja dobrar a potuação para: %d\n",(jogadorAtual == COLOR_Black)? "Preto":"Branco", 0);
-	}
-	printf("\n");
 
 }
 
-
-void RenderizarTabuleiro(){
+void RenderizarTabuleiro(int pontuacao_preta, int pontuacao_branca){
 	
 	/* Inicialização de variaveis */
 	LIS_tppLista casas;
@@ -257,4 +262,8 @@ void RenderizarTabuleiro(){
 
 	// Renderização das casas inferiores //
 	RenderizarNumCasas(TABSIZE, TABSIZE/2);
+
+	printf("Pontuacao global do jogador preto %d\t",pontuacao_preta);
+	printf("Pontuacao global do jogador branco %d\n",pontuacao_branca);
+
 }

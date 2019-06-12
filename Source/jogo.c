@@ -136,7 +136,7 @@ PEC_color TrocarJogador(PEC_color jogador){
 
 int LerCasaDoTeclado(){
 	int ret;
-	scanf("%d",&ret);
+	scanf_s("%d",&ret,sizeof(int));
 	return ret-1;
 }
 
@@ -190,9 +190,12 @@ int main (void){
 	int idx;
 	int response;
 
+	PEC_color color_aux;
 	PEC_color jogador_da_vez;
+	
 	TBL_CondRet tbl_ret;
 	DICE_CondRet dice_ret;
+	DPT_CondRet dpt_ret;
 	
 	// Settando a aparencia do cmd //
 	system("echo off");	
@@ -214,6 +217,7 @@ int main (void){
 	}
 
 	while(1){
+		int flag_pode_dobrar = 1;
 		/*********** Rolando  Dados ***************/
 		dice_ret = DICE_RolarDado(&dices[0],DADOS_LADOS);
 		if(dice_ret == DICE_ok) dice_ret = DICE_RolarDado(&dices[1],DADOS_LADOS);
@@ -230,12 +234,14 @@ int main (void){
 		}
 		/******************************************/
 
+
 		for(idx = 0 ; idx < qtd_dice_valid ; idx++){
-			PEC_color color_aux;
+			/***** Declaração de variaveis auxiliares *******/
 			int flag_peca_finalizada;
 			int utilized_dice_idx;
 			flag_peca_finalizada = 0;	
-			
+			/***********************************************/
+	
 			/*** Obtendo as casas do jogador da vez ***/
 			tbl_ret = TBL_ObterCasasPorDono(jogador_da_vez, casas_from_possiveis, &qtd_casas_from_possiveis);
 			if( tbl_ret != TBL_ok ){
@@ -245,14 +251,51 @@ int main (void){
 			/******************************************/
 ESCOLHER_NOVAMENTE:
 			/**** Renderizando tabuleiro e jogadas possiveis de mover****/
-			RenderizarTabuleiro();
-			RenderizarJogadaAtual(jogador_da_vez, dices, qtd_dice_valid, casas_from_possiveis, qtd_casas_from_possiveis,0);
-			//RenderizarMenuDePontos(&response);
+			RenderizarTabuleiro(pontuacao_global_preta, pontuacao_global_branca);
+			RenderizarJogadaAtual(jogador_da_vez, dices, qtd_dice_valid, casas_from_possiveis, qtd_casas_from_possiveis);
+			/************************************************************/
+
+			/*********************** Duplicando pontos ***********************/
+			dpt_ret = DPT_ObterJogadorDobraPartida(&color_aux);
+			if ((dpt_ret == DPT_NaoHaJogadorDadoPontos || color_aux == jogador_da_vez) && flag_pode_dobrar){
+				RenderizarMenuDePontos(&response,jogador_da_vez);
+				while(response != 1 && response != 2){
+					RenderizarMenuDePontos(&response,jogador_da_vez);
+				}
+				flag_pode_dobrar = 0;
+				if(response == 1){
+					dpt_ret = DPT_AtualizarJogadorDobra(jogador_da_vez);
+					if(dpt_ret != DPT_OK){
+						printf("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS\n");
+						exit(1);
+					}
+					dpt_ret = DPT_DobrarPontuacaoPartida(jogador_da_vez);
+					if(dpt_ret != DPT_OK){
+						printf("ERRO AO ATUALIZAR O VALOR DA PARTIDA\n");
+						exit(1);
+					}
+					dpt_ret = DPT_AtualizarJogadorDobra((jogador_da_vez==COLOR_Black)?COLOR_White:COLOR_Black);
+					if(dpt_ret != DPT_OK){
+						printf("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS\n");
+						exit(1);
+					}
+					RenderizarTabuleiro(pontuacao_global_preta, pontuacao_global_branca);
+					RenderizarJogadaAtual(jogador_da_vez, dices, qtd_dice_valid, casas_from_possiveis, qtd_casas_from_possiveis);
+					flag_pode_dobrar = 0;
+				}
+			}
+			if (dpt_ret == DPT_NaoHaDadoPontos){
+				printf("ERRO AO OBTER O DADO PONTOS\n");
+				exit(1);
+			}
+			
 			/************************************************************/
 		
-			/*********************** Movendo peça ***********************/
+			/*************** Capturando dados para mover peça ***********/
 			printf("Esolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
 			casa_from = LerCasaDoTeclado();
+
+			/*************** Caso entre no menu *************************/
 			if(casa_from == -2) break;
 			if(casa_from == -3){
 				LimparRender();
@@ -271,25 +314,30 @@ ESCOLHER_NOVAMENTE:
 					goto ESCOLHER_NOVAMENTE;
 				}
 			}
+			/************************************************************/
+
+			/************ Checando se a primeira casa é valida **********/
 			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) ){
 				printf("Casa invalida, escolha novamente: ");
 				system("timeout 2");
 				goto ESCOLHER_NOVAMENTE;
 			}
-				/*** Renderizando casas possiveis para mover ***/
+			/************************************************************/
 
-			printf("Esolha um dado, -1 para escolher a casa novamente a vez: ");
+			printf("Esolha um dado, -1 para escolher a casa novamente: ");
 
 ESCOLHER_DADO_NOVAMENTE:
-			scanf("%d", &use_dice_value);
+		/************** Obter o dado a ser utilizado *******************/
+			scanf_s("%d", &use_dice_value,sizeof(int));
 			use_dice_value = ObterDado(use_dice_value,dices,&utilized_dice_idx);
 			if(use_dice_value == -100){
 				printf("Escolha um dado válido: ");
 				goto ESCOLHER_DADO_NOVAMENTE;
 			}
 			if(use_dice_value == -1) goto ESCOLHER_NOVAMENTE;
+		/**************************************************************/
 
-		/**** Finalização das peças *****/
+		/****************Checar finalização de peça********************/
 			if(jogador_da_vez == COLOR_White){
 				casa_to = casa_from + use_dice_value;
 				if(casa_to >= 24){
@@ -312,8 +360,8 @@ ESCOLHER_DADO_NOVAMENTE:
 					}
 				}
 			}
-		/*******************************/
-		/******* Checando destino ******/
+		/**************************************************************/
+		/******************* Checando destino *************************/
 			tbl_ret = TBL_CorPecasCasa(&color_aux,casa_to);
 			if(tbl_ret != TBL_ok){
 				printf("Erro ao obter a casa para onde mover");
@@ -343,12 +391,13 @@ ESCOLHER_DADO_NOVAMENTE:
 					goto ESCOLHER_NOVAMENTE;
 				}
 			}
-		/******* Captura de peças ******/
+		/**************************************************************/
 
-
+		/************************ Movendo peça ************************/
 			if(!flag_peca_finalizada){
 				TBL_MoverPeca(casa_from, casa_to);
 			}
+		/**************************************************************/
 		}
 		/**************** Trocando o jogador da vez *****************/
 		jogador_da_vez = TrocarJogador(jogador_da_vez);
