@@ -8,15 +8,14 @@
 #include "interfaces\DADOPONTOS.H"
 #include "interfaces\tabuleiro.h"
 #include "interfaces\user_interface.h"
+#include "interfaces\PecasFinalizadas.h"
 
-void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
 
-	// Inicialização de variaveis //
-	int dice[2];
-	TBL_CondRet tab_ret ;
-	DICE_CondRet d_ret;
+void SetUp(){
 	DPT_CondRet dpt_ret;
-	/******************************/
+	TBL_CondRet tbl_ret;
+	PF_CondRet pf_ret;
+
 	// Criação do dadoPontos //
 	dpt_ret = DPT_CriarDadoPontos();
 	if(dpt_ret != DPT_OK){
@@ -24,11 +23,47 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 		exit(1);
 	}
 	// Criação do tabuleiro //
-	tab_ret = TBL_CriarTabuleiro();
-	if(tab_ret != TBL_ok){
+	tbl_ret = TBL_CriarTabuleiro();
+	if(tbl_ret != TBL_ok){
 		printf("ERRO AO CRIAR O TABULEIRO\n");
 		exit(1);
 	}
+
+	pf_ret = PF_CriarPecasFinalizadas();
+	if (pf_ret != PF_OK){
+		printf("ERRO AO INICIALIZAR PEÇAS FINALIZADAS\n");
+		exit(1);
+	}
+}
+
+void TearDown(){
+	DPT_CondRet dpt_ret;
+	TBL_CondRet tbl_ret;
+	PF_CondRet pf_ret;
+
+	dpt_ret = DPT_DestruirDadoPontos();
+	if(dpt_ret != DPT_OK){
+		exit(1);
+	}
+	tbl_ret = TBL_DestruirTabuleiro();
+	if(tbl_ret != TBL_ok){
+		exit(1);
+	}
+	pf_ret = PF_DestruirPecasFinalizadas();
+	if(pf_ret != PF_OK){
+		exit(1);
+	}
+}
+
+void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
+	// Inicialização de variaveis //
+	int dice[2];
+	TBL_CondRet tab_ret ;
+	DICE_CondRet d_ret;
+	DPT_CondRet dpt_ret;
+	/******************************/
+
+	SetUp();
 
 	// Settando variaveis globais do jogo //
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
@@ -54,7 +89,6 @@ DICE_RETRY_CHOOSER:
 /********************************/
 	system("timeout 3");
 	*first_player = (dice[0]>dice[1])? COLOR_White: COLOR_Black;
-
 }
 
 void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
@@ -64,23 +98,9 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	DPT_CondRet dpt_ret;
 	FILE *fp;
 	/******************************/
+
+	SetUp();
 	
-	// Criacao do dadoPontos //
-	dpt_ret = DPT_CriarDadoPontos();
-	if(dpt_ret != DPT_OK){
-		printf("ERRO AO CRIAR O DADO PONTOS\n");
-		exit(1);
-	}
-	/*****************************/
-
-	// Criacao do tabuleiro //
-	tab_ret = TBL_CriarTabuleiro();
-	if(tab_ret != TBL_ok){
-		printf("ERRO AO CRIAR O TABULEIRO\n");
-		exit(1);
-	}
-	/*****************************/
-
 	// RECUPERACAO DAS PONTUACOES GLOBAIS E VEZ DO JOGADOR //
 	printf("Recuperando dados.....\n");
 
@@ -107,7 +127,6 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta){
 
 	FILE *fp;
-
 	printf("Salvando jogo.....");
 
 	fp = fopen("./gamao-save.txt", "w");
@@ -196,6 +215,7 @@ int main (void){
 	TBL_CondRet tbl_ret;
 	DICE_CondRet dice_ret;
 	DPT_CondRet dpt_ret;
+	PF_CondRet pf_ret;
 	
 	// Settando a aparencia do cmd //
 	system("echo off");	
@@ -211,13 +231,46 @@ int main (void){
 		NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 	else if(response == 2){
-		
 		// RECUPERAR JOGO (CARREGAR) //
 		RecuperarJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 
 	while(1){
 		int flag_pode_dobrar = 1;
+		int qtd_peca_branca_fin, qtd_peca_preta_fin;
+		
+		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_White, &qtd_peca_branca_fin);
+		if(pf_ret != PF_OK){
+			printf("ERRO AO OBTER AS PEÇAS FINALIZADAS\n");
+			exit(1);
+		}
+		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &qtd_peca_preta_fin);
+		if(pf_ret != PF_OK){
+			printf("ERRO AO OBTER AS PEÇAS FINALIZADAS\n");
+			exit(1);
+		}
+		if(qtd_peca_branca_fin >= 1){
+			int aux;
+			dpt_ret = DPT_ObterPontuacaoPartida(&aux);
+			if(dpt_ret != DPT_OK){
+				printf("ERRO AO ATRIBUIR PONTUAÇÃO AO JOGADOR BRANCO\n");
+				exit(1);
+			}
+			pontuacao_global_branca += aux;
+			TearDown();
+			SetUp();
+		}
+		if(qtd_peca_preta_fin >= 15){
+			int aux;
+			if(dpt_ret != DPT_OK){
+				printf("ERRO AO ATRIBUIR PONTUAÇÃO AO JOGADOR PRETO\n");
+				exit(1);
+			}
+			pontuacao_global_branca += aux;
+			TearDown();
+			SetUp();
+		}
+
 		/*********** Rolando  Dados ***************/
 		dice_ret = DICE_RolarDado(&dices[0],DADOS_LADOS);
 		if(dice_ret == DICE_ok) dice_ret = DICE_RolarDado(&dices[1],DADOS_LADOS);
@@ -358,6 +411,13 @@ ESCOLHER_DADO_NOVAMENTE:
 						printf("ERRO AO FINALIZAR PECA\n");
 						exit(1);
 					}
+				}
+			}
+			if(flag_peca_finalizada){
+				pf_ret = PF_AdicionarPecaFinalizada(color_aux);
+				if(pf_ret != PF_OK){
+					printf("ERRO AO FINALZIAR PECA\n");
+					exit(1);
 				}
 			}
 		/**************************************************************/

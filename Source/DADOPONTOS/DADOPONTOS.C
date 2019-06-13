@@ -103,8 +103,9 @@ DPT_CondRet DPT_DobrarPontuacaoPartida(PEC_color CorPeca)
 	{
 		return DPT_JogadorNaoPossuiDadoPontos;
 	} /* if */
-
-	DadoPontosSingletoon->Pontuacao *= 2;
+	if( DadoPontosSingletoon->Pontuacao < 64){
+		DadoPontosSingletoon->Pontuacao *= 2;
+	}
 
 	return DPT_OK ;
 }

@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "PecasFinalizadas.h"
+#include "../interfaces/PecasFinalizadas.h"
 
 
 /***********************************************************************
@@ -50,6 +50,12 @@ static PF_tpFinalizadas * pecasFinalizadasSingleton = NULL ;
 /*****  Código das funções exportadas pelo módulo  *****/
 /*******************************************************/
 
+static void ExcluirPeca(void *pPeca)
+{
+	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PEC_DestruirPeca(pPecaTemp);
+}
+
 /***************************************************************************
 *	$FC Fun��o:	PF Criar Peças Finalizadas
 *  
@@ -60,8 +66,8 @@ PF_CondRet PF_CriarPecasFinalizadas()
 
 	pecasFinalizadasSingleton = (PF_tppFinalizadas)malloc(sizeof(PF_tpFinalizadas));
 
-	(pecasFinalizadasSingleton)->PecasFinalizadasPretas = LIS_CriarLista(PEC_DestruirPeca);
-	(pecasFinalizadasSingleton)->PecasFinalizadasBrancas = LIS_CriarLista(PEC_DestruirPeca);
+	(pecasFinalizadasSingleton)->PecasFinalizadasPretas = LIS_CriarLista(ExcluirPeca);
+	(pecasFinalizadasSingleton)->PecasFinalizadasBrancas = LIS_CriarLista(ExcluirPeca);
 
 	return PF_OK;
 }
@@ -73,8 +79,9 @@ PF_CondRet PF_CriarPecasFinalizadas()
 
 PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 {
-	PecaHead newPeca;
-	if(Pec_CriarPeca(cor, newPeca) != PEC_ok)
+	PecaHead newPeca = NULL;
+	PEC_CondRet ret = PEC_CriaPeca(cor, &newPeca);
+	if(ret != PEC_ok)
 	{
 		printf("Erro ao criar peca finalizada\n");
 		return PF_Erro;
@@ -96,9 +103,6 @@ PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 		}
 	}
 	
-	
-	
-
 	return PF_OK;
 }
 
@@ -122,10 +126,6 @@ PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 	{
 		*tam = LIS_ObterTamanho(pecasFinalizadasSingleton->PecasFinalizadasPretas);
 	}
-	
-
-	if(*tam == 0)
-		return PF_Vazia;
 
 	return PF_OK;
 }
@@ -142,3 +142,7 @@ PF_CondRet PF_DestruirPecasFinalizadas()
 	free(pecasFinalizadasSingleton);
 	return PF_OK;
 }
+
+
+
+

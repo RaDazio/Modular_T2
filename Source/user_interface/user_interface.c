@@ -16,6 +16,7 @@
 #include "..\interfaces\tabuleiro.h"
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
+#include "..\interfaces\PecasFinalizadas.h"
 
 void RenderizarTabuleiro();
 void LimparRender();
@@ -93,9 +94,22 @@ void RenderizarNumCasas(int ini, int fim){
 
 void RenderizarStatus(){
 	int pontuacao;
+	int pecas_brancas_fin, pecas_pretas_fin, pecas_brancas_cap, pecas_pretas_cap;
 	DPT_CondRet dpt_ret = DPT_ObterPontuacaoPartida(&pontuacao);
+	PF_CondRet pf_ret;
+	pf_ret = PF_ObterTamanhoPecasFinalizadas(COLOR_White, &pecas_brancas_fin);
+	if(pf_ret != PF_OK){
+		printf("ERRO AO OBTER A QTD DE PECAS BRANCAS FINALIZADAS\n");
+		printf("EXIT CODE: %d\n",pf_ret);
+		exit(1);
+	}
+	pf_ret = PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &pecas_pretas_fin);
+	if(pf_ret != PF_OK){
+		printf("ERRO AO OBTER A QTD DE PECAS PRETAS FINALIZADAS\n");
+		exit(1);
+	}
 	printf("\n  ==============================================================================================================================================\n");
-	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",0, 0, 0, 0 ,pontuacao);
+	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",pecas_brancas_fin, 0, pecas_pretas_fin, 0 ,pontuacao);
 	printf("\n  ==============================================================================================================================================\n");
 }
 

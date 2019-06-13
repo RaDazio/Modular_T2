@@ -319,9 +319,6 @@ TBL_CondRet RetirarPecaDoTabuleiro(PEC_color* ret, int casa){
 	if(LIS_ExcluirElemento(listaAux) != LIS_CondRetOK){
 		return TBL_erro;
 	}
-	else{
-		return TBL_ok;
-	}
 	*ret = color;
 	return TBL_ok;
 }
