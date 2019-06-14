@@ -131,7 +131,7 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	if(jogador_pode_dobrar != COLOR_Colorless){ // se ha jogador dados pontos
 		dpt_ret = DPT_AtualizarJogadorDobra(jogador_pode_dobrar);
 		if(dpt_ret != DPT_OK){
-			printf("Erro ao atualizaro jogador do dado pontos\n");
+			printf("Erro ao atualizar o jogador do dado pontos\n");
 			printf("O jogo nao pode ser recuperado.\n");
 			exit(1);
 		}
