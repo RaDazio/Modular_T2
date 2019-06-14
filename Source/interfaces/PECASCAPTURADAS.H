@@ -20,6 +20,7 @@
 *     Versão       Autor          Data         Observações
 *       1.00         fo       10/06/2019     Inú€io do desenvolvimento
 *       2.00         svp      13/06/2019     Mudanca de approach para semelhante ao PecasFinalizadas
+*       3.00         svp      15/06/2019     Ajustes nos valores de retorno
 *
 *  $ED Descrição do módulo
 *     Este módulo implementa funções para operar listas de peças capturadas
@@ -63,7 +64,16 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
       PCAP_CondRetErroRemocaoPecaBranca,
             /* Erro ao remover peca na lista de pecas brancas capturadas */
       PCAP_CondRetErroRemocaoPecaPreta,
-            /* Erro ao remover peca na lista de pecas pretas capturadas */     
+            /* Erro ao remover peca na lista de pecas pretas capturadas */   
+
+      PCAP_CondRetPecasCapturadasJaExiste,
+            /* Erro ao tentar criar peca capturadas com ponteiro de pecas capturadas ja existentes */ 
+
+      PCAP_CondRetErroNaoExisteSingleton,
+            /* Erro estrutura de pecas capturadas nao existe */
+
+      PCAP_CondRetCorInexistente
+            /* Cor fornecida nao eh preta nem branca */
 
    } PCAP_tpCondRet;
 
@@ -98,6 +108,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *     PCAP_CondRetOK
 *     PCAP_CondRetErroInsercaoListaBranca
 *	   PCAP_CondRetErroInsercaoListaPreta
+*     PCAP_CondRetErroNaoExisteSingleton
 *
 ***********************************************************************/
 
@@ -117,6 +128,8 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *     PCAP_CondRetOK
 *     PCAP_CondRetErroRemocaoPecaBranca
 *     PCAP_CondRetErroRemocaoPecaPreta
+*     PCAP_CondRetErroNaoExisteSingleton
+*     PCAP_CondRetCorInexistente
 *
 ***********************************************************************/
 
@@ -136,6 +149,8 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
+*     PCAP_CondRetErroNaoExisteSingleton
+*     PCAP_CondRetCorInexistente
 *
 ***********************************************************************/
 
@@ -151,6 +166,8 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 *  $FV Valor retornado
 *    PCAP_CondRetOK
+*    PCAP_CondRetErroNaoExisteSingleton
+*    PCAP_CondRetCorInexistente
 *
 ***********************************************************************/
 
