@@ -96,7 +96,12 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	// Inicializacao de variaveis //
 	TBL_CondRet tab_ret ;
 	DPT_CondRet dpt_ret;
+
 	FILE *fp;
+	errno_t erro;
+
+	PEC_color jogador_pode_dobrar;
+	int pontuacao_dados_pontos;
 	/******************************/
 
 	SetUp();
@@ -104,19 +109,36 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	// RECUPERACAO DAS PONTUACOES GLOBAIS E VEZ DO JOGADOR //
 	printf("Recuperando dados.....\n");
 
-	fp = fopen("gamao-save.txt", "r");
+	erro = fopen_s(&fp, "gamao-save.txt", "r");
 	// EXIT SE FALHAR //
-	if (fp == NULL){
+	if (erro != 0){
 		perror("Erro ao acessar arquivo de save");
 		printf("O jogo nao pode ser recuperado\n");
 		exit(1);
 	}
 
 	// CARREGA PONTUACOES //
-	fscanf(fp, "%d\n", pontuacao_global_color1);
-	fscanf(fp, "%d\n", pontuacao_global_color2);
+	fscanf_s(fp, "%d\n", pontuacao_global_color1, sizeof(pontuacao_global_color1));
+	fscanf_s(fp, "%d\n", pontuacao_global_color2), sizeof(pontuacao_global_color2);
+	//**********************//
+	
 	//CARREGA VEZ DO JOGADOR
-	fscanf(fp, "%d\n", first_player);
+	fscanf_s(fp, "%d\n", first_player, sizeof(first_player));
+	//**********************//
+	
+	// CARREGA DADO PONTOS //
+	fscanf_s(fp, "%d", &jogador_pode_dobrar, sizeof(jogador_pode_dobrar)); //jogador dado pontos
+	fscanf_s(fp, "%d", &pontuacao_dados_pontos, sizeof(pontuacao_dados_pontos));
+	// RECUPERA DADOS PONTOS
+	if(jogador_pode_dobrar != COLOR_Colorless){ // se ha jogador dados pontos
+		dpt_ret = DPT_AtualizarJogadorDobra(jogador_pode_dobrar);
+		if(dpt_ret != DPT_OK){
+			printf("Erro ao atualizaro jogador do dado pontos\n");
+			printf("O jogo nao pode ser recuperado.\n");
+			exit(1);
+		}
+		dpt_ret = DPT_AtualizarPontuacaoPartida(pontuacao_dados_pontos);
+	}
 
 	// CLEANUP //
 	fclose(fp);
@@ -124,13 +146,14 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	return;
 }
 
-void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta){
+void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta, PEC_color jogador_dobra_partida, int pontuacao_dados_pontos){
 
 	FILE *fp;
+	errno_t erro;
 	printf("Salvando jogo.....");
 
-	fp = fopen("./gamao-save.txt", "w");
-	if (fp == NULL){
+	erro = fopen_s(&fp, "./gamao-save.txt", "w");
+	if (erro != 0){
 		perror("Erro ao acessar arquivo de save");
 		printf("O jogo nao sera salvo\n");
 		return;
@@ -140,6 +163,10 @@ void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontu
 	fprintf(fp, "%d %d\n", pontuacao_global_branca, pontuacao_geral_preta);
 	// SALVA VEZ (2 = JOGADOR BRANCO, 1 = JOGADOR PRETO)
 	fprintf(fp, "%d\n", jogador_da_vez);
+	// SALVA JOGADOR QUE PDOE DOBRAR A PARTIDA //
+	fprintf(fp, "%d\n", jogador_dobra_partida);
+	// SALVA PONTUACAO DA PARTIDA (DADOS PONTOS) //
+	fprintf(fp, "%d\n", pontuacao_dados_pontos);
 
 	// CLEANUP //
 	fclose(fp);
@@ -200,6 +227,7 @@ int main (void){
 	int qtd_dice_valid;
 
 	int pontuacao_global_branca, pontuacao_global_preta;
+	int pontuacao_dados_pontos;
 	
 	int casa_from, casa_to;
 	int use_dice_value=0;
@@ -359,9 +387,18 @@ ESCOLHER_NOVAMENTE:
 				if(response == 1) exit(0);
 				else if(response == 2){
 					
-					// SALVA PONTUACAO E VEZ //
-					SalvarJogo(jogador_da_vez, pontuacao_global_branca, pontuacao_global_preta);
+					//************** SALVAR JOGO **************//
+					// OBTEM DADO PONTO //
+					if( DPT_ObterJogadorDobraPartida(&color_aux) == DPT_NaoHaJogadorDadoPontos){
+						color_aux = COLOR_Colorless;
+					}
+					dpt_ret = DPT_ObterPontuacaoPartida(&pontuacao_dados_pontos);
+
+					// SALVA //
+					SalvarJogo(jogador_da_vez, pontuacao_global_branca, pontuacao_global_preta, color_aux, pontuacao_dados_pontos);
+
 					exit(0);
+					//*****************************************//
 				}
 				else{
 					goto ESCOLHER_NOVAMENTE;
