@@ -96,6 +96,25 @@
 
    DPT_CondRet DPT_AtualizarJogadorDobra(PEC_color CorPeca);
 
+
+/***********************************************************************
+*
+*  $FC Função: DPT Atualizar pontuacao da partida
+*
+*  $ED Descrição da função
+*     Atualiza a pontuacao da partida a partir de um inteiro
+*
+*  $EP Parâmetros
+*     $P Pontuacao - inteiro com a pontuacao que deseja-se inserir no Dado Pontos
+*
+*  $FV Valor retornado
+*     DPT_OK
+*    DPT_NaoHaDadoPontos
+*
+***********************************************************************/
+
+   DPT_CondRet DPT_AtualizarPontuacaoPartida(int Pontuacao);
+
 /***********************************************************************
 *
 *  $FC Função: DPT Dobrar pontuação da partida

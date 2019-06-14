@@ -88,6 +88,23 @@ DPT_CondRet DPT_AtualizarJogadorDobra(PEC_color CorPeca)
 	return DPT_OK ;
 
 } /* Fim função: Atualizar jogador */
+
+/***************************************************************************
+*
+*  Função: DPT Atualizar pontuação da partida
+*  
+****/
+DPT_CondRet DPT_AtualizarPontuacaoPartida(int Pontuacao)
+{
+	if(DadoPontosSingletoon == NULL) 
+	{
+		return DPT_NaoHaDadoPontos;
+	} /* if */
+
+	DadoPontosSingletoon->Pontuacao = Pontuacao;
+
+	return DPT_OK ;
+} /* Fim função: Atualizar Pontuacao
 /***************************************************************************
 *
 *  Função: DPT Dobrar pontuação da partida
