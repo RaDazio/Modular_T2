@@ -15,6 +15,7 @@
 *  $HA Histórico de evolução:
 *     Versão       Autor          Data         Observações
 *       1.00   		fo   		10/06/2019 		Inú€io do desenvolvimento
+*		2.00		svp			14/06/2019		Mudanca de approach para semelhante ao PecasFinalizadas
 *
 ***************************************************************************/
 
@@ -22,10 +23,11 @@
 #include   <stdio.h>
 
 #define PECASCAPTURADAS_OWN
-#include "PECASCAPTURADAS.H"
+#include "../interfaces/PECASCAPTURADAS.H"
 #undef PECASCAPTURADAS_OWN
-#include "PECA.h"
-#include "LISTA.h"
+
+#include "../interfaces/peca.h"
+#include "../interfaces/LISTA.h"
 
 
 /***********************************************************************
@@ -43,32 +45,43 @@ typedef struct PCAP_tagPecasCapturadas {
 
 } PCAP_tpPecasCapturadas;
 
-static PCAP_tpPecasCapturadas * PCAPSingleton = NULL ;
-
 /*****  Dados encapsulados no módulo  *****/
 
-/***** Protótipos das funções encapsuladas no módulo *****/
+static PCAP_tpPecasCapturadas * PCAPSingleton = NULL ;
 
-void RemoverPeca(void *pPeca);
-
-/*****  Código das funçvões exportadas pelo módulo  *****/
+/*****  Código das funções encapsuladas no módulo  *****/
 
 /***************************************************************************
 *
 *  Função: PCAP Criar lista de peças capturadas
 * 
 ****/
-PCAP_tpCondRet PCAP_CriarListaPecasCapturadas()
-{
+
+static void ExcluirPecaCapturada(void *pPeca){
+	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PEC_DestruirPeca(pPecaTemp);
+}
+
+/*****  Código das funções exportadas pelo módulo  *****/
+
+/***************************************************************************
+*
+*  Função: PCAP Criar lista de peças capturadas
+* 
+****/
+PCAP_tpCondRet PCAP_CriarListasPecasCapturadas(){
 
 	PCAPSingleton = (PCAP_tpPecasCapturadas *) malloc(sizeof(PCAP_tpPecasCapturadas));
+
+	// TESTE ALOCACAO //
 	if(PCAPSingleton == NULL)
 	{
 		return PCAP_CondRetFaltouMemoria ;
 	} /* if */
 
-	PCAPSingleton->listaPecasBrancas = LIS_CriarLista(RemoverPeca);
-	PCAPSingleton->listaPecasPretas = LIS_CriarLista(RemoverPeca);
+	// CRIACAO LISTAS //
+	PCAPSingleton->listaPecasBrancas = LIS_CriarLista(ExcluirPecaCapturada);
+	PCAPSingleton->listaPecasPretas = LIS_CriarLista(ExcluirPecaCapturada);
 
 	return PCAP_CondRetOK ;
 
@@ -76,210 +89,88 @@ PCAP_tpCondRet PCAP_CriarListaPecasCapturadas()
 
 /***************************************************************************
 *
-*  Função: PCAP Inserir peça Branca
+*  Função: PCAP Inserir peca capturada
 *  
 ****/
-PCAP_tpCondRet PCAP_InserirPecaCapBranca(PecaHead pPeca)
-{
-	if(PCAPSingleton== NULL) 
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /* if */
 
-    PEC_color CorPecaTemp;
-    PEC_ObterCor (&CorPecaTemp,pPeca);		
-	if(CorPecaTemp!=COLOR_White)
-		return PCAP_CondRetCorErrada;
+PCAP_tpCondRet PCAP_InserirPecaCapturada(PEC_color cor){
 
-	LIS_InserirElementoAntes(PCAPSingleton->listaPecas, pPeca);
-	
+	// CRIA PEÇA A SER INSERIDA (JA COM A COR DESEJADA) //
+	PecaHead novaPeca = NULL;
+	PEC_CondRet pec_ret = PEC_CriaPeca(cor, &novaPeca);
+	//***//
+
+	// INSERCAO BRANCA //
+	if(cor == COLOR_White){
+		if(LIS_InserirElementoApos(PCAPSingleton->listaPecasBrancas, novaPeca) != LIS_CondRetOK){
+			printf("Erro ao inserir peca na lista de capturadas (brancas).\n");
+			return PCAP_CondRetErroInsercaoListaBranca;
+		}
+
+	}// Fim insercao branca //
+	// INSERCAO PRETA //
+	else{
+		if(LIS_InserirElementoApos(PCAPSingleton->listaPecasPretas, novaPeca) != LIS_CondRetOK){
+			printf("Erro ao inserir peca na lista de capturadas (pretas).\n");
+			return PCAP_CondRetErroInsercaoListaPreta;
+		}
+	}
+
 	return PCAP_CondRetOK;
 
 } /* Fim função: PCAP Inserir peça */
-/***************************************************************************
-*
-*  Função: PCAP Inserir peça Preta
-*  
-****/
-PCAP_tpCondRet PCAP_InserirPecaCapPreta(PecaHead pPeca)
-{
-	if(PCAPSingleton== NULL) 
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /* if */
 
-    PEC_color CorPecaTemp;
-    PEC_ObterCor (&CorPecaTemp,pPeca);		
-	if(CorPecaTemp!=COLOR_Black)
-		return PCAP_CondRetCorErrada;
-	
-	LIS_InserirElementoAntes(PCAPSingleton->listaPecas, pPeca);
-	
-	return PCAP_CondRetOK;
-
-} /* Fim função: PCAP Inserir peça */
 /***************************************************************************
 *
 *  Função: PCAP Remover peça
 *  
 ****/
-PCAP_tpCondRet PCAP_RemoverPeca(PEC_color CorPeca, PecaHead *pPeca)
-{
-	PEC_color CorPecaTemp;
-	PecaHead pPecaTemp;
+PCAP_tpCondRet PCAP_RemoverPecaCapturada(PEC_color cor){
 
-	if(PCAPSingleton == NULL)
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /*if*/
+	if(cor == COLOR_White){
+		if(LIS_ExcluirElemento(PCAPSingleton->listaPecasBrancas) != LIS_CondRetOK)
+			return PCAP_CondRetErroRemocaoPecaBranca;
+	}
+	else{
+		if(LIS_ExcluirElemento(PCAPSingleton->listaPecasPretas) != LIS_CondRetOK)
+			return PCAP_CondRetErroRemocaoPecaPreta;
+	}
 
-	IrInicioLista(PCAPSingleton->listaPecas);
-
-	do
-	{
-		pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
-
-		PEC_ObterCor( &CorPecaTemp,pPecaTemp);
-
-		if(CorPecaTemp == CorPeca)
-		{
-			*pPeca = pPecaTemp;
-			LIS_ExcluirElemento(PCAPSingleton->listaPecas);
-
-			return PCAP_CondRetOK;
-		} /* if */
-	} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
-
-	return PCAP_CondRetPecaNaoExiste;
+	return PCAP_CondRetOK;
 
 } /* Fim função: PCAP Remover peça */
 
 /***************************************************************************
 *
-*  Função: PCAP Conta peças brancas
+*  Função: PCAP Obter Quantidade Peças Capturadas
 *  
 ****/
-PCAP_tpCondRet PCAP_ObterPecasCapBrancas( int *pContagem)
-{
-	PEC_color CorPecaTemp;
-	PecaHead pPecaTemp;
 
-	if(PCAPSingleton == NULL) 
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /* if */
+PCAP_tpCondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd){
 
-	*pContagem = 0;
+	if(cor == COLOR_White){
+		*qtd = LIS_ObterTamanho(PCAPSingleton->listaPecasBrancas);
+	}
+	else{
+		*qtd = LIS_ObterTamanho(PCAPSingleton->listaPecasPretas);
+	}
 
-	IrInicioLista(PCAPSingleton->listaPecas);
+	return PCAP_CondRetOK;
+} /* Fim funcao: PCAP Obter Quantidade Peças Capturadas */
 
-	if(LIS_ObterValor(PCAPSingleton->listaPecas) != NULL)
-	{
-		do
-		{
-			pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
-			
-			PEC_ObterCor(&CorPecaTemp,pPecaTemp);
-
-			if(CorPecaTemp == COLOR_White)
-			{
-				(*pContagem)++;
-			} /* if */
-		} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
-	} /* if */
-
-	return PCAP_CondRetOK ;
-
-} /* Fim função: PCAP Conta peças */
-
-/***************************************************************************
-*
-*  Função: PCAP Conta peças pretas
-*  
-****/
-PCAP_tpCondRet PCAP_ObterPecasCapPretas( int *pContagem)
-{
-	PEC_color CorPecaTemp;
-	PecaHead pPecaTemp;
-
-	if(PCAPSingleton == NULL) 
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /* if */
-
-	*pContagem = 0;
-
-	IrInicioLista(PCAPSingleton->listaPecas);
-
-	if(LIS_ObterValor(PCAPSingleton->listaPecas) != NULL)
-	{
-		do
-		{
-			pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
-			
-			PEC_ObterCor(&CorPecaTemp,pPecaTemp);
-
-			if(CorPecaTemp == COLOR_Black)
-			{
-				(*pContagem)++;
-			} /* if */
-		} while(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) == LIS_CondRetOK); /* do */
-	} /* if */
-
-	return PCAP_CondRetOK ;
-
-}
 /***************************************************************************
 *
 *  Função: PCAP Destruir lista de peças capturadas
 *  
 ****/
-PCAP_tpCondRet PCAP_DestruirListaPecasCapturadas()
-{
-	PecaHead pPecaTemp;
+PCAP_tpCondRet PCAP_DestruirPecasCapturadas(){
 
-	if(PCAPSingleton == NULL) 
-	{
-		return PCAP_CondRetListaPecasCapturadasNaoExiste;
-	} /* if */
-
-	IrInicioLista(PCAPSingleton->listaPecas);
-
-	pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
-	
-	while(pPecaTemp != NULL)
-	{
-		PEC_DestruirPeca(&pPecaTemp);
-		
-		if(LIS_AvancarElementoCorrente(PCAPSingleton->listaPecas, 1) != PEC_ok)
-		{
-			break;
-		} /* if */
-
-		pPecaTemp = (PecaHead) LIS_ObterValor(PCAPSingleton->listaPecas);
-	} /* while */
+	LIS_DestruirLista(PCAPSingleton->listaPecasBrancas);
+	LIS_DestruirLista(PCAPSingleton->listaPecasPretas);
 
 	free(PCAPSingleton);
-	PCAPSingleton = NULL;
 
-	return PCAP_CondRetOK ;
-
-} /* Fim função: PCAP Destruir lista de peças capturadas */
-
-/*****  Código das funções encapsuladas no módulo  *****/
-
-/***********************************************************************
-*
-*  $FC Função: Remove peça
-*
-*  $ED Descrição da função
-*     Função chamada ao remover uma peça da lista.
-*
-***********************************************************************/
-void RemoverPeca(void* pPeca)
-{
-	PecaHead* pPecaTemp = (PecaHead*) pPeca;
-	PEC_DestruirPeca(pPecaTemp);
-}
+	return PCAP_CondRetOK;
+} /* Fim funcao: PCAP Destruir lista de peças capturadas */
 
 /********** Fim do módulo de implementação: Módulo peças capturadas **********/

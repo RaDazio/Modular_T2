@@ -1,7 +1,7 @@
 #if ! defined(PECASCAPTURADAS_)
 #define PCAP_EXT
 
-#include "PECA.H"
+#include "peca.h"
 
 /***************************************************************************
 *
@@ -19,10 +19,11 @@
 *  $HA Histórico de evolução:
 *     Versão       Autor          Data         Observações
 *       1.00         fo       10/06/2019     Inú€io do desenvolvimento
+*       2.00         svp      13/06/2019     Mudanca de approach para semelhante ao PecasFinalizadas
 *
 *  $ED Descrição do módulo
-*     Este módulo implementa funções para operar uma lista de peças capturadas
-*     O módulo Ecapaz de trabalhar com n peças.
+*     Este módulo implementa funções para operar listas de peças capturadas
+*     O módulo eh capaz de trabalhar com n peças.
 *     Ao iniciar a execução do programa não existe lista de peças.
 *
 ***************************************************************************/
@@ -48,31 +49,32 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
    typedef enum {
 
-         PCAP_CondRetOK,
-               /* Executou correto */
+      PCAP_CondRetOK,
+            /* Executou correto */
 
-		 PCAP_CondRetListaPecasCapturadasNaoExiste,
-			   /* Lista de peças capturadas não existe */
+		PCAP_CondRetFaltouMemoria,
+			   /* Faltou memória ao alocar dados */
 
-		 PCAP_CondRetPecaNaoExiste,
-			   /* Peça não existe na lista de peças capturadas */
+		PCAP_CondRetErroInsercaoListaBranca,
+			   /* Erro ao inserir peca na lista de pecas brancas capturadas */
+      PCAP_CondRetErroInsercaoListaPreta,
+            /* Erro ao inserir peca na lista de pecas pretas capturadas */
 
-         PCAP_CondRetFaltouMemoria,
-               /* Faltou memória ao alocar dados */
-         PCAP_CondRetCorErrada
+      PCAP_CondRetErroRemocaoPecaBranca,
+            /* Erro ao remover peca na lista de pecas brancas capturadas */
+      PCAP_CondRetErroRemocaoPecaPreta,
+            /* Erro ao remover peca na lista de pecas pretas capturadas */     
 
    } PCAP_tpCondRet;
 
 
 /***********************************************************************
 *
-*  $FC Função: PCAP Criar lista de peças capturadas
+*  $FC Função: PCAP Criar listas de peças capturadas
 *
 *  $ED Descrição da função
-*     Cria uma nova lista de peças capturadas.
+*     Cria uma estrutura contendo duas listas de pecas capturadas: uma lista para as brancas e outra para as pretas.
 *
-*  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser criada. Passado por referência.
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
@@ -80,124 +82,79 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_CriarListaPecasCapturadas();
+   PCAP_tpCondRet PCAP_CriarListasPecasCapturadas();
 
 /***********************************************************************
 *
-*  $FC Função: PCAP Inserir peça Branca
+*  $FC Função: PCAP Inserir peca capturada
 *
 *  $ED Descrição da função
-*     Insere uma peça na lista de peças capturadas.
+*     Insere uma peça na lista de peças capturadas da cor correspondente
 *
 *  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada.
-*     $P pPeca - ponteiro para a peça a ser utilizada.
+*     $P cor - cor da peca a ser inserida na sua devida lista de pecas capturadas
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
-*     PCAP_CondRetListaPecasCapturadasNaoExiste
-*	  PCAP_CondRetFaltouMemoria
+*     PCAP_CondRetErroInsercaoListaBranca
+*	   PCAP_CondRetErroInsercaoListaPreta
 *
 ***********************************************************************/
 
- PCAP_tpCondRet PCAP_InserirPecaCapBranca(PecaHead pPeca);
+   PCAP_tpCondRet PCAP_InserirPecaCapturada(PEC_color cor);
 
 /***********************************************************************
 *
-*  $FC Função: PCAP Remover peça Preta
+*  $FC Função: PCAP Remover peca capturada
 *
 *  $ED Descrição da função
-*     Removee uma peça na lista de peças capturadas.
+*     Remove uma peça na lista de peças capturadas da cor correspondente.
 *
 *  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada.
-*     $P pPeca - ponteiro para a peça a ser utilizada.
+*     $P cor - cor da peca a ser removida de sua devida lista de pecas capturadas
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
-*     PCAP_CondRetListaPecasCapturadasNaoExiste
-*     PCAP_CondRetPecaNaoExiste
-*    PCAP_CondRetFaltouMemoria
+*     PCAP_CondRetErroRemocaoPecaBranca
+*     PCAP_CondRetErroRemocaoPecaPreta
 *
 ***********************************************************************/
 
 
- PCAP_tpCondRet PCAP_InserirPecaCapPreta(PecaHead pPeca);
+   PCAP_tpCondRet PCAP_RemoverPecaCapturada(PEC_color cor);
 
 /***********************************************************************
 *
-*  $FC Função: PCAP Remover peça 
+*  $FC Função: PCAP Obter quantidade pecas capturadas
 *
 *  $ED Descrição da função
-*     Removee uma peça na lista de peças capturadas.
+*     Conta o numero de pecas capturadas da cor especificada
 *
 *  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada.
-*     $P pPeca - ponteiro para a peça a ser utilizada.
+*     $P cor - cor das pecas que se deseja a contagem
+*     $P qtd - ponteiro para um inteiro onde sera devolvido o numero de pecas contadas
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
-*     PCAP_CondRetListaPecasCapturadasNaoExiste
-*     PCAP_CondRetPecaNaoExiste
-*    PCAP_CondRetFaltouMemoria*/
-
-   PCAP_tpCondRet PCAP_RemoverPeca( PEC_color CorPeca, PecaHead *pPeca);
-
-/***********************************************************************
-*
-*  $FC Função: PCAP Obter peças Brancas
-*
-*  $ED Descrição da função
-*     Conta as peças de uma determinada cor na lista de peças capturadas
-*
-*  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada.
-*     $P CorPeca - cor das peças a serem contadas.
-*     $P pContagem - ponteiro para o inteiro onde serEarmazenado o número de peças.
-*
-*  $FV Valor retornado
-*     PCAP_CondRetOK
-*	  PCAP_CondRetListaPecasCapturadasNaoExiste
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_ObterPecasCapBrancas( int *pContagem);
+   PCAP_tpCondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd);
 
 /***********************************************************************
 *
-*  $FC Função: PCAP Obter peças Pretas
+*  $FC Função: PCAP Destruir pecas capturadas
 *
 *  $ED Descrição da função
-*     Conta as peças de uma determinada cor na lista de peças capturadas
-*
-*  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada.
-*     $P CorPeca - cor das peças a serem contadas.
-*     $P pContagem - ponteiro para o inteiro onde serEarmazenado o número de peças.
+*     Destroi as duas listas de pecas capturadas (lista de brancas e lista de pretas), assim
+*     como a propria estutura que contem as listas
 *
 *  $FV Valor retornado
-*     PCAP_CondRetOK
-*    PCAP_CondRetListaPecasCapturadasNaoExiste
+*    PCAP_CondRetOK
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_ObterPecasCapPretas( int *pContagem);
-*
-*  $FC Função: PCAP Destruir lista de peças capturadas
-*
-*  $ED Descrição da função
-*     Destrói a lista de peças capturadas.
-*
-*  $EP Parâmetros
-*     $P pPecasCapturadas - ponteiro para a lista de peças capturadas a ser utilizada. Passado por referência.
-*
-*  $FV Valor retornado
-*     PCAP_CondRetOK
-*	  PCAP_CondRetListaPecasCapturadasNaoExiste
-*
-**********************************************************************
-
-   PCAP_tpCondRet PCAP_DestruirListaPecasCapturadas();
+PCAP_tpCondRet PCAP_DestruirPecasCapturadas();
 
 #undef PCAP_EXT
 
