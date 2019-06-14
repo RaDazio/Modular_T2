@@ -58,9 +58,7 @@ void TearDown(){
 void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
 	// Inicialização de variaveis //
 	int dice[2];
-	TBL_CondRet tab_ret ;
 	DICE_CondRet d_ret;
-	DPT_CondRet dpt_ret;
 	/******************************/
 
 	SetUp();
@@ -94,7 +92,6 @@ DICE_RETRY_CHOOSER:
 void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
 
 	// Inicializacao de variaveis //
-	TBL_CondRet tab_ret ;
 	DPT_CondRet dpt_ret;
 
 	FILE *fp;
@@ -129,7 +126,8 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	// CARREGA DADO PONTOS //
 	fscanf_s(fp, "%d", &jogador_pode_dobrar, sizeof(jogador_pode_dobrar)); //jogador dado pontos
 	fscanf_s(fp, "%d", &pontuacao_dados_pontos, sizeof(pontuacao_dados_pontos));
-	// RECUPERA DADOS PONTOS
+	
+	// RECUPERA DADO PONTOS
 	if(jogador_pode_dobrar != COLOR_Colorless){ // se ha jogador dados pontos
 		dpt_ret = DPT_AtualizarJogadorDobra(jogador_pode_dobrar);
 		if(dpt_ret != DPT_OK){
@@ -197,7 +195,7 @@ int PrimeiraCasaValida(int casa_from, PEC_color jogador_da_vez){
 }
 
 int SegundaCasaValida(int casa_from, int casa_to, PEC_color jogador_da_vez){
-
+	return 0;
 }
 
 int ObterDado(int value, int vector[4], int* used_idx){
