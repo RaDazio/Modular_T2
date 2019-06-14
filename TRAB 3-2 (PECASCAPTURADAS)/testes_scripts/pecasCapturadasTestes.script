@@ -1,0 +1,95 @@
+// Script:	pecaCapturadaTestes.script
+//
+// Autor:	Stefano Vivacqua Pereira
+//		
+//
+// Data:	14/06/2019
+//
+// Proposito:	Testar os comandos básicos relacionados a
+//		estrutura de peças capturadas
+
+
+// Tipos de retorno
+//0	/* Executou corretamente */
+//1	/* Faltou memoria */
+//2	/* Erro de insercao de peca branca */
+//3	/* Erro de insercao de peca preta */
+//4	/* Erro de remocao de peca branca */
+//5	/* Erro de remocao de peca preta */
+//6	/* Erro de criacao com pecas capturadas ja existentes */
+//7 /* Erro Singleton Inexistente (nao foi criado) */
+//8 /* Erro cor fornecdida nao eh preta nem branca */
+
+// CORES:
+// 1    /* Preto */
+// 2    /* Branco */
+
+
+
+
+//TESTES ESTUTURA INEXISTENTE
+
+==Destruir estrutura inexistente
+=destruir 0
+=recuperar
+
+==Inserir em estrutura inexistente
+=inserir 1 0
+=recuperar
+
+==Remover de estrutura inexistente
+=remover 1 0
+=recuperar
+
+==Contar pecas em estrutura inexistente
+=contar 1 0
+=recuperar
+=contar 2 0
+=recuperar
+
+//CRIA ESTRUTURA
+
+==Criar estrutura de pecas capturadas quando uma ja existe
+=criar 0
+=criar 0
+=recuperar
+
+//DEMAIS TESTES
+
+==Remover pecas de estrutura vazia
+=remover 2 0
+=recuperar
+=remover 1 0
+=recuperar
+
+==Inserir peca de cor inexistente
+=inserir 3 0
+=recuperar
+
+==Inserir pecas brancas
+=inserir 2 0
+=inserir 2 0
+
+==Inserir pecas pretas
+=inserir 1 0
+=inserir 1 0
+=inserir 1 0
+
+==Remover peca de cor inexistente
+=remover 4 0
+=recuperar
+
+==Contar pecas
+=contar 2 0
+=contar 1 0
+
+==Remover pecas
+=remover 2 0
+=remover 1 0
+=remover 1 0
+
+// CONTAR NOVAMENTE APOS REMOCAO
+
+==Contar pecas
+=contar 2 0
+=contar 1 0

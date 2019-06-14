@@ -1,0 +1,74 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: C:\Users\Stefano\documents\visual studio 2010\Projects\NovoGrupoT2\Debug\NovoGrupoT2.exe
+!!!      Script de teste:     pecasCapturadasTestes.script
+
+!!!    0  Linha:     1  // Script:	pecaCapturadaTestes.script 
+!!!    0  Linha:     2  // 
+!!!    0  Linha:     3  // Autor:	Stefano Vivacqua Pereira 
+!!!    0  Linha:     4  // 
+!!!    0  Linha:     5  // 
+!!!    0  Linha:     6  // Data:	14/06/2019 
+!!!    0  Linha:     7  // 
+!!!    0  Linha:     8  // Proposito:	Testar os comandos b·sicos relacionados a 
+!!!    0  Linha:     9  //		estrutura de peÁas capturadas 
+!!!    0  Linha:    12  // Tipos de retorno 
+!!!    0  Linha:    13  //0	/* Executou corretamente */ 
+!!!    0  Linha:    14  //1	/* Faltou memoria */ 
+!!!    0  Linha:    15  //2	/* Erro de insercao de peca branca */ 
+!!!    0  Linha:    16  //3	/* Erro de insercao de peca preta */ 
+!!!    0  Linha:    17  //4	/* Erro de remocao de peca branca */ 
+!!!    0  Linha:    18  //5	/* Erro de remocao de peca preta */ 
+!!!    0  Linha:    19  //6	/* Erro de criacao com pecas capturadas ja existentes */ 
+!!!    0  Linha:    20  //7 /* Erro Singleton Inexistente (nao foi criado) */ 
+!!!    0  Linha:    21  //8 /* Erro cor fornecdida nao eh preta nem branca */ 
+!!!    0  Linha:    23  // CORES: 
+!!!    0  Linha:    24  // 1    /* Preto */ 
+!!!    0  Linha:    25  // 2    /* Branco */ 
+!!!    0  Linha:    30  //TESTES ESTUTURA INEXISTENTE 
+   32  ==Destruir estrutura inexistente
+>>>    1  Linha:    33  Erro ao destruir pecas capturadas. Deveria ser: 0  …: 7
+<<<    0  Linha:    34  Falha esperada foi recuperada. 
+   36  ==Inserir em estrutura inexistente
+>>>    1  Linha:    37  Retorno errado ao inserir pecaCapturada. Deveria ser: 0  …: 7
+<<<    0  Linha:    38  Falha esperada foi recuperada. 
+   40  ==Remover de estrutura inexistente
+>>>    1  Linha:    41  Retorno errado ao remover pecaCapturada. Deveria ser: 0  …: 7
+<<<    0  Linha:    42  Falha esperada foi recuperada. 
+   44  ==Contar pecas em estrutura inexistente
+>>>    1  Linha:    45  Retorno errado ao obter quantidade de pecas. Deveria ser: 0  …: 7
+<<<    0  Linha:    46  Falha esperada foi recuperada. 
+>>>    1  Linha:    47  Retorno errado ao obter quantidade de pecas. Deveria ser: 0  …: 7
+<<<    0  Linha:    48  Falha esperada foi recuperada. 
+!!!    0  Linha:    50  //CRIA ESTRUTURA 
+   52  ==Criar estrutura de pecas capturadas quando uma ja existe
+>>>    1  Linha:    54  Retorno errado ao criar pe√ßaCapturada. Deveria ser: 0  …: 6
+<<<    0  Linha:    55  Falha esperada foi recuperada. 
+!!!    0  Linha:    57  //DEMAIS TESTES 
+   59  ==Remover pecas de estrutura vazia
+>>>    1  Linha:    60  Retorno errado ao remover pecaCapturada. Deveria ser: 0  …: 4
+<<<    0  Linha:    61  Falha esperada foi recuperada. 
+>>>    1  Linha:    62  Retorno errado ao remover pecaCapturada. Deveria ser: 0  …: 5
+<<<    0  Linha:    63  Falha esperada foi recuperada. 
+   65  ==Inserir peca de cor inexistente
+>>>    1  Linha:    66  Retorno errado ao inserir pecaCapturada. Deveria ser: 0  …: 8
+<<<    0  Linha:    67  Falha esperada foi recuperada. 
+   69  ==Inserir pecas brancas
+   73  ==Inserir pecas pretas
+   78  ==Remover peca de cor inexistente
+>>>    1  Linha:    79  Retorno errado ao remover pecaCapturada. Deveria ser: 0  …: 8
+<<<    0  Linha:    80  Falha esperada foi recuperada. 
+   82  ==Contar pecas
+   86  ==Remover pecas
+!!!    0  Linha:    91  // CONTAR NOVAMENTE APOS REMOCAO 
+   93  ==Contar pecas
+
+!!! N˙mero de linhas lidas:          95
+!!! N˙mero de casos de teste:        13
+!!! N˙mero comandos corretos:        13
+!!! N˙mero de falhas encontradas:     0
+
+!!! N„o foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
