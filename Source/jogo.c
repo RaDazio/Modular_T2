@@ -9,50 +9,99 @@
 #include "interfaces\tabuleiro.h"
 #include "interfaces\user_interface.h"
 #include "interfaces\PecasFinalizadas.h"
+#include "interfaces\PECASCAPTURADAS.H"
 
 
-void SetUp(){
-	DPT_CondRet dpt_ret;
-	TBL_CondRet tbl_ret;
-	PF_CondRet pf_ret;
+static void Throw(const char* str){
+	printf("%s\n",str);
+	exit(1);
+}
+
+static void SetUp(){
+	DPT_CondRet dpt_ret = DPT_NaoHaDadoPontos;
+	TBL_CondRet tbl_ret = TBL_erro;
+	PF_CondRet pf_ret = PF_Erro;
+	PCAP_CondRet pcap_ret = PCAP_CondRetErroNaoExisteSingleton;
 
 	// Criação do dadoPontos //
 	dpt_ret = DPT_CriarDadoPontos();
 	if(dpt_ret != DPT_OK){
-		printf("ERRO AO CRIAR O DADO PONTOS\n");
-		exit(1);
+		Throw("ERRO AO CRIAR O DADO PONTOS");
 	}
 	// Criação do tabuleiro //
 	tbl_ret = TBL_CriarTabuleiro();
 	if(tbl_ret != TBL_ok){
-		printf("ERRO AO CRIAR O TABULEIRO\n");
-		exit(1);
+		Throw("ERRO AO CRIAR O TABULEIRO");
 	}
 
 	pf_ret = PF_CriarPecasFinalizadas();
 	if (pf_ret != PF_OK){
-		printf("ERRO AO INICIALIZAR PEÇAS FINALIZADAS\n");
-		exit(1);
+		Throw("ERRO AO INICIALIZAR PEÇAS FINALIZADAS");
+	}
+	pcap_ret = PCAP_CriarListasPecasCapturadas();
+	if(pcap_ret != PCAP_CondRetOK){
+		Throw("ERRO AO INICIALIZAR PEÇAS CAPTURADAS");
 	}
 }
 
-void TearDown(){
+static void TearDown(){
 	DPT_CondRet dpt_ret;
 	TBL_CondRet tbl_ret;
 	PF_CondRet pf_ret;
+	PCAP_CondRet pcap_ret;
 
 	dpt_ret = DPT_DestruirDadoPontos();
 	if(dpt_ret != DPT_OK){
-		exit(1);
+		Throw("");
 	}
 	tbl_ret = TBL_DestruirTabuleiro();
 	if(tbl_ret != TBL_ok){
-		exit(1);
+		Throw("");
 	}
 	pf_ret = PF_DestruirPecasFinalizadas();
 	if(pf_ret != PF_OK){
-		exit(1);
+		Throw("");
 	}
+	pcap_ret = PCAP_DestruirPecasCapturadas();
+	if(pcap_ret != PCAP_CondRetOK){
+		Throw("");
+	}
+}
+
+static PEC_color TrocarJogador(PEC_color jogador){
+	return (jogador == COLOR_Black)? COLOR_White: COLOR_Black;
+}
+
+static int CheckFinalizacaoPossivel(PEC_color jogador, int casas[24], int qtd_casas){
+	int idx;
+	if(jogador == COLOR_White){
+		for(idx = 0; idx < qtd_casas; idx++){
+			if( casas[idx] < 19 ){
+				return 0;
+			}
+		}
+		return 1;
+	}
+	else if(jogador == COLOR_Black){
+		for(idx = 0; idx < qtd_casas; idx++){
+			if( casas[idx] > 6 ){
+				return 0;
+			}
+		}
+		return 1;
+	}
+	return 0;
+}
+
+static void FinalizarPartida(int* pt_w){
+	int aux;
+	DPT_CondRet dpt_ret = DPT_ObterPontuacaoPartida(&aux);
+	if (dpt_ret != DPT_OK){
+		Throw("ERRO NA FINALIZACAO DA PARTIDA");
+	}
+	*pt_w += aux;
+	TearDown();
+	SetUp();
 }
 
 void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
@@ -67,25 +116,24 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
 
 /* DEFINIÇÃO DO PRIMEIRO JOGADOR */
-DICE_RETRY_CHOOSER:
-	d_ret = DICE_RolarDado(&dice[0],DADOS_LADOS);
-	if( d_ret == DICE_ok){
-		d_ret = DICE_RolarDado(&dice[1],DADOS_LADOS);
-	}
-	if(d_ret != DICE_ok){
-		printf("ERRO AO DEFINIR O PRIMEIRO JOGADOR\n");
-		exit(1);
-	}
-	printf("Definindo o primeiro jogador\n");
-	printf("Branco: %d\n",dice[0]);
-	printf("Preto: %d\n",dice[1]);
-	if(dice[0] == dice[1]){
-		printf("Dados iguais, jogando novamente para definir o primeiro a jogar\n");
-		system("timeout 3");
-		goto DICE_RETRY_CHOOSER;
-	}
+	do{
+		d_ret = DICE_RolarDado(&dice[0],DADOS_LADOS);
+		if( d_ret == DICE_ok){
+			d_ret = DICE_RolarDado(&dice[1],DADOS_LADOS);
+		}
+		if(d_ret != DICE_ok){
+			Throw("ERRO AO DEFINIR O PRIMEIRO JOGADOR");
+		}
+		printf("Definindo o primeiro jogador\n");
+		printf("Branco: %d\n",dice[0]);
+		printf("Preto: %d\n",dice[1]);
+		if(dice[0] == dice[1]){
+			printf("Dados iguais, jogando novamente para definir o primeiro a jogar\n");
+			system("timeout 3");
+		}
+	}while(dice[0] == dice[1]);
+	system("timeout 2");
 /********************************/
-	system("timeout 3");
 	*first_player = (dice[0]>dice[1])? COLOR_White: COLOR_Black;
 }
 
@@ -110,8 +158,7 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	// EXIT SE FALHAR //
 	if (erro != 0){
 		perror("Erro ao acessar arquivo de save");
-		printf("O jogo nao pode ser recuperado\n");
-		exit(1);
+		Throw("O jogo nao pode ser recuperado");
 	}
 
 	// CARREGA PONTUACOES //
@@ -132,8 +179,7 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 		dpt_ret = DPT_AtualizarJogadorDobra(jogador_pode_dobrar);
 		if(dpt_ret != DPT_OK){
 			printf("Erro ao atualizar o jogador do dado pontos\n");
-			printf("O jogo nao pode ser recuperado.\n");
-			exit(1);
+			Throw("O jogo nao pode ser recuperado.");
 		}
 		dpt_ret = DPT_AtualizarPontuacaoPartida(pontuacao_dados_pontos);
 	}
@@ -174,16 +220,11 @@ void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontu
 	return;
 }
 
-PEC_color TrocarJogador(PEC_color jogador){
-	return (jogador == COLOR_Black)? COLOR_White: COLOR_Black;
-}
-
 int LerCasaDoTeclado(){
 	int ret;
 	scanf_s("%d",&ret,sizeof(int));
 	return ret-1;
 }
-
 
 int PrimeiraCasaValida(int casa_from, PEC_color jogador_da_vez){
 	PEC_color aux;
@@ -194,8 +235,14 @@ int PrimeiraCasaValida(int casa_from, PEC_color jogador_da_vez){
 	return 1;
 }
 
-int SegundaCasaValida(int casa_from, int casa_to, PEC_color jogador_da_vez){
-	return 0;
+int CasaParaRestaurarValida(int casa_from, PEC_color jogador_da_vez){
+	PEC_color aux;
+	TBL_CondRet tbl_ret = TBL_CorPecasCasa(&aux,casa_from);
+	if( tbl_ret != TBL_ok ) return 0;
+	if( aux == COLOR_Colorless) return 1;
+	if( jogador_da_vez != aux ) return 0;
+	if( casa_from < 0 ) return 0;
+	return 1;
 }
 
 int ObterDado(int value, int vector[4], int* used_idx){
@@ -220,6 +267,8 @@ void RestaurarDado(int value, int idx, int vector[4]){
 	}
 }
 
+
+
 int main (void){	
 	int dices[4];
 	int qtd_dice_valid;
@@ -235,11 +284,12 @@ int main (void){
 	int idx;
 	int response;
 
-	PEC_color color_aux;
 	PEC_color jogador_da_vez;
+	PEC_color color_aux;
 	
-	TBL_CondRet tbl_ret;
 	DICE_CondRet dice_ret;
+	PCAP_CondRet pcap_ret;
+	TBL_CondRet tbl_ret;
 	DPT_CondRet dpt_ret;
 	PF_CondRet pf_ret;
 	
@@ -248,17 +298,19 @@ int main (void){
 	system("mode 800");
 	system("color 90");
 
-
-	Menu_Inicial(&response);
-	while(response != 1 && response != 2){
+	do{
 		Menu_Inicial(&response);
-	}
+	}while(response != 1 && response != 2 && response != 3);
+
 	if(response == 1){
 		NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
 	}
 	else if(response == 2){
 		// RECUPERAR JOGO (CARREGAR) //
 		RecuperarJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+	}
+	else if(response == 3){
+		exit(3);
 	}
 
 	while(1){
@@ -267,42 +319,24 @@ int main (void){
 		
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_White, &qtd_peca_branca_fin);
 		if(pf_ret != PF_OK){
-			printf("ERRO AO OBTER AS PEÇAS FINALIZADAS\n");
-			exit(1);
+			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
 		}
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &qtd_peca_preta_fin);
 		if(pf_ret != PF_OK){
-			printf("ERRO AO OBTER AS PEÇAS FINALIZADAS\n");
-			exit(1);
+			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
 		}
-		if(qtd_peca_branca_fin >= 1){
-			int aux;
-			dpt_ret = DPT_ObterPontuacaoPartida(&aux);
-			if(dpt_ret != DPT_OK){
-				printf("ERRO AO ATRIBUIR PONTUAÇÃO AO JOGADOR BRANCO\n");
-				exit(1);
-			}
-			pontuacao_global_branca += aux;
-			TearDown();
-			SetUp();
+		if(qtd_peca_branca_fin >= 15){
+			FinalizarPartida(&pontuacao_global_branca);
 		}
 		if(qtd_peca_preta_fin >= 15){
-			int aux;
-			if(dpt_ret != DPT_OK){
-				printf("ERRO AO ATRIBUIR PONTUAÇÃO AO JOGADOR PRETO\n");
-				exit(1);
-			}
-			pontuacao_global_branca += aux;
-			TearDown();
-			SetUp();
+			FinalizarPartida(&pontuacao_global_preta);
 		}
 
 		/*********** Rolando  Dados ***************/
 		dice_ret = DICE_RolarDado(&dices[0],DADOS_LADOS);
 		if(dice_ret == DICE_ok) dice_ret = DICE_RolarDado(&dices[1],DADOS_LADOS);
 		if(dice_ret == DICE_wrong){
-			printf("ERRO AO ROLAR DADOS\n");
-			exit(1);
+			Throw("ERRO AO ROLAR DADOS");
 		}
 		if(dices[0] == dices[1]){
 			dices[2]=dices[3]=dices[0];
@@ -314,20 +348,29 @@ int main (void){
 		/******************************************/
 
 
+
 		for(idx = 0 ; idx < qtd_dice_valid ; idx++){
 			/***** Declaração de variaveis auxiliares *******/
-			int flag_peca_finalizada;
+			int flag_peca_finalizada, flag_restaurar_peca;
 			int utilized_dice_idx;
-			flag_peca_finalizada = 0;	
+			int qtd_cap;
+			flag_peca_finalizada = flag_restaurar_peca = 0;	
+
 			/***********************************************/
-	
 			/*** Obtendo as casas do jogador da vez ***/
 			tbl_ret = TBL_ObterCasasPorDono(jogador_da_vez, casas_from_possiveis, &qtd_casas_from_possiveis);
 			if( tbl_ret != TBL_ok ){
-				printf(" Erro ao obter as casas do jogador da vez\n");
-				exit(1);
+				Throw("Erro ao obter as casas do jogador da vez");
 			}
 			/******************************************/
+			pcap_ret = PCAP_ObterQuantidadePecasCapturadas(jogador_da_vez,&qtd_cap);
+			if(pcap_ret != PCAP_CondRetOK){
+				Throw("ERRO AO OBTER AS PECAS FINALIZADAS DO JOGADOR DA VEZ");
+			}
+			if(qtd_cap > 0){
+				flag_restaurar_peca = 1;
+			}
+
 ESCOLHER_NOVAMENTE:
 			/**** Renderizando tabuleiro e jogadas possiveis de mover****/
 			RenderizarTabuleiro(pontuacao_global_preta, pontuacao_global_branca);
@@ -337,54 +380,67 @@ ESCOLHER_NOVAMENTE:
 			/*********************** Duplicando pontos ***********************/
 			dpt_ret = DPT_ObterJogadorDobraPartida(&color_aux);
 			if ((dpt_ret == DPT_NaoHaJogadorDadoPontos || color_aux == jogador_da_vez) && flag_pode_dobrar){
-				RenderizarMenuDePontos(&response,jogador_da_vez);
-				while(response != 1 && response != 2){
+
+				do{ 
 					RenderizarMenuDePontos(&response,jogador_da_vez);
-				}
+				}while(response != -1 && response != 1 && response != 2);
 				flag_pode_dobrar = 0;
 				if(response == 1){
 					dpt_ret = DPT_AtualizarJogadorDobra(jogador_da_vez);
 					if(dpt_ret != DPT_OK){
-						printf("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS\n");
-						exit(1);
+						Throw("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS");
 					}
 					dpt_ret = DPT_DobrarPontuacaoPartida(jogador_da_vez);
 					if(dpt_ret != DPT_OK){
-						printf("ERRO AO ATUALIZAR O VALOR DA PARTIDA\n");
-						exit(1);
+						Throw("ERRO AO ATUALIZAR O VALOR DA PARTIDA");
 					}
-					dpt_ret = DPT_AtualizarJogadorDobra((jogador_da_vez==COLOR_Black)?COLOR_White:COLOR_Black);
+					dpt_ret = DPT_AtualizarJogadorDobra(TrocarJogador(jogador_da_vez));
 					if(dpt_ret != DPT_OK){
-						printf("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS\n");
-						exit(1);
+						Throw("ERRO AO ATUALIZAR O JOGADOR DO DADOPONTOS");
 					}
 					RenderizarTabuleiro(pontuacao_global_preta, pontuacao_global_branca);
 					RenderizarJogadaAtual(jogador_da_vez, dices, qtd_dice_valid, casas_from_possiveis, qtd_casas_from_possiveis);
 					flag_pode_dobrar = 0;
 				}
+				else if(response == 2){
+					if(jogador_da_vez == COLOR_White){
+						FinalizarPartida(&pontuacao_global_branca);
+						break;
+					}
+					else if(jogador_da_vez == COLOR_Black){
+						FinalizarPartida(&pontuacao_global_preta);
+						break;
+					}
+				}
 			}
 			if (dpt_ret == DPT_NaoHaDadoPontos){
-				printf("ERRO AO OBTER O DADO PONTOS\n");
-				exit(1);
+				Throw("ERRO AO OBTER O DADO PONTOS");
+			}	
+			
+			/************************************************************/
+			/*************** Capturando dados para mover peça ***********/
+			if( !flag_restaurar_peca ){
+				printf("Esolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
+				casa_from = LerCasaDoTeclado();
+			}
+			else{
+				do{
+					printf("Voce deve restaurar uma peca, 0 para continuar -1 para pular a vez e -2 para abrir o Menu: ");
+					casa_from = LerCasaDoTeclado();
+				} while( casa_from != -3 && casa_from != -2 && casa_from != -1 );
 			}
 			
 			/************************************************************/
-		
-			/*************** Capturando dados para mover peça ***********/
-			printf("Esolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
-			casa_from = LerCasaDoTeclado();
-
 			/*************** Caso entre no menu *************************/
 			if(casa_from == -2) break;
 			if(casa_from == -3){
 				LimparRender();
-				Menu_Sair(&response);
-				while(response != 1 && response != 2 && response != 3){
+				do{
 					Menu_Sair(&response);
-				}
+				}while(response != 1 && response != 2 && response != 3);
+
 				if(response == 1) exit(0);
 				else if(response == 2){
-					
 					//************** SALVAR JOGO **************//
 					// OBTEM DADO PONTO //
 					if( DPT_ObterJogadorDobraPartida(&color_aux) == DPT_NaoHaJogadorDadoPontos){
@@ -403,9 +459,8 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 			/************************************************************/
-
 			/************ Checando se a primeira casa é valida **********/
-			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) ){
+			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) && !flag_restaurar_peca ){
 				printf("Casa invalida, escolha novamente: ");
 				system("timeout 2");
 				goto ESCOLHER_NOVAMENTE;
@@ -414,69 +469,96 @@ ESCOLHER_NOVAMENTE:
 
 			printf("Esolha um dado, -1 para escolher a casa novamente: ");
 
-ESCOLHER_DADO_NOVAMENTE:
 		/************** Obter o dado a ser utilizado *******************/
-			scanf_s("%d", &use_dice_value,sizeof(int));
-			use_dice_value = ObterDado(use_dice_value,dices,&utilized_dice_idx);
-			if(use_dice_value == -100){
-				printf("Escolha um dado válido: ");
-				goto ESCOLHER_DADO_NOVAMENTE;
-			}
-			if(use_dice_value == -1) goto ESCOLHER_NOVAMENTE;
-		/**************************************************************/
+			do{
+				scanf_s("%d", &use_dice_value,sizeof(int));
+				use_dice_value = ObterDado(use_dice_value,dices,&utilized_dice_idx);
+				if(use_dice_value == -100){
+					printf("Escolha um dado válido: ");
+				}
+			}while(use_dice_value == -100);
 
+			if(use_dice_value == -1) goto ESCOLHER_NOVAMENTE;
+			if(flag_restaurar_peca){
+				if(jogador_da_vez == COLOR_White){
+					casa_to = use_dice_value;
+				}
+				else if(jogador_da_vez == COLOR_Black){
+					casa_to = 24 - use_dice_value;
+				}
+
+			}
+		/**************************************************************/
 		/****************Checar finalização de peça********************/
-			if(jogador_da_vez == COLOR_White){
-				casa_to = casa_from + use_dice_value;
-				if(casa_to >= 24){
-					flag_peca_finalizada = 1;
-					tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
-					if(tbl_ret != TBL_ok){
-						printf("ERRO AO FINALIZAR PECA\n");
-						exit(1);
+			else{
+				int fin_possivel = CheckFinalizacaoPossivel(jogador_da_vez,casas_from_possiveis,qtd_casas_from_possiveis);
+
+				if(jogador_da_vez == COLOR_White){
+					casa_to = casa_from + use_dice_value;
+					if(casa_to > 23 ){
+						if(fin_possivel){
+							flag_peca_finalizada = 1;
+							tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
+							if(tbl_ret != TBL_ok){
+								Throw("ERRO AO FINALIZAR PECA");
+							}
+						}
+						else{
+							printf("Impossivel finalizar peca\n");
+							system("timeout 2");
+							RestaurarDado(use_dice_value, utilized_dice_idx,dices);
+							flag_peca_finalizada = 0;
+							goto ESCOLHER_NOVAMENTE;
+						}
 					}
 				}
-			}
-			else {
-				casa_to = casa_from - use_dice_value;
-				if(casa_to < 0){
-					flag_peca_finalizada = 1;
-					tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
-					if(tbl_ret != TBL_ok){
-						printf("ERRO AO FINALIZAR PECA\n");
-						exit(1);
+				else {
+					casa_to = casa_from - use_dice_value;
+					if(casa_to < 0){
+						if(fin_possivel){
+							flag_peca_finalizada = 1;
+							tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_from);
+							if(tbl_ret != TBL_ok){
+								Throw("ERRO AO FINALIZAR PECA");
+							}
+						}
+						else{
+							printf("Impossivel finalizar peca\n");
+							system("timeout 2");
+							RestaurarDado(use_dice_value, utilized_dice_idx,dices);
+							flag_peca_finalizada = 0;
+							goto ESCOLHER_NOVAMENTE;
+						}
 					}
 				}
 			}
 			if(flag_peca_finalizada){
 				pf_ret = PF_AdicionarPecaFinalizada(color_aux);
 				if(pf_ret != PF_OK){
-					printf("ERRO AO FINALZIAR PECA\n");
-					exit(1);
+					Throw("ERRO AO FINALIZAR PECA");
 				}
 			}
 		/**************************************************************/
 		/******************* Checando destino *************************/
 			tbl_ret = TBL_CorPecasCasa(&color_aux,casa_to);
 			if(tbl_ret != TBL_ok){
-				printf("Erro ao obter a casa para onde mover");
-				exit(1);
+				Throw("Erro ao obter a casa para onde mover");
 			}
-			if(color_aux == ((jogador_da_vez == COLOR_Black)? COLOR_White: COLOR_Black)){
+			if(color_aux == TrocarJogador(jogador_da_vez)){
 				int qtd;
 				tbl_ret = TBL_QuantidadePecasCasa(&qtd, casa_to);
 				if(tbl_ret != TBL_ok){
-					printf("Erro ao obter a casa para onde mover");
-					exit(1);
+					Throw("Erro ao obter a casa para onde mover");
 				}
-				if(qtd == 1){
-					// comer peça
+				if(qtd == 1 && !flag_peca_finalizada){
 					tbl_ret = RetirarPecaDoTabuleiro(&color_aux,casa_to);
 					if(tbl_ret != TBL_ok){
-						printf("ERRO AO COMER PECA\n");
-						exit(1);
+						Throw("ERRO AO COMER PECA");
 					}
-					
+					pcap_ret = PCAP_InserirPecaCapturada(color_aux);
+					if(pcap_ret != PCAP_CondRetOK){
+						Throw("ERRO AO COMER PECA");
+					}			
 				}
 				if(qtd > 1 && !flag_peca_finalizada){
 					printf("Casa invalida\n");
@@ -487,16 +569,29 @@ ESCOLHER_DADO_NOVAMENTE:
 				}
 			}
 		/**************************************************************/
-
 		/************************ Movendo peça ************************/
-			if(!flag_peca_finalizada){
-				TBL_MoverPeca(casa_from, casa_to);
+			if(!flag_peca_finalizada && !flag_restaurar_peca){
+				tbl_ret = TBL_MoverPeca(casa_from, casa_to);
+				if(tbl_ret != TBL_ok){
+					Throw("ERRO AO MOVER A PECA");
+				}
 			}
-		/**************************************************************/
+			if(flag_restaurar_peca){
+				pcap_ret= PCAP_RemoverPecaCapturada(jogador_da_vez);
+				if(pcap_ret != PCAP_CondRetOK){
+					Throw("ERRO AO REMOVER PECA DE PECAS CAPTURADAS");
+				}
+				tbl_ret = TBL_InserirPecaNoTabuleiro(jogador_da_vez,casa_to);
+				if(tbl_ret != TBL_ok){
+					Throw("ERRO AO RESTAURAR PECA");
+				}
+				flag_restaurar_peca = 0;
+			}
 		}
-		/**************** Trocando o jogador da vez *****************/
+		/*************************************************************/
+		/***************** Trocando o jogador da vez *****************/
 		jogador_da_vez = TrocarJogador(jogador_da_vez);
-		/************************************************************/
+		/*************************************************************/
 	}
 	return 0;
 }

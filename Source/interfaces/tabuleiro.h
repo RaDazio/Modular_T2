@@ -237,4 +237,4 @@
 *
 ***********************************************************************/
 
-   TBL_CondRet InserirPecaNoTabuleiro(PEC_color color,int casa);
+   TBL_CondRet TBL_InserirPecaNoTabuleiro(PEC_color color,int casa);

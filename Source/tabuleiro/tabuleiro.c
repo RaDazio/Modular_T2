@@ -328,7 +328,7 @@ TBL_CondRet RetirarPecaDoTabuleiro(PEC_color* ret, int casa){
 *  
 ***************************************************************************/
 
-TBL_CondRet InserirPecaNoTabuleiro(PEC_color color,int casa){
+TBL_CondRet TBL_InserirPecaNoTabuleiro(PEC_color color,int casa){
 	LIS_tppLista listaAux;
 	PecaHead pecaAux1;
 

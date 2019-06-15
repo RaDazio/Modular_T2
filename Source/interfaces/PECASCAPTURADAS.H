@@ -75,7 +75,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
       PCAP_CondRetCorInexistente
             /* Cor fornecida nao eh preta nem branca */
 
-   } PCAP_tpCondRet;
+   } PCAP_CondRet;
 
 
 /***********************************************************************
@@ -92,7 +92,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_CriarListasPecasCapturadas();
+   PCAP_CondRet PCAP_CriarListasPecasCapturadas();
 
 /***********************************************************************
 *
@@ -112,7 +112,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_InserirPecaCapturada(PEC_color cor);
+   PCAP_CondRet PCAP_InserirPecaCapturada(PEC_color cor);
 
 /***********************************************************************
 *
@@ -134,7 +134,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 ***********************************************************************/
 
 
-   PCAP_tpCondRet PCAP_RemoverPecaCapturada(PEC_color cor);
+   PCAP_CondRet PCAP_RemoverPecaCapturada(PEC_color cor);
 
 /***********************************************************************
 *
@@ -154,7 +154,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 ***********************************************************************/
 
-   PCAP_tpCondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd);
+   PCAP_CondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd);
 
 /***********************************************************************
 *
@@ -171,7 +171,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *
 ***********************************************************************/
 
-PCAP_tpCondRet PCAP_DestruirPecasCapturadas();
+	PCAP_CondRet PCAP_DestruirPecasCapturadas();
 
 #undef PCAP_EXT
 

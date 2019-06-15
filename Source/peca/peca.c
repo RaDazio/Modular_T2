@@ -50,7 +50,7 @@ struct peca{
 PEC_CondRet PEC_CriaPeca(PEC_color color, PecaHead* ret){
 	if (*ret != NULL) return PEC_alreadyExists;
 	if(color != COLOR_White && color != COLOR_Black) return PEC_colorNotExist;
-	*ret = (PecaHead)malloc(sizeof(PecaHead));
+	*ret = (PecaHead)malloc(sizeof(struct peca));
 	if(*ret == NULL) return PEC_notEnoughMemory;
 	(*ret)->color = color;
 	return PEC_ok;

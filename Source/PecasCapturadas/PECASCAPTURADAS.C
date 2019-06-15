@@ -70,7 +70,7 @@ static void ExcluirPecaCapturada(void *pPeca){
 *  Função: PCAP Criar lista de peças capturadas
 * 
 ****/
-PCAP_tpCondRet PCAP_CriarListasPecasCapturadas(){
+PCAP_CondRet PCAP_CriarListasPecasCapturadas(){
 
 	if(PCAPSingleton != NULL){
 		return PCAP_CondRetPecasCapturadasJaExiste;
@@ -98,7 +98,7 @@ PCAP_tpCondRet PCAP_CriarListasPecasCapturadas(){
 *  
 ****/
 
-PCAP_tpCondRet PCAP_InserirPecaCapturada(PEC_color cor){
+PCAP_CondRet PCAP_InserirPecaCapturada(PEC_color cor){
 
 	// CRIA PEÇA A SER INSERIDA (JA COM A COR DESEJADA) //
 	PecaHead novaPeca = NULL;
@@ -140,7 +140,7 @@ PCAP_tpCondRet PCAP_InserirPecaCapturada(PEC_color cor){
 *  Função: PCAP Remover peça
 *  
 ****/
-PCAP_tpCondRet PCAP_RemoverPecaCapturada(PEC_color cor){
+PCAP_CondRet PCAP_RemoverPecaCapturada(PEC_color cor){
 
 	if(PCAPSingleton == NULL){
 		printf("Singleton pecas capturadas nao existe.\n");
@@ -169,7 +169,7 @@ PCAP_tpCondRet PCAP_RemoverPecaCapturada(PEC_color cor){
 *  
 ****/
 
-PCAP_tpCondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd){
+PCAP_CondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd){
 
 	// CHECA SE SINGLETON EXISTE //
 	if(PCAPSingleton == NULL){
@@ -195,7 +195,7 @@ PCAP_tpCondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd){
 *  Função: PCAP Destruir lista de peças capturadas
 *  
 ****/
-PCAP_tpCondRet PCAP_DestruirPecasCapturadas(){
+PCAP_CondRet PCAP_DestruirPecasCapturadas(){
 
 	if(PCAPSingleton == NULL){
 		printf("Singleton pecas capturadas nao existe.\n");

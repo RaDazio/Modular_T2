@@ -17,6 +17,7 @@
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
 #include "..\interfaces\PecasFinalizadas.h"
+#include "..\interfaces\PECASCAPTURADAS.H"
 
 void RenderizarTabuleiro();
 void LimparRender();
@@ -31,6 +32,7 @@ void Menu_Inicial(int* resposta){
 	printf("Voce deseja:\n");
 	printf("1 - Novo jogo\n");
 	printf("2 - Carregar jogo\n");
+	printf("3 - Sair\n");
 	printf("Digite a opcao: ");
 	scanf_s("%d",&r,sizeof(int));
 	*resposta = r;
@@ -97,6 +99,7 @@ void RenderizarStatus(){
 	int pecas_brancas_fin, pecas_pretas_fin, pecas_brancas_cap, pecas_pretas_cap;
 	DPT_CondRet dpt_ret = DPT_ObterPontuacaoPartida(&pontuacao);
 	PF_CondRet pf_ret;
+	PCAP_CondRet pcap_ret;
 	pf_ret = PF_ObterTamanhoPecasFinalizadas(COLOR_White, &pecas_brancas_fin);
 	if(pf_ret != PF_OK){
 		printf("ERRO AO OBTER A QTD DE PECAS BRANCAS FINALIZADAS\n");
@@ -108,8 +111,18 @@ void RenderizarStatus(){
 		printf("ERRO AO OBTER A QTD DE PECAS PRETAS FINALIZADAS\n");
 		exit(1);
 	}
+	pcap_ret = PCAP_ObterQuantidadePecasCapturadas(COLOR_White,&pecas_brancas_cap);
+	if(pcap_ret != PCAP_CondRetOK){
+		printf("ERRO AO OBTER O NUMERO DE PECAS CAPTURADAS\n");
+		exit(1);
+	}
+	pcap_ret = PCAP_ObterQuantidadePecasCapturadas(COLOR_Black,&pecas_pretas_cap);
+	if(pcap_ret != PCAP_CondRetOK){
+		printf("ERRO AO OBTER O NUMERO DE PECAS CAPTURADAS\n");
+		exit(1);
+	}
 	printf("\n  ==============================================================================================================================================\n");
-	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",pecas_brancas_fin, 0, pecas_pretas_fin, 0 ,pontuacao);
+	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",pecas_brancas_fin, pecas_brancas_cap, pecas_pretas_fin, pecas_pretas_cap ,pontuacao);
 	printf("\n  ==============================================================================================================================================\n");
 }
 
@@ -119,6 +132,16 @@ void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 	printf("1 - Sim\n");
 	printf("2 - Nao\n");
 	scanf_s("%d",&r);
+	if(r == 2){
+		*response= -1;
+		return;
+	}
+	if (r == 1){
+		printf("O jogador %s aceita dobrar?\n", (jogador_da_vez == COLOR_White)? "Preto" : "\033[1;33mBranco\033[0m");
+		printf("1 - Sim\n");
+		printf("2 - Nao\n");
+		scanf_s("%d",&r);
+	}
 	*response = r;
 }
 
