@@ -285,8 +285,8 @@ static void RenderizarTudo(int pt_b, int pt_p, PEC_color jogadorAtual, int dices
 
 	dpt_ret = DPT_ObterPontuacaoPartida(&dpt);
 
-	RenderizarTabuleiro(pt_p, pt_b,pfin_b,pcap_b,pfin_p,pcap_p,dpt);
-	RenderizarJogadaAtual(jogadorAtual, dices, qtd_dice_valid, vector, qtd_casas);
+	I_RenderizarTabuleiro(pt_p, pt_b,pfin_b,pcap_b,pfin_p,pcap_p,dpt);
+	I_RenderizarJogadaAtual(jogadorAtual, dices, qtd_dice_valid, vector, qtd_casas);
 
 }
 
@@ -321,7 +321,7 @@ int main (void){
 	system("mode 800");
 
 	do{
-		Menu_Inicial(&response);
+		I_Menu_Inicial(&response);
 	}while(response != 1 && response != 2 && response != 3);
 
 	if(response == 1){
@@ -403,7 +403,7 @@ ESCOLHER_NOVAMENTE:
 			if ((dpt_ret == DPT_NaoHaJogadorDadoPontos || color_aux == jogador_da_vez) && flag_pode_dobrar){
 
 				do{ 
-					RenderizarMenuDePontos(&response,jogador_da_vez);
+					I_RenderizarMenuDePontos(&response,jogador_da_vez);
 				}while(response != -1 && response != 1 && response != 2);
 
 				flag_pode_dobrar = 0;
@@ -454,9 +454,9 @@ ESCOLHER_NOVAMENTE:
 			/*************** Caso entre no menu *************************/
 			if(casa_from == -2) break;
 			if(casa_from == -3){
-				LimparRender();
+				I_LimparRender();
 				do{
-					Menu_Sair(&response);
+					I_Menu_Sair(&response);
 				}while(response != 1 && response != 2 && response != 3);
 
 				if(response == 1) exit(0);

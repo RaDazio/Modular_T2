@@ -44,6 +44,10 @@ typedef struct PF_tagFinalizadas {
 
 } PF_tpFinalizadas ;
 
+/* Tipo refer�ncia para a estrutura de pecas finalizadas */
+
+typedef struct PF_tagFinalizadas * PF_tppFinalizadas;
+
 static PF_tpFinalizadas * pecasFinalizadasSingleton = NULL ;
 
 /*******************************************************/
