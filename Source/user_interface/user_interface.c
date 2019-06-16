@@ -2,8 +2,8 @@
 #define MAXPERCASA	15
 #define WIDTH		300
 #define EMPTY		"        "
-#define BLACK		"    O   "
-#define WHITE		"   \033[1;33m O \033[0m  "
+#define BLACK		"    p   "
+#define WHITE		"    b   "
 
 #define DEBUG
 
@@ -59,7 +59,7 @@ void DumpBuffer(char buffer[][WIDTH], int n_linhas){
 }
 
 void LimparRender(){
-	system("cls");
+	//system("cls");
 }
 
 void RenderizarNumCasas(int ini, int fim){
@@ -128,7 +128,7 @@ void RenderizarStatus(){
 
 void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 	int r;
-	printf("Jogador %s, deseja duplicar os pontos?\n",(jogador_da_vez == COLOR_White)? "\033[1;33mBranco\033[0m": "Preto");
+	printf("Jogador %s, deseja duplicar os pontos?\n",(jogador_da_vez == COLOR_White)? "Branco": "Preto");
 	printf("1 - Sim\n");
 	printf("2 - Nao\n");
 	scanf_s("%d",&r);
@@ -137,7 +137,7 @@ void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 		return;
 	}
 	if (r == 1){
-		printf("O jogador %s aceita dobrar?\n", (jogador_da_vez == COLOR_White)? "Preto" : "\033[1;33mBranco\033[0m");
+		printf("O jogador %s aceita dobrar?\n", (jogador_da_vez == COLOR_White)? "Preto" : "Branco");
 		printf("1 - Sim\n");
 		printf("2 - Nao\n");
 		scanf_s("%d",&r);
@@ -147,7 +147,7 @@ void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 
 void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas){
 	int idx;
-	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "\033[1;33mBranco\033[0m": "Preto");
+	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "Branco": "Preto");
 	printf("Dados disponiveis: ");
 	for(idx = 0; idx < qtd_dice_valid ; idx++){
 		if(dices[idx] != 0){
