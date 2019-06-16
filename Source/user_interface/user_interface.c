@@ -1,4 +1,24 @@
-﻿#define TABSIZE		24
+﻿/********************************************************************************************
+*	$MCI Módulo de implementação:	user_interface
+*
+*	Arquivo gerado:			user_interface.c
+*	Letras identificadoras:	I
+*
+*	Projeto:	Disciplinas INF 1628 / 1301
+*	Gestor:		DI/PUC-Rio
+*
+*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
+				rdms - Rafael Damazio Monteiro da Silva
+*				fo	 - Felipe de Oliveira
+*
+*  $HA Histórico de evolução:
+*     Versão       Autor          Data         Observações
+*       1.00   		rdms   		29/05/2019	 	Inú€io do desenvolvimento
+*		2.00		rdms		16/06/2019		Fim do desenvolvimento
+*
+*******************************************************************************************/
+
+#define TABSIZE		24
 #define MAXPERCASA	15
 #define WIDTH		300
 #define EMPTY		"        "
@@ -12,56 +32,21 @@
 #include <Windows.h>
 
 #include "..\interfaces\user_interface.h"
-#include "..\interfaces\DADOPONTOS.H"
 #include "..\interfaces\tabuleiro.h"
 #include "..\interfaces\peca.h"
 #include "..\interfaces\lista.h"
-#include "..\interfaces\PecasFinalizadas.h"
-#include "..\interfaces\PECASCAPTURADAS.H"
 
-void RenderizarTabuleiro();
-void LimparRender();
-void RenderizarStatus();
-void RenderizarNumCasas(int ini, int fim);
-void Menu_Inicial(int* resposta);
-void Menu_Sair(int *resposta);
-void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez);
+/******** Interface das fuções internas do modulo **********/
+static void RenderizarStatus(int pecas_brancas_fin, int pecas_brancas_cap, int pecas_pretas_fin, int pecas_pretas_cap, int pontuacao);
+static void RenderizarNumCasas(int ini, int fim);
+static void DumpBuffer(char buffer[][WIDTH], int n_linhas);
 
-void Menu_Inicial(int* resposta){
-	int r;
-	printf("Voce deseja:\n");
-	printf("1 - Novo jogo\n");
-	printf("2 - Carregar jogo\n");
-	printf("3 - Sair\n");
-	printf("Digite a opcao: ");
-	scanf_s("%d",&r,sizeof(int));
-	*resposta = r;
+/********* Código das funções internas do modulo ***********/
+void RenderizarStatus(int pecas_brancas_fin, int pecas_brancas_cap, int pecas_pretas_fin, int pecas_pretas_cap, int pontuacao){
+	printf("\n  ==============================================================================================================================================\n");
+	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",pecas_brancas_fin, pecas_brancas_cap, pecas_pretas_fin, pecas_pretas_cap ,pontuacao);
+	printf("\n  ==============================================================================================================================================\n");
 }
-
-void Menu_Sair(int *resposta){
-	int r;
-	printf("Voce deseja:\n");
-	printf("1 - Sair sem salvar\n");
-	printf("2 - Sair e salvar\n");
-	printf("3 - Continuar\n");
-	printf("Digite a opcao: ");
-	scanf_s("%d",&r,sizeof(int));
-	*resposta = r;
-}
-
-
-void DumpBuffer(char buffer[][WIDTH], int n_linhas){
-	int idx;
-	for(idx = 0; idx < n_linhas ; idx++){
-		printf("%s", buffer[idx]);
-		strcpy_s(buffer[idx], WIDTH,"\0");
-	}
-}
-
-void LimparRender(){
-	//system("cls");
-}
-
 void RenderizarNumCasas(int ini, int fim){
 	int idx;
 	if(ini < fim){
@@ -93,40 +78,62 @@ void RenderizarNumCasas(int ini, int fim){
 	printf("\n");
 	return; 
 }
+void DumpBuffer(char buffer[][WIDTH], int n_linhas){
+	int idx;
+	for(idx = 0; idx < n_linhas ; idx++){
+		printf("%s", buffer[idx]);
+		strcpy_s(buffer[idx], WIDTH,"\0");
+	}
+}
+/***********************************************************/
 
-void RenderizarStatus(){
-	int pontuacao;
-	int pecas_brancas_fin, pecas_pretas_fin, pecas_brancas_cap, pecas_pretas_cap;
-	DPT_CondRet dpt_ret = DPT_ObterPontuacaoPartida(&pontuacao);
-	PF_CondRet pf_ret;
-	PCAP_CondRet pcap_ret;
-	pf_ret = PF_ObterTamanhoPecasFinalizadas(COLOR_White, &pecas_brancas_fin);
-	if(pf_ret != PF_OK){
-		printf("ERRO AO OBTER A QTD DE PECAS BRANCAS FINALIZADAS\n");
-		printf("EXIT CODE: %d\n",pf_ret);
-		exit(1);
-	}
-	pf_ret = PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &pecas_pretas_fin);
-	if(pf_ret != PF_OK){
-		printf("ERRO AO OBTER A QTD DE PECAS PRETAS FINALIZADAS\n");
-		exit(1);
-	}
-	pcap_ret = PCAP_ObterQuantidadePecasCapturadas(COLOR_White,&pecas_brancas_cap);
-	if(pcap_ret != PCAP_CondRetOK){
-		printf("ERRO AO OBTER O NUMERO DE PECAS CAPTURADAS\n");
-		exit(1);
-	}
-	pcap_ret = PCAP_ObterQuantidadePecasCapturadas(COLOR_Black,&pecas_pretas_cap);
-	if(pcap_ret != PCAP_CondRetOK){
-		printf("ERRO AO OBTER O NUMERO DE PECAS CAPTURADAS\n");
-		exit(1);
-	}
-	printf("\n  ==============================================================================================================================================\n");
-	printf("  | Brancas finalizadas: %d   |   Brancas Capturadas: %d   |   Pretas Finalizadas: %d   |   Pretas Capturadas: %d   |   Pontuacao da partida: %d    |",pecas_brancas_fin, pecas_brancas_cap, pecas_pretas_fin, pecas_pretas_cap ,pontuacao);
-	printf("\n  ==============================================================================================================================================\n");
+/************ Código das funções exportadas pelo módulo *************/
+
+/***********************************************************************
+*	$FC Função:	I Menu_Inicial
+*
+**********************************************************************/
+void I_Menu_Inicial(int* resposta){
+	int r;
+	printf("Voce deseja:\n");
+	printf("1 - Novo jogo\n");
+	printf("2 - Carregar jogo\n");
+	printf("3 - Sair\n");
+	printf("Digite a opcao: ");
+	scanf_s("%d",&r,sizeof(int));
+	*resposta = r;
 }
 
-void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
+/***********************************************************************
+*	$FC Função:I Menu_Sair
+*
+**********************************************************************/
+void I_Menu_Sair(int *resposta){
+	int r;
+	printf("Voce deseja:\n");
+	printf("1 - Sair sem salvar\n");
+	printf("2 - Sair e salvar\n");
+	printf("3 - Continuar\n");
+	printf("Digite a opcao: ");
+	scanf_s("%d",&r,sizeof(int));
+	*resposta = r;
+}
+
+/***********************************************************************
+*	$FC Função:I LimparRender
+*
+**********************************************************************/
+
+void I_LimparRender(){
+	system("cls");
+}
+
+/***********************************************************************
+*	$FC Função:I RenderizarMenuDePontos
+*
+**********************************************************************/
+
+void I_RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 	int r;
 	printf("Jogador %s, deseja duplicar os pontos?\n",(jogador_da_vez == COLOR_White)? "Branco": "Preto");
 	printf("1 - Sim\n");
@@ -145,7 +152,12 @@ void RenderizarMenuDePontos(int *response, PEC_color jogador_da_vez){
 	*response = r;
 }
 
-void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas){
+/***********************************************************************
+*	$FC Função:I RenderizarJogadaAtual
+*
+**********************************************************************/
+
+void I_RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas){
 	int idx;
 	printf("Jogador da vez: %s\n",(jogadorAtual == COLOR_White)? "Branco": "Preto");
 	printf("Dados disponiveis: ");
@@ -162,7 +174,12 @@ void RenderizarJogadaAtual(PEC_color jogadorAtual, int dices[4], int qtd_dice_va
 
 }
 
-void RenderizarTabuleiro(int pontuacao_preta, int pontuacao_branca){
+/***********************************************************************
+*	$FC Função:I RenderizarTabuleiro
+*
+**********************************************************************/
+
+void I_RenderizarTabuleiro(int pontuacao_preta, int pontuacao_branca, int pecas_brancas_fin, int pecas_brancas_cap, int pecas_pretas_fin, int pecas_pretas_cap, int pontuacao){
 	
 	/* Inicialização de variaveis */
 	LIS_tppLista casas;
@@ -218,7 +235,7 @@ void RenderizarTabuleiro(int pontuacao_preta, int pontuacao_branca){
 	IrInicioLista(casas);
 
 	// Limpando a tela //
-	LimparRender();
+	I_LimparRender();
 	printf("\n");
 	
 	// Renderizar casas superiores //
@@ -260,7 +277,7 @@ void RenderizarTabuleiro(int pontuacao_preta, int pontuacao_branca){
 	DumpBuffer(buffer,15);
 
 	// Renderização da barra do meio //
-	RenderizarStatus();
+	RenderizarStatus(pecas_brancas_fin, pecas_brancas_cap, pecas_pretas_fin, pecas_pretas_cap, pontuacao);
 
 	// Preenchimento do buffer para parte inferior //
 	for(idx = 0; idx < MAXPERCASA; idx++){

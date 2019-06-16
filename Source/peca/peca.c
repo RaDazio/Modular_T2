@@ -76,9 +76,7 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca){
 
 PEC_CondRet PEC_DestruirPeca(PecaHead peca){
 	if (peca == NULL) return PEC_ok;
-	printf("---\n");
 	free(peca);
-	printf("---\n");
 	peca = NULL;
 	return PEC_ok;
 }

@@ -512,11 +512,7 @@
       if ( ( pLista->ExcluirValor != NULL )
         && ( pElem->pValor != NULL        ))
       {
-		  printf("===============================\n");
-		  printf("antes de excluir\n");
          pLista->ExcluirValor( pElem->pValor ) ;
-		 printf("depois de excluir\n");
-		 printf("===============================\n");
       } /* if */
 
       free( pElem ) ;
