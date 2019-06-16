@@ -158,46 +158,67 @@ TBL_CondRet TBL_MoverPeca(int casaInicio, int casaFim )
 	PecaHead pecaAux1, pecaAux2;
 	PEC_color color;
 
+	printf("==================================\n");
 	if(tabuleiroSingleton == NULL){
 		return TBL_tabNaoExiste;
 	}
-
 	// Pegar lista de peças na casa inicial
 	IrInicioLista(tabuleiroSingleton->Casas);
+	printf("foi possivel ir para a casa 0\n");
+
 	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casaInicio);
+	printf("foi possivel ir para a casa inicial\n");
+
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+	printf("foi possivel pegar a lista de pecas\n");
+	
 
 	// pegar uma peça da casa inicial
 	pecaAux1 = (PecaHead)LIS_ObterValor(listaAux);
+	printf("foi possivel pegar a peca\n");
 
+	
 	// se a casa não estiver vazia, buscar cor da peça, senão dar throw
 	if(pecaAux1 != NULL)
 	{
 		PEC_ObterCor(&color, pecaAux1);
+		printf("existe peca\n");
 	}
 	else 
 	{
+		printf("nao existe peca\n");
 		return TBL_erro;
 	}
 
 	// remover peça da casa inicial
-	if(LIS_ExcluirElemento(listaAux) != LIS_CondRetOK)
+	if(LIS_ExcluirElemento(listaAux) != LIS_CondRetOK){
+		printf("nao foi possivel destruir peca na casa inicial\n");
 		return TBL_erro;
+	}
+	printf("foi possivel destruir a peca na casa incial\n");
 
 	// Pegar lista de peças na casa final
 	IrInicioLista(tabuleiroSingleton->Casas);
+	printf("foi possivel ir para o inicio da lista de casas\n");
+
 	LIS_AvancarElementoCorrente(tabuleiroSingleton->Casas, casaFim);
+	printf("foi possivel ir para a casa final");
+
 	listaAux = (LIS_tppLista)LIS_ObterValor(tabuleiroSingleton->Casas);
+	printf("foi possivel pegar a lista de pecas\n");
 
 	// Criar nova peça
 	pecaAux2 = NULL; 
 	if(PEC_CriaPeca(color, &pecaAux2) != PEC_ok)
 		return TBL_erro;
+	printf("foi possivel criar peca\n");
 
 	// Adicionar nova peça na casa
 	if(LIS_InserirElementoApos(listaAux, pecaAux2) != LIS_CondRetOK)
 		return TBL_erro;
+	printf("foi possivel inserir peca\n");
 
+	printf("==================================\n");
 	return TBL_ok;
 }
 
@@ -356,7 +377,7 @@ void ExcluirCasa(void *pCasa)
 
 void ExcluirPeca(void *pPeca)
 {
-	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PecaHead pPecaTemp = (PecaHead) pPeca;
 	PEC_DestruirPeca(pPecaTemp);
 }
 

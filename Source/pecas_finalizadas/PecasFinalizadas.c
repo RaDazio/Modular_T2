@@ -52,7 +52,7 @@ static PF_tpFinalizadas * pecasFinalizadasSingleton = NULL ;
 
 static void ExcluirPeca(void *pPeca)
 {
-	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PecaHead pPecaTemp = (PecaHead) pPeca;
 	PEC_DestruirPeca(pPecaTemp);
 }
 

@@ -59,7 +59,7 @@ static PCAP_tpPecasCapturadas * PCAPSingleton = NULL ;
 ****/
 
 static void ExcluirPecaCapturada(void *pPeca){
-	PecaHead* pPecaTemp = (PecaHead*) pPeca;
+	PecaHead pPecaTemp = (PecaHead) pPeca;
 	PEC_DestruirPeca(pPecaTemp);
 }
 

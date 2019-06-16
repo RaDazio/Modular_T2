@@ -48,11 +48,13 @@ struct peca{
 **********************************************************************/
 
 PEC_CondRet PEC_CriaPeca(PEC_color color, PecaHead* ret){
+	PecaHead aux;
 	if (*ret != NULL) return PEC_alreadyExists;
 	if(color != COLOR_White && color != COLOR_Black) return PEC_colorNotExist;
-	*ret = (PecaHead)malloc(sizeof(struct peca));
-	if(*ret == NULL) return PEC_notEnoughMemory;
-	(*ret)->color = color;
+	aux = (PecaHead)malloc(sizeof(struct peca));
+	if(aux == NULL) return PEC_notEnoughMemory;
+	aux->color = color;
+	*ret = aux;
 	return PEC_ok;
 }
 
@@ -72,10 +74,12 @@ PEC_CondRet PEC_ObterCor(PEC_color *ret, PecaHead peca){
 *
 **********************************************************************/
 
-PEC_CondRet PEC_DestruirPeca(PecaHead* peca){
-	if (*peca == NULL) return PEC_ok;
+PEC_CondRet PEC_DestruirPeca(PecaHead peca){
+	if (peca == NULL) return PEC_ok;
+	printf("---\n");
 	free(peca);
-	*peca = NULL;
+	printf("---\n");
+	peca = NULL;
 	return PEC_ok;
 }
 
