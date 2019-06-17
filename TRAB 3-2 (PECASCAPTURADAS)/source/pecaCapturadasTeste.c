@@ -174,5 +174,9 @@ static PecaHead pecasCapturadaSingleton = NULL;
 
             return TST_CompararInt(CondRetEsperada , CondRetObtido , "Erro ao destruir pecas capturadas.");
 		 } /* fim ativa: Testar PCAP Detruir Pecas Capturadas */
+		 
+		 else{
+			 return TST_CondRetNaoConhec;
+		 }
 
    } /* Fim função: TPEC Efetuar operações de teste específicas para peças */
