@@ -38,7 +38,8 @@
 #include    "../TESTES_GENERICO/generico.h"
 #include    "../TESTES_GENERICO/lerparm.h"
 
-#include	"../../Source/interfaces/PECASCAPTURADAS.h"
+#include	"../../Source/interfaces/PECASCAPTURADAS.H"
+#include	"../../Source/interfaces/peca.h";
 
 /* Tabela dos nomes dos comandos de teste específicos */
 
