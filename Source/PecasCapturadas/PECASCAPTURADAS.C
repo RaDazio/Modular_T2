@@ -8,9 +8,8 @@
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
 *
-*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
-				rdms - Rafael Damazio Monteiro da Silva
-*				fo	 - Felipe de Oliveira
+*	Autores:	fo	 - Felipe de Oliveira
+*				svp  - stefano vivacqua pereira
 *
 *  $HA Histórico de evolução:
 *     Versão       Autor          Data         Observações
