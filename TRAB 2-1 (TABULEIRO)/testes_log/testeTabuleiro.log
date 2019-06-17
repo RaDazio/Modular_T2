@@ -1,0 +1,43 @@
+
+
+LES - Laboratório de Engenharia de Software DI/PUC-Rio
+      Arcabouço de teste de módulos C  (c) 2006
+
+---------------------------------------------
+      Construto sob teste: Release\TRAB2-1.exe
+
+      Arquivo de teste:    testes_scripts\tabuleiroTestes.script
+
+
+!!!    0  Linha:     1  // Script:	tabuleiroTestes.script 
+!!!    0  Linha:     2  // 
+!!!    0  Linha:     3  // Autor:	Gabriel Mascheroni 
+!!!    0  Linha:     4  // 
+!!!    0  Linha:     5  // 
+!!!    0  Linha:     6  // Data:	07/05/2019 
+!!!    0  Linha:     7  // 
+!!!    0  Linha:     8  // Proposito:	Testar os comandos básicos relacionados a 
+!!!    0  Linha:     9  //		estrutura do tabuleiro 
+!!!    0  Linha:    12  // Tipos de retorno 
+!!!    0  Linha:    13  //-1	/* Faltou memoria */ 
+!!!    0  Linha:    14  //0	/* Executou corretamente */ 
+!!!    0  Linha:    15  //1	/* Ocorreu erro na execução */ 
+!!!    0  Linha:    16  //2	/* Tabuleiro nao existe */ 
+   18  ==Buscar no vazio
+   21  ==Destruir inexistente
+   24  ==Mover de inexistente
+   27  == Criar um tabuleiro
+   30  ==Buscar peças
+   33  ==Mover pecas de casa que nao possui nenhuma
+   36  ==Mover pecas
+   39  ==Destruir tabuleiro
+
+!!! Número de linhas lidas:          40
+!!! Número de casos de teste:         8
+!!! Número comandos corretos:         8
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
