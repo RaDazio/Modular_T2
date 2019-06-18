@@ -123,14 +123,20 @@
 
          else if ( strcmp( ComandoTeste , OBTER_QTD_PECAS ) == 0 )
          {
-
-          NumLidos = LER_LerParametros( "ii" , &cor , &CondRetEsperada ) ;
-            if ( NumLidos != 2 )
+		  int qtd_esperada;
+		  TST_tpCondRet ret;
+          NumLidos = LER_LerParametros( "iii" , &cor , &qtd_esperada,  &CondRetEsperada ) ;
+            if ( NumLidos != 3 )
             {
                return TST_CondRetParm ;
             } /* if */
 
             CondRetObtido = PF_ObterTamanhoPecasFinalizadas(cor, &qtd) ;
+
+			ret = TST_CompararInt(qtd_esperada,qtd,"Valores diferentes");
+			if(ret != TST_CondOK){
+				return ret;
+			}
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                    "Retorno errado ao obter quantidade de pecas." );
