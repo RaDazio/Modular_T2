@@ -1,23 +1,23 @@
 #pragma once
 /***************************************************************************
 *
-*	$MCD M�dulo de definição:	Módulo Tabuleiro
+*	$MCD M�dulo de definição:	Módulo Pecas Finalizadas
 *	
 *	Arquivo gerado:			TABULEIRO.h
-*	Letras identificadoras:	TBL
+*	Letras identificadoras:	PF
 *
 *	Projeto:	Disciplinas INF 1628 / 1301
 *	Gestor:		DI/PUC-Rio
 *
 *	Autores:	   rdms - Rafael Damazio Monteiro da Silva
 *               gmc - Gabriel Garcia Mascheroni Costa
-*				    fo  - Felipe de Oliveira
+*				    svp - Stefano Vivacqua Pereira
 *
 *
 *	$HA Hist�rico e evolu��o:
 *		Vers�o  Autor	Data		Observa��es
-*		1.00	gmc	03/05/2019	Inicio do desenvolvimento
-*		1.00	gmc	05/05/2019	Finalização do desenvolvimento
+*		1.00	rdms	14/06/2019	Inicio do desenvolvimento
+*     2.00  svp   17/06/2019  Ajuste retornos
 *
 *	$ED Descri��o do m�dulo:
 *		Este m�dulo implementa a lista de peças finalizadas do jogo de gamão

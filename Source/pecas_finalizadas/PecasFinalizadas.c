@@ -68,8 +68,22 @@ static void ExcluirPeca(void *pPeca)
 PF_CondRet PF_CriarPecasFinalizadas()
 {
 
+	// TESTA SE SINGLETON JA EXISTE //
+	if(pecasFinalizadasSingleton != NULL){
+		printf("Erro na criacao do singleton: singleton ja existe.\n");
+		return PF_Erro;
+	}
+
 	pecasFinalizadasSingleton = (PF_tppFinalizadas)malloc(sizeof(PF_tpFinalizadas));
 
+	// TESTA ALOCACAO //
+	if(pecasFinalizadasSingleton == NULL)
+	{
+		printf("Erro na alocacao do singleton pecas finalizadas.\n");
+		return PF_FaltouMemoria;
+	} /* if */
+
+	// CRIA LISTAS //
 	(pecasFinalizadasSingleton)->PecasFinalizadasPretas = LIS_CriarLista(ExcluirPeca);
 	(pecasFinalizadasSingleton)->PecasFinalizadasBrancas = LIS_CriarLista(ExcluirPeca);
 
@@ -141,9 +155,18 @@ PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 
 PF_CondRet PF_DestruirPecasFinalizadas()
 {
+
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
+		return PF_Erro;
+	}
+
 	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasBrancas);
 	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasPretas);
+
 	free(pecasFinalizadasSingleton);
+	pecasFinalizadasSingleton = NULL;
+
 	return PF_OK;
 }
 
