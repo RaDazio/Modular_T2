@@ -99,11 +99,13 @@ PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 {
 	PecaHead newPeca = NULL;
 	PEC_CondRet ret = PEC_CriaPeca(cor, &newPeca);
-	if(ret != PEC_ok)
-	{
-		printf("Erro ao criar peca finalizada\n");
+	
+	// CHECA SE SINGLETON EXISTE //
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
 		return PF_Erro;
 	}
+
 	if (cor == COLOR_White)
 	{
 		if(LIS_InserirElementoApos(pecasFinalizadasSingleton->PecasFinalizadasBrancas, newPeca) != LIS_CondRetOK)
@@ -120,6 +122,10 @@ PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 			return PF_Erro;
 		}
 	}
+	else{
+		printf("Erro: cor da peca irreconhecivel (nao eh preta nem branca).\n");
+		return PF_Erro;
+	}
 	
 	return PF_OK;
 }
@@ -135,6 +141,10 @@ PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 	if(tam == NULL)
 		return PF_Erro;
 
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
+		return PF_Erro;
+	}
 
 	if (cor == COLOR_White)
 	{

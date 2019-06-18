@@ -78,7 +78,7 @@
 
 	  PEC_color cor;
 	  
-	  int qtd;
+	  int qtd = -1;
 
       int  NumLidos = -1 ;
 
@@ -95,7 +95,7 @@
 			CondRetObtido = PF_CriarPecasFinalizadas();
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                    "Retorno errado ao criar peçaCapturada." );
+                                    "Retorno errado ao criar pecaFinalizada." );
 
          } 
 
@@ -114,7 +114,7 @@
             CondRetObtido = PF_AdicionarPecaFinalizada(cor) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                   "Retorno errado ao inserir pecaCapturada." );
+                                   "Retorno errado ao inserir pecaFinalizada." );
 
          } 
 
@@ -156,7 +156,7 @@
 
 			CondRetObtido = PF_DestruirPecasFinalizadas();
 
-            return TST_CompararInt(CondRetEsperada , CondRetObtido , "Erro ao destruir pecas capturadas.");
+            return TST_CompararInt(CondRetEsperada , CondRetObtido , "Erro ao destruir pecas Finalizada.");
 		 } 
 
 		 else{
