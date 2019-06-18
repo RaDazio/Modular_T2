@@ -1,33 +1,33 @@
 /***************************************************************************
 *  $MCI Módulo de implementação: Módulo de teste específico
 *
-*  Arquivo gerado:              pecaTeste.C
-*  Letras identificadoras:      TPEC
+*  Arquivo gerado:              pecaCapturadasTeste.C
+*  Letras identificadoras:      TPCAP
 *
 
 *  Projeto: Disciplinas INF 1628 / 1301
 *  Gestor:  DI/PUC-Rio
 *
-*	Autores:	gcmc - Gabriel Garcia Mascheroni Costa
-*				rdms - Rafael Damazio Monteiro da Silva
-*				fo	 - Felipe de Oliveira
+*	Autores:	svp - stefano vivacqua pereira
 *
 *  $HA Histórico de evolução:
 *     Versão  Autor    Data		 Observações
-*       1.00   rmds   05/05/2019 Início do desenvolvimento
+*       1.00   rmds   06/06/2019 Início do desenvolvimento
 *
 *  $ED Descrição do módulo
 *     Este módulo visa o teste utilizando as funções específicas do
-*      módulo de peças
+*      módulo de peças capturadas
 *
 *
 *
 *  $EIU Interface com o usuário pessoa
 *     Comandos de teste específicos para testar o módulo peca capturada:
 *
-*     "=criar"		    - chama a função PEC_CriaPeca()
-*     "=destroi"		- chama a função PEC_DestruirPeca()
-*	  "=obterCor"		- chama a função PEC_ObterCor()
+*     "=criar"		    - chama a função PCAP_CriarListasPecasCapturadas()
+*     "=inserir"		- chama a função PCAP_InserirPecaCapturada()
+*	  "=remover"		- chama a função PCAP_RemoverPecaCapturada()
+*	  "=contar"			- chama a PCAP_ObterQuantidadePecasCapturadas PEC_ObterCor()
+*	  "=destruir"		- chama a função PCAP_DestruirPecasCapturadas()
 *
 ***************************************************************************/
 
@@ -39,14 +39,15 @@
 #include    "../TESTES_GENERICO/lerparm.h"
 
 #include	"../../Source/interfaces/PECASCAPTURADAS.H"
+#include	"../../Source/interfaces/peca.h";
 	
 /* Tabela dos nomes dos comandos de teste específicos */
 
-#define CRIAR		               "=criar"
-#define INSERIR_PECA_BRANCA	   "=inserir"
+#define CRIAR					"=criar"
+#define INSERIR_PECA_BRANCA		"=inserir"
 #define REMOVER_PECA_BRANCA		"=remover"
-#define OBTER_QTD_PECAS_BRANCAS  "=contar"
-#define DESTRUIR                 "=destruir"
+#define OBTER_QTD_PECAS_BRANCAS	"=contar"
+#define DESTRUIR                "=destruir"
 
 /* Singleton para realização dos testes */
 static PecaHead pecasCapturadaSingleton = NULL;
@@ -74,8 +75,8 @@ static PecaHead pecasCapturadaSingleton = NULL;
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
 
-	  PCAP_tpCondRet CondRetObtido   = PCAP_CondRetOK ;
-	  PCAP_tpCondRet CondRetEsperada = PCAP_CondRetFaltouMemoria ;
+	  PCAP_CondRet CondRetObtido   = PCAP_CondRetOK ;
+	  PCAP_CondRet CondRetEsperada = PCAP_CondRetFaltouMemoria ;
                                       /* inicializa para qualquer coisa */
 
 
@@ -174,5 +175,9 @@ static PecaHead pecasCapturadaSingleton = NULL;
 
             return TST_CompararInt(CondRetEsperada , CondRetObtido , "Erro ao destruir pecas capturadas.");
 		 } /* fim ativa: Testar PCAP Detruir Pecas Capturadas */
+		 
+		 else{
+			 return TST_CondRetNaoConhec;
+		 }
 
    } /* Fim função: TPEC Efetuar operações de teste específicas para peças */
