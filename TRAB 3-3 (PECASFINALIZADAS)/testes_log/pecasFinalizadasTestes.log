@@ -1,0 +1,57 @@
+
+!!! Inicio dos testes
+!!!      Construto sob teste: C:\Users\Stefano\documents\visual studio 2010\Projects\NovoGrupoT2\Debug\NovoGrupoT2.exe
+!!!      Script de teste:     pecasFinalizadasTestes.script
+
+!!!    0  Linha:     1  // Script:	tabuleiroTestes.script 
+!!!    0  Linha:     2  // 
+!!!    0  Linha:     3  // Autor:	Gabriel Mascheroni 
+!!!    0  Linha:     4  // 
+!!!    0  Linha:     5  // 
+!!!    0  Linha:     6  // Data:	16/06/2019 
+!!!    0  Linha:     7  // 
+!!!    0  Linha:     8  // Proposito:	Testar os comandos bÃ¡sicos relacionados a 
+!!!    0  Linha:     9  //		estrutura de peÃ§as finalizadas 
+!!!    0  Linha:    12  // Tipos de retorno 
+!!!    0  Linha:    13  //0	/* Executou corretamente */ 
+!!!    0  Linha:    14  //1	/* PF nao contem elementos */ 
+!!!    0  Linha:    15  //2	/* PF Erro */ 
+!!!    0  Linha:    16  //3	/* PF Faltou memoria */ 
+!!!    0  Linha:    18  // CORES: 
+!!!    0  Linha:    19  // 1    /* Preto */ 
+!!!    0  Linha:    20  // 2    /* Branco */ 
+!!!    0  Linha:    24  //TESTES ESTUTURA INEXISTENTE 
+   26  ==Destruir estrutura inexistente
+>>>    1  Linha:    27  Erro ao destruir pecas Finalizada. Deveria ser: 0  É: 2
+<<<    0  Linha:    28  Falha esperada foi recuperada. 
+   30  ==Inserir em estrutura inexistente
+>>>    1  Linha:    31  Retorno errado ao inserir pecaFinalizada. Deveria ser: 0  É: 2
+<<<    0  Linha:    32  Falha esperada foi recuperada. 
+   34  ==Contar pecas em estrutura inexistente
+>>>    1  Linha:    35  Valores diferentes Deveria ser: 0  É: -1
+<<<    0  Linha:    36  Falha esperada foi recuperada. 
+>>>    1  Linha:    37  Valores diferentes Deveria ser: 0  É: -1
+<<<    0  Linha:    38  Falha esperada foi recuperada. 
+!!!    0  Linha:    40  //CRIAR ESTRUTURA 
+   42  ==Criar estrutura de pecas capturadas quando uma ja existe
+>>>    1  Linha:    44  Retorno errado ao criar pecaFinalizada. Deveria ser: 0  É: 2
+<<<    0  Linha:    45  Falha esperada foi recuperada. 
+!!!    0  Linha:    47  //DEMAIS TESTES 
+   49  ==inserir cor inexistente
+>>>    1  Linha:    50  Retorno errado ao inserir pecaFinalizada. Deveria ser: 0  É: 2
+<<<    0  Linha:    51  Falha esperada foi recuperada. 
+   53  ==inserir brancas
+   57  ==inserir pretas
+   62  ==contar brancas
+   65  ==contar pretas
+   68  ==Destruir Estrutura
+
+!!! Número de linhas lidas:          69
+!!! Número de casos de teste:        10
+!!! Número comandos corretos:         9
+!!! Número de falhas encontradas:     0
+
+!!! Não foram encontrados problemas
+
+
+!!! Numero de espacos ainda alocados: 0
