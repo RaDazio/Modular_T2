@@ -24,6 +24,7 @@
 *
 ***************************************************************************/
  
+#include "peca.h"
 
 /***** Declara��es exportadas pelo m�dulo *****/
 
@@ -59,11 +60,6 @@
 *     Cria uma estrutura para as pe�as Finalizadas do jogo de gam�o
 *
 *  $EP Par�metros
-*	  pPF		- Ponteiro da estrutura de pe�as finalizadas passada por refer�ncia
-*     ExcluirValor  - ponteiro para a fun��o que processa a
-*                     exclus�o do valor referenciado pelo elemento
-*                     a ser exclu�do.
-*                     Ver descri��o do m�dulo.
 *
 *
 ***********************************************************************/
@@ -75,10 +71,10 @@
 *  $FC Fun��o: PF Adicionar uma peça finalizada a lista
 *
 *  $ED Descri��o da fun��o
-*		Adiciona uma pe�a a lista de pe�as finalizadas
+*		Adiciona uma pe�a da cor especificada na lista de pe�as finalizadas
 *
 *  $EP Par�metros
-*	  pPF			- A estrutura que ser� adicionada a pe�a
+*	  cor			- A cor da peça adicionada
 *
 *
 ***********************************************************************/
@@ -90,10 +86,10 @@
 *  $FC Fun��o: PF Obter tamanho da lista de pe�as finalizadas
 *
 *  $ED Descri��o da fun��o
-*		Obtem a quantidade de pe�as na lista
+*		Obtem a quantidade de peças da determinada cor na lista
 *
 *  $EP Par�metros
-*	  pPF			- A estrutura que se deseja saber o tamanho
+*	  cor			- A cor que retornará a quantidade
 *	  *tam			- Ponteiro de referencia para o tamanho da PF
 *
 *
@@ -110,7 +106,6 @@
 *		Destroi a lista de pe�as finalizadas
 *
 *  $EP Par�metros
-*	  pPF		    - A lista que será destruída
 *
 ***********************************************************************/
 

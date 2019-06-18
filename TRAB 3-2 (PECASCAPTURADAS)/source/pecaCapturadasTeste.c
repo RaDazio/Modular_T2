@@ -38,8 +38,8 @@
 #include    "../TESTES_GENERICO/generico.h"
 #include    "../TESTES_GENERICO/lerparm.h"
 
-#include	"../../Source/interfaces/PECASCAPTURADAS.h"
-
+#include	"../../Source/interfaces/PECASCAPTURADAS.H"
+	
 /* Tabela dos nomes dos comandos de teste específicos */
 
 #define CRIAR		               "=criar"
@@ -137,7 +137,7 @@ static PecaHead pecasCapturadaSingleton = NULL;
             CondRetObtido = PCAP_RemoverPecaCapturada(cor) ;
 
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
-                                   "Retorno errado ao remover pecaCapturada." );
+                                   "Retorno errado ao remover pecaCapturada."	);
 
          } /* fim ativa: Testar PEC remover peca (branca) */
 
