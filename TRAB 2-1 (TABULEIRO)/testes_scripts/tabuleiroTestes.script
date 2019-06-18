@@ -30,6 +30,16 @@
 ==Buscar peças
 =obterCasas 0
 
+==Cor da casa incorreta
+=corDaCasa 0 1 0
+=recuperar
+
+==Cor da casa 0
+=corDaCasa 0 2 0
+
+==Remover peça casa 1
+=retirarPeca 2 0 0
+
 ==Mover pecas de casa que nao possui nenhuma
 =moverPeca 1 5 1
 

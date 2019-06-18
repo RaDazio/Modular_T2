@@ -82,7 +82,7 @@
 
       int  NumLidos = -1 ;
 
-      /* Testar PCAP Criar peçaCapturada */
+      /* Testar PF Criar peçaFinalizada */
 
          if ( strcmp( ComandoTeste , CRIAR ) == 0 )
          {
@@ -97,10 +97,10 @@
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                     "Retorno errado ao criar peçaCapturada." );
 
-         } /* fim ativa: Testar PEC Criar peça */
+         } 
 
 
-      /* Testar PCAP Inserir peca branca */
+      /* Testar PF Adicionar Peca */
 
          else if ( strcmp( ComandoTeste , INSERIR_PECA ) == 0 )
          {
@@ -116,10 +116,10 @@
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                    "Retorno errado ao inserir pecaCapturada." );
 
-         } /* fim ativa: Testar PEC inserir peca (branca) */
+         } 
 
 
-	    /* Teste PCAP Obter Quantidade Pecas (Brancas) */
+	    /* Teste PF Obter Quantidade Pecas */
 
          else if ( strcmp( ComandoTeste , OBTER_QTD_PECAS ) == 0 )
          {
@@ -135,9 +135,9 @@
             return TST_CompararInt( CondRetEsperada , CondRetObtido ,
                                    "Retorno errado ao obter quantidade de pecas." );
 
-         } /* fim ativa: Testar PCAP Obter Quantidade Pecas (Brancas) */
+         } 
 
-      /* Testar PEC Destruir peçaCapturadas */
+      /* Testar PF Destruir peçaFinalizadas */
 
          else if ( strcmp( ComandoTeste , DESTRUIR ) == 0 )
          {
@@ -151,9 +151,9 @@
 			CondRetObtido = PF_DestruirPecasFinalizadas();
 
             return TST_CompararInt(CondRetEsperada , CondRetObtido , "Erro ao destruir pecas capturadas.");
-		 } /* fim ativa: Testar PCAP Detruir Pecas Capturadas */
+		 } 
 
 		 else{
 			 return TST_CondRetNaoConhec;
 		 }
-   } /* Fim função: TPEC Efetuar operações de teste específicas para peças */
+   } /* Fim função: PF Efetuar operações de teste específicas  */
