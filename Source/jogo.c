@@ -105,6 +105,12 @@ static void FinalizarPartida(int* pt_w){
 	SetUp();
 }
 
+/*
+AE: Existe um área de memória destinada a uma variável de PEC_color que será passada por referência
+*existe uma área de memória destinada a um inteiro que será passado por referência
+*existe uma área de memória destinada a um inteiro que será passado por referência 
+*/
+
 void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
 	// Inicialização de variaveis //
 	int dice[2];
@@ -117,27 +123,77 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
 
 /* DEFINIÇÃO DO PRIMEIRO JOGADOR */
+	
+	/*AE1=AE e Existem uma variavel d_ret do tipe DICE_CondRet e um vetor de inteiros dice */
+	/* AINV : o vetor de inteiros dice é constituído por dois inteiros que representam o valor dos dados tirados */
 	do{
 		d_ret = DICE_RolarDado(&dice[0],DADOS_LADOS);
+		/*AE2 = Vale AE1 e temos d_ret preenchido*/
 		if( d_ret == DICE_ok){
 			d_ret = DICE_RolarDado(&dice[1],DADOS_LADOS);
 		}
+		/*ASif1: valem AE e AE1,caso o valor d_ret for diceok, rolamos os dados novamente mas agora atualizando dice[1], caso não,tivemos
+		um erro ao rolar os dados anteriormente.
+		*AE2&&(C==TRUE) + P1 => ASif1
+		Se AE vale, temos d_ret preenchido, como C==true, temos que d_ret ==dice_ok e entramos no if. temos agora a função
+		dice_rolardado passando por referência dice[1], o que faz rolar os dados novamente, valendo AS
+		*AE2 &&(C==False) => ASif1
+		Se C==false, d_ret não vale DICE_OK, ou seja, tivemos um erro, valendo AS
+		*/
+		
+		/*AE3=ASif1*/
 		if(d_ret != DICE_ok){
 			Throw("ERRO AO DEFINIR O PRIMEIRO JOGADOR");
 		}
+		/* ASif2 :caso d_ret não seja dice_ok, temos o lançamento de uma exceção, caso contrário, nada é feito.
+		*AE3 && (C==TRUE) + P1 => ASif2
+		Como AE3 vale, temos que d_ret é preenchido, como C==TRUE, temos que esse valor não é DICE_OK, logo entramos no if,o que 
+		faz chamar a função throw, o que lança a exceção, valendo então ASif2
+		*AE3 && (C==FALSE) => ASif2
+		Como AE3 vale, temos que d_ret é preenchido, como C==FALSE, temos que esse valor é DICE_OK, logo não entramos no if, nada é feito,
+		valendo então ASif2.
+		*/
 		printf("Definindo o primeiro jogador\n");
 		printf("Branco: %d\n",dice[0]);
 		printf("Preto: %d\n",dice[1]);
+		/*AE4=ASif2*/
 		if(dice[0] == dice[1]){
 			printf("Dados iguais, jogando novamente para definir o primeiro a jogar\n");
 			system("timeout 3");
 		}
+		/*ASif3: Caso dice[0] for igual a dice[1], temos que uma mensagem é mostrada na tela 
+		e chamamos a função system,caso contrário, nada é feito.
+		AE4 && (C==TRUE) => ASif3:
+		como C==TRUE, temos que dice[0]==dice[1],logo entramos no IF. Ao entrar temos uma função printf, logo uma mensagem 
+		é exibida na tela e também temosa chamada da função system, valendo então ASif3.
+		AE4 &&(C==FALSE) => ASif3 :
+		C==FALSE, temos que dice[0]!=dice[1], logo não entramos no IF, logo nada é feito e vale ASif3.*/
 	}while(dice[0] == dice[1]);
+	/*AS1: Temos um vetor de inteiros dice com 2 casas cuja casa dice[0] e dice[1] estão preenchidas e são distintas
+	  *AE1 && (C==F) => AS1 : 
+	  Caso tenhamos AE1, temos que existe um vetor dice de inteiros, como o do é feito um vez no caso de C== F
+	  , temos que dice [1] e dice [0] tem inteiros distintos, valendo ES 
+	  
+	  *AE1 && (C==V) + P1 => AINV
+	  Vale AE1, logo temos AE e temos que existe uma variável d_ret e um vetor de inteiros dice. Como temos C==V, logo temos dice[0] == dice[1]. 
+	  Assim, o do é refeito, o que ainda faz com que AI seja valida
+	  
+	  *AINV && (C==V) + P1 => AINV
+	  Vale Ainv, logo temos que os dados representam os valores dos dados tirados. Como C==V, temos que os valores são iguais, logo 
+	  temos a execução do do. Com o do feito, temos o recalculamento de dice[0] e dice[1], ainda valendo Ainv.
+	  
+	  *Ainv && (C==F)  =: AS
+	  Temos Ainv, logo dice[0] e dice[1] representam os valores retirados nos dados, como C==F, os valores são diferentes,
+	  logo vale AS.
+	  
+	  *AE1 => Ainv
+	  Temos AE1, logo temos o vetor de inteiros dice, cujas casas representam os valores dos dados, valendo então Ainv.	  
+	  */
 	system("timeout 2");
 /********************************/
 	*first_player = (dice[0]>dice[1])? COLOR_White: COLOR_Black;
 }
-
+/*AS: temos um novo jogo iniciado*/
 void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
 
 	// Inicializacao de variaveis //
