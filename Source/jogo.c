@@ -24,12 +24,12 @@ static void SetUp(){
 	PF_CondRet pf_ret = PF_Erro;
 	PCAP_CondRet pcap_ret = PCAP_CondRetErroNaoExisteSingleton;
 
-	// Criação do dadoPontos //
+	// CriaÃ§Ã£o do dadoPontos //
 	dpt_ret = DPT_CriarDadoPontos();
 	if(dpt_ret != DPT_OK){
 		Throw("ERRO AO CRIAR O DADO PONTOS");
 	}
-	// Criação do tabuleiro //
+	// CriaÃ§Ã£o do tabuleiro //
 	tbl_ret = TBL_CriarTabuleiro();
 	if(tbl_ret != TBL_ok){
 		Throw("ERRO AO CRIAR O TABULEIRO");
@@ -37,11 +37,11 @@ static void SetUp(){
 
 	pf_ret = PF_CriarPecasFinalizadas();
 	if (pf_ret != PF_OK){
-		Throw("ERRO AO INICIALIZAR PEÇAS FINALIZADAS");
+		Throw("ERRO AO INICIALIZAR PEÃ‡AS FINALIZADAS");
 	}
 	pcap_ret = PCAP_CriarListasPecasCapturadas();
 	if(pcap_ret != PCAP_CondRetOK){
-		Throw("ERRO AO INICIALIZAR PEÇAS CAPTURADAS");
+		Throw("ERRO AO INICIALIZAR PEÃ‡AS CAPTURADAS");
 	}
 }
 
@@ -106,7 +106,7 @@ static void FinalizarPartida(int* pt_w){
 }
 
 void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
-	// Inicialização de variaveis //
+	// InicializaÃ§Ã£o de variaveis //
 	int dice[2];
 	DICE_CondRet d_ret;
 	/******************************/
@@ -116,7 +116,7 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 	// Settando variaveis globais do jogo //
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
 
-/* DEFINIÇÃO DO PRIMEIRO JOGADOR */
+/* DEFINIÃ‡ÃƒO DO PRIMEIRO JOGADOR */
 	do{
 		d_ret = DICE_RolarDado(&dice[0],DADOS_LADOS);
 		if( d_ret == DICE_ok){
@@ -246,10 +246,16 @@ int CasaParaRestaurarValida(int casa_from, PEC_color jogador_da_vez){
 	if( casa_from < 0 ) return 0;
 	return 1;
 }
-
+/*AE: Existe um inteiro value declarado pelo usuario, existe um vetor de inteiros declarado pelo usario que possui um quarto elemento
+e existe um ponteiro apontando para uma area da memoria destinada para um tipo inteiro que aqui sera chamado de used_idx */
 int ObterDado(int value, int vector[4], int* used_idx){
 	int idx, real_value=-100;
+	/*AE1:vale a assertiva de Entrada*/
 	if(value == -1) return -1;
+	/*AS1:Se a condiÃ§Ã£o for verdadeira, sera retornado -1, satisfazendo AS
+	 *Caso a condiÃ§Ã£o for falsa, value diferente de -1*/
+	
+	/*AE2 = AS1*/
 	for(idx = 0 ; idx < 4 ; idx++){
 		if(value == vector[idx]){
 			real_value = vector[idx];
@@ -260,6 +266,7 @@ int ObterDado(int value, int vector[4], int* used_idx){
 			break;
 		}
 	}
+	/**/
 	return real_value;
 }
 
@@ -345,11 +352,11 @@ int main (void){
 
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_White, &qtd_peca_branca_fin);
 		if(pf_ret != PF_OK){
-			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
+			Throw("ERRO AO OBTER AS PEÃ‡AS FINALIZADAS");
 		}
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &qtd_peca_preta_fin);
 		if(pf_ret != PF_OK){
-			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
+			Throw("ERRO AO OBTER AS PEÃ‡AS FINALIZADAS");
 		}
 		if(qtd_peca_branca_fin >= 15){
 			FinalizarPartida(&pontuacao_global_branca);
@@ -374,7 +381,7 @@ int main (void){
 		/******************************************/
 
 		for(idx = 0 ; idx < qtd_dice_valid ; idx++){
-			/***** Declaração de variaveis auxiliares *******/
+			/***** DeclaraÃ§Ã£o de variaveis auxiliares *******/
 			flag_peca_finalizada = flag_restaurar_peca = 0, response = 0;	
 
 			/***********************************************/
@@ -439,7 +446,7 @@ ESCOLHER_NOVAMENTE:
 			}
 			
 			/************************************************************/
-			/*************** Capturando dados para mover peça ***********/
+			/*************** Capturando dados para mover peÃ§a ***********/
 			if( !flag_restaurar_peca ){
 				printf("Escolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
 				casa_from = LerCasaDoTeclado();
@@ -479,7 +486,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 			/************************************************************/
-			/************ Checando se a primeira casa é valida **********/
+			/************ Checando se a primeira casa Ã© valida **********/
 			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) && !flag_restaurar_peca ){
 				printf("Casa invalida, escolha novamente: ");
 				system("timeout 2");
@@ -495,7 +502,7 @@ ESCOLHER_NOVAMENTE:
 				use_dice_value = ObterDado(use_dice_value,dices,&utilized_dice_idx);
 				
 				if(use_dice_value == -100){
-					printf("Escolha um dado válido: ");
+					printf("Escolha um dado vÃ¡lido: ");
 				}
 			}while(use_dice_value == -100);
 
@@ -509,7 +516,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 		/**************************************************************/
-		/****************Checar finalização de peça********************/
+		/****************Checar finalizaÃ§Ã£o de peÃ§a********************/
 			else{
 				int fin_possivel = CheckFinalizacaoPossivel(jogador_da_vez,casas_from_possiveis,qtd_casas_from_possiveis);
 
@@ -591,7 +598,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 		/**************************************************************/
-		/************************ Movendo peça ************************/
+		/************************ Movendo peÃ§a ************************/
 			if(!flag_peca_finalizada && !flag_restaurar_peca){
 				tbl_ret = TBL_MoverPeca(casa_from, casa_to);
 				if(tbl_ret != TBL_ok){
