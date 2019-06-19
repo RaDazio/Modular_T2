@@ -92,19 +92,25 @@ DPT_CondRet DPT_AtualizarJogadorDobra(PEC_color CorPeca)
 /***************************************************************************
 *
 *  Função: DPT Atualizar pontuação da partida
-*  
+* ARGUMENTACAO DE CORRETUDE:
+*  AE: existe uma variavel do tipo inteiro inicializada pelo usuaria que sera passada como parametro para funcao.
+*-
 ****/
 DPT_CondRet DPT_AtualizarPontuacaoPartida(int Pontuacao)
-{
+{	
+	/*AE1=AE*/
 	if(DadoPontosSingletoon == NULL) 
 	{
 		return DPT_NaoHaDadoPontos;
 	} /* if */
+	/*AS1: Se a condicao for verdadeira,a funcao sera encerrada e sera retornado um valor que indica que nao ha dado de pontos, valendo a AS
+	 * Caso a condicao seja falsa, ou seja, DadoPontosSingletoon seja diferente de NULL, vale a AS*/
 
 	DadoPontosSingletoon->Pontuacao = Pontuacao;
 
 	return DPT_OK ;
 } /* Fim função: Atualizar Pontuacao
+AS: Caso Dadopontossingletoon nao seja null, a area dadopontossingleton->pontuacao que e designada para guardar a pontuacao do dado de pontos devera ser atualizda com o valor passado.
 /***************************************************************************
 *
 *  Função: DPT Dobrar pontuação da partida
