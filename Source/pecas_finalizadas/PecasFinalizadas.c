@@ -68,8 +68,22 @@ static void ExcluirPeca(void *pPeca)
 PF_CondRet PF_CriarPecasFinalizadas()
 {
 
+	// TESTA SE SINGLETON JA EXISTE //
+	if(pecasFinalizadasSingleton != NULL){
+		printf("Erro na criacao do singleton: singleton ja existe.\n");
+		return PF_Erro;
+	}
+
 	pecasFinalizadasSingleton = (PF_tppFinalizadas)malloc(sizeof(PF_tpFinalizadas));
 
+	// TESTA ALOCACAO //
+	if(pecasFinalizadasSingleton == NULL)
+	{
+		printf("Erro na alocacao do singleton pecas finalizadas.\n");
+		return PF_FaltouMemoria;
+	} /* if */
+
+	// CRIA LISTAS //
 	(pecasFinalizadasSingleton)->PecasFinalizadasPretas = LIS_CriarLista(ExcluirPeca);
 	(pecasFinalizadasSingleton)->PecasFinalizadasBrancas = LIS_CriarLista(ExcluirPeca);
 
@@ -85,11 +99,13 @@ PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 {
 	PecaHead newPeca = NULL;
 	PEC_CondRet ret = PEC_CriaPeca(cor, &newPeca);
-	if(ret != PEC_ok)
-	{
-		printf("Erro ao criar peca finalizada\n");
+	
+	// CHECA SE SINGLETON EXISTE //
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
 		return PF_Erro;
 	}
+
 	if (cor == COLOR_White)
 	{
 		if(LIS_InserirElementoApos(pecasFinalizadasSingleton->PecasFinalizadasBrancas, newPeca) != LIS_CondRetOK)
@@ -106,6 +122,10 @@ PF_CondRet PF_AdicionarPecaFinalizada(PEC_color cor)
 			return PF_Erro;
 		}
 	}
+	else{
+		printf("Erro: cor da peca irreconhecivel (nao eh preta nem branca).\n");
+		return PF_Erro;
+	}
 	
 	return PF_OK;
 }
@@ -121,6 +141,10 @@ PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 	if(tam == NULL)
 		return PF_Erro;
 
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
+		return PF_Erro;
+	}
 
 	if (cor == COLOR_White)
 	{
@@ -141,9 +165,18 @@ PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam)
 
 PF_CondRet PF_DestruirPecasFinalizadas()
 {
+
+	if(pecasFinalizadasSingleton == NULL){
+		printf("Singleton pecas finalizadas nao existe.\n");
+		return PF_Erro;
+	}
+
 	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasBrancas);
 	LIS_DestruirLista(pecasFinalizadasSingleton->PecasFinalizadasPretas);
+
 	free(pecasFinalizadasSingleton);
+	pecasFinalizadasSingleton = NULL;
+
 	return PF_OK;
 }
 

@@ -24,12 +24,12 @@ static void SetUp(){
 	PF_CondRet pf_ret = PF_Erro;
 	PCAP_CondRet pcap_ret = PCAP_CondRetErroNaoExisteSingleton;
 
-	// Cria��o do dadoPontos //
+	// Criação do dadoPontos //
 	dpt_ret = DPT_CriarDadoPontos();
 	if(dpt_ret != DPT_OK){
 		Throw("ERRO AO CRIAR O DADO PONTOS");
 	}
-	// Cria��o do tabuleiro //
+	// Criação do tabuleiro //
 	tbl_ret = TBL_CriarTabuleiro();
 	if(tbl_ret != TBL_ok){
 		Throw("ERRO AO CRIAR O TABULEIRO");
@@ -37,11 +37,11 @@ static void SetUp(){
 
 	pf_ret = PF_CriarPecasFinalizadas();
 	if (pf_ret != PF_OK){
-		Throw("ERRO AO INICIALIZAR PE�AS FINALIZADAS");
+		Throw("ERRO AO INICIALIZAR PEÇAS FINALIZADAS");
 	}
 	pcap_ret = PCAP_CriarListasPecasCapturadas();
 	if(pcap_ret != PCAP_CondRetOK){
-		Throw("ERRO AO INICIALIZAR PE�AS CAPTURADAS");
+		Throw("ERRO AO INICIALIZAR PEÇAS CAPTURADAS");
 	}
 }
 
@@ -105,8 +105,14 @@ static void FinalizarPartida(int* pt_w){
 	SetUp();
 }
 
+/*
+AE: Existe um área de memória destinada a uma variável de PEC_color que será passada por referência
+*existe uma área de memória destinada a um inteiro que será passado por referência
+*existe uma área de memória destinada a um inteiro que será passado por referência 
+*/
+
 void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontuacao_global_color2){
-	// Inicializa��o de variaveis //
+	// Inicialização de variaveis //
 	int dice[2];
 	DICE_CondRet d_ret;
 	/******************************/
@@ -116,28 +122,79 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 	// Settando variaveis globais do jogo //
 	*pontuacao_global_color1 = *pontuacao_global_color2 = 0;
 
-/* DEFINI��O DO PRIMEIRO JOGADOR */
+/* DEFINIÇÃO DO PRIMEIRO JOGADOR */
+	
+	/*AE1=AE e Existem uma variavel d_ret do tipe DICE_CondRet e um vetor de inteiros dice */
+	/* AINV : o vetor de inteiros dice é constituído por dois inteiros que representam o valor dos dados tirados */
 	do{
 		d_ret = DICE_RolarDado(&dice[0],DADOS_LADOS);
+		/*AE2 = Vale AE1 e temos d_ret preenchido*/
 		if( d_ret == DICE_ok){
 			d_ret = DICE_RolarDado(&dice[1],DADOS_LADOS);
 		}
+		/*ASif1: valem AE e AE1,caso o valor d_ret for diceok, rolamos os dados novamente mas agora atualizando dice[1], caso não,tivemos
+		um erro ao rolar os dados anteriormente.
+		*AE2&&(C==TRUE) + P1 => ASif1
+		Se AE vale, temos d_ret preenchido, como C==true, temos que d_ret ==dice_ok e entramos no if. temos agora a função
+		dice_rolardado passando por referência dice[1], o que faz rolar os dados novamente, valendo AS
+		*AE2 &&(C==False) => ASif1
+		Se C==false, d_ret não vale DICE_OK, ou seja, tivemos um erro, valendo AS
+		*/
+		
+		/*AE3=ASif1*/
 		if(d_ret != DICE_ok){
 			Throw("ERRO AO DEFINIR O PRIMEIRO JOGADOR");
 		}
+		/* ASif2 :caso d_ret não seja dice_ok, temos o lançamento de uma exceção, caso contrário, nada é feito.
+		*AE3 && (C==TRUE) + P1 => ASif2
+		Como AE3 vale, temos que d_ret é preenchido, como C==TRUE, temos que esse valor não é DICE_OK, logo entramos no if,o que 
+		faz chamar a função throw, o que lança a exceção, valendo então ASif2
+		*AE3 && (C==FALSE) => ASif2
+		Como AE3 vale, temos que d_ret é preenchido, como C==FALSE, temos que esse valor é DICE_OK, logo não entramos no if, nada é feito,
+		valendo então ASif2.
+		*/
 		printf("Definindo o primeiro jogador\n");
 		printf("Branco: %d\n",dice[0]);
 		printf("Preto: %d\n",dice[1]);
+		/*AE4=ASif2*/
 		if(dice[0] == dice[1]){
 			printf("Dados iguais, jogando novamente para definir o primeiro a jogar\n");
 			system("timeout 3");
 		}
+		/*ASif3: Caso dice[0] for igual a dice[1], temos que uma mensagem é mostrada na tela 
+		e chamamos a função system,caso contrário, nada é feito.
+		AE4 && (C==TRUE) => ASif3:
+		como C==TRUE, temos que dice[0]==dice[1],logo entramos no IF. Ao entrar temos uma função printf, logo uma mensagem 
+		é exibida na tela e também temosa chamada da função system, valendo então ASif3.
+		AE4 &&(C==FALSE) => ASif3 :
+		C==FALSE, temos que dice[0]!=dice[1], logo não entramos no IF, logo nada é feito e vale ASif3.*/
 	}while(dice[0] == dice[1]);
+	/*AS1: Temos um vetor de inteiros dice com 2 casas cuja casa dice[0] e dice[1] estão preenchidas e são distintas
+	  *AE1 && (C==F) => AS1 : 
+	  Caso tenhamos AE1, temos que existe um vetor dice de inteiros, como o do é feito um vez no caso de C== F
+	  , temos que dice [1] e dice [0] tem inteiros distintos, valendo ES 
+	  
+	  *AE1 && (C==V) + P1 => AINV
+	  Vale AE1, logo temos AE e temos que existe uma variável d_ret e um vetor de inteiros dice. Como temos C==V, logo temos dice[0] == dice[1]. 
+	  Assim, o do é refeito, o que ainda faz com que AI seja valida
+	  
+	  *AINV && (C==V) + P1 => AINV
+	  Vale Ainv, logo temos que os dados representam os valores dos dados tirados. Como C==V, temos que os valores são iguais, logo 
+	  temos a execução do do. Com o do feito, temos o recalculamento de dice[0] e dice[1], ainda valendo Ainv.
+	  
+	  *Ainv && (C==F)  =: AS
+	  Temos Ainv, logo dice[0] e dice[1] representam os valores retirados nos dados, como C==F, os valores são diferentes,
+	  logo vale AS.
+	  
+	  *AE1 => Ainv
+	  Temos AE1, logo temos o vetor de inteiros dice, cujas casas representam os valores dos dados, valendo então Ainv.	  
+	  */
 	system("timeout 2");
 /********************************/
 	*first_player = (dice[0]>dice[1])? COLOR_White: COLOR_Black;
 }
 
+/*AS: temos um novo jogo iniciado*/
 int RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
 
 	// Inicializacao de variaveis //
@@ -247,10 +304,16 @@ int CasaParaRestaurarValida(int casa_from, PEC_color jogador_da_vez){
 	if( casa_from < 0 ) return 0;
 	return 1;
 }
-
+/*AE: Existe um inteiro value declarado pelo usuario, existe um vetor de inteiros declarado pelo usario que possui um quarto elemento
+e existe um ponteiro apontando para uma area da memoria destinada para um tipo inteiro que aqui sera chamado de used_idx */
 int ObterDado(int value, int vector[4], int* used_idx){
 	int idx, real_value=-100;
+	/*AE1:vale a assertiva de Entrada*/
 	if(value == -1) return -1;
+	/*AS1:Se a condição for verdadeira, sera retornado -1, satisfazendo AS
+	 *Caso a condição for falsa, value diferente de -1*/
+	
+	/*AE2 = AS1*/
 	for(idx = 0 ; idx < 4 ; idx++){
 		if(value == vector[idx]){
 			real_value = vector[idx];
@@ -261,6 +324,7 @@ int ObterDado(int value, int vector[4], int* used_idx){
 			break;
 		}
 	}
+	/**/
 	return real_value;
 }
 
@@ -348,11 +412,11 @@ int main (void){
 
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_White, &qtd_peca_branca_fin);
 		if(pf_ret != PF_OK){
-			Throw("ERRO AO OBTER AS PE�AS FINALIZADAS");
+			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
 		}
 		pf_ret= PF_ObterTamanhoPecasFinalizadas(COLOR_Black, &qtd_peca_preta_fin);
 		if(pf_ret != PF_OK){
-			Throw("ERRO AO OBTER AS PE�AS FINALIZADAS");
+			Throw("ERRO AO OBTER AS PEÇAS FINALIZADAS");
 		}
 		if(qtd_peca_branca_fin >= 15){
 			FinalizarPartida(&pontuacao_global_branca);
@@ -377,7 +441,7 @@ int main (void){
 		/******************************************/
 
 		for(idx = 0 ; idx < qtd_dice_valid ; idx++){
-			/***** Declara��o de variaveis auxiliares *******/
+			/***** Declaração de variaveis auxiliares *******/
 			flag_peca_finalizada = flag_restaurar_peca = 0, response = 0;	
 
 			/***********************************************/
@@ -442,7 +506,7 @@ ESCOLHER_NOVAMENTE:
 			}
 			
 			/************************************************************/
-			/*************** Capturando dados para mover pe�a ***********/
+			/*************** Capturando dados para mover peça ***********/
 			if( !flag_restaurar_peca ){
 				printf("Escolha uma casa de origem dentre as disponiveis, -1 para pular a vez e -2 para abrir o Menu: ");
 				casa_from = LerCasaDoTeclado();
@@ -482,7 +546,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 			/************************************************************/
-			/************ Checando se a primeira casa � valida **********/
+			/************ Checando se a primeira casa é valida **********/
 			if( !PrimeiraCasaValida(casa_from,jogador_da_vez) && !flag_restaurar_peca ){
 				printf("Casa invalida, escolha novamente: ");
 				system("timeout 2");
@@ -498,7 +562,7 @@ ESCOLHER_NOVAMENTE:
 				use_dice_value = ObterDado(use_dice_value,dices,&utilized_dice_idx);
 				
 				if(use_dice_value == -100){
-					printf("Escolha um dado v�lido: ");
+					printf("Escolha um dado válido: ");
 				}
 			}while(use_dice_value == -100);
 
@@ -512,7 +576,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 		/**************************************************************/
-		/****************Checar finaliza��o de pe�a********************/
+		/****************Checar finalização de peça********************/
 			else{
 				int fin_possivel = CheckFinalizacaoPossivel(jogador_da_vez,casas_from_possiveis,qtd_casas_from_possiveis);
 
@@ -594,7 +658,7 @@ ESCOLHER_NOVAMENTE:
 				}
 			}
 		/**************************************************************/
-		/************************ Movendo pe�a ************************/
+		/************************ Movendo peça ************************/
 			if(!flag_peca_finalizada && !flag_restaurar_peca){
 				tbl_ret = TBL_MoverPeca(casa_from, casa_to);
 				if(tbl_ret != TBL_ok){

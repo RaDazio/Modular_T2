@@ -1,0 +1,69 @@
+// Script:	tabuleiroTestes.script
+//
+// Autor:	Gabriel Mascheroni
+//		
+//
+// Data:	16/06/2019
+//
+// Proposito:	Testar os comandos básicos relacionados a
+//		estrutura de peças finalizadas
+
+
+// Tipos de retorno
+//0	/* Executou corretamente */
+//1	/* PF nao contem elementos */
+//2	/* PF Erro */
+//3	/* PF Faltou memoria */
+
+// CORES:
+// 1    /* Preto */
+// 2    /* Branco */
+
+
+
+//TESTES ESTUTURA INEXISTENTE
+
+==Destruir estrutura inexistente
+=destruir 0
+=recuperar
+
+==Inserir em estrutura inexistente
+=inserir 1 0
+=recuperar
+
+==Contar pecas em estrutura inexistente
+=contar 1 0 0
+=recuperar
+=contar 2 0 0
+=recuperar
+
+//CRIAR ESTRUTURA
+
+==Criar estrutura de pecas capturadas quando uma ja existe
+=criar 0
+=criar 0
+=recuperar
+
+//DEMAIS TESTES
+
+==inserir cor inexistente
+=inserir 4 0
+=recuperar
+
+==inserir brancas
+=inserir 2 0
+=inserir 2 0
+
+==inserir pretas
+=inserir 1 0
+=inserir 1 0
+=inserir 1 0
+
+==contar brancas
+=contar 2 2 0
+
+==contar pretas
+=contar 1 3 0
+
+==Destruir Estrutura
+=destruir 0
