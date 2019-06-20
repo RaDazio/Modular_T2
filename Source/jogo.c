@@ -138,7 +138,7 @@ void NovoJogo (PEC_color* first_player, int* pontuacao_global_color1, int* pontu
 	*first_player = (dice[0]>dice[1])? COLOR_White: COLOR_Black;
 }
 
-void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
+int RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *pontuacao_global_color2){
 
 	// Inicializacao de variaveis //
 	DPT_CondRet dpt_ret;
@@ -159,7 +159,9 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 	// EXIT SE FALHAR //
 	if (erro != 0){
 		perror("Erro ao acessar arquivo de save");
-		Throw("O jogo nao pode ser recuperado");
+		system("timeout 5");
+		I_LimparRender();
+		return 0;
 	}
 
 	// CARREGA PONTUACOES //
@@ -187,8 +189,7 @@ void RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *p
 
 	// CLEANUP //
 	fclose(fp);
-
-	return;
+	return 1;
 }
 
 void SalvarJogo(PEC_color jogador_da_vez, int pontuacao_global_branca, int pontuacao_geral_preta, PEC_color jogador_dobra_partida, int pontuacao_dados_pontos){
@@ -322,18 +323,20 @@ int main (void){
 
 	do{
 		I_Menu_Inicial(&response);
+		if(response == 1){
+			NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+		}
+		else if(response == 2){
+			// RECUPERAR JOGO (CARREGAR) //
+			int r = RecuperarJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
+			if ( !r ){
+				response = -1;
+			}
+		}
+		else if(response == 3){
+			exit(3);
+		}
 	}while(response != 1 && response != 2 && response != 3);
-
-	if(response == 1){
-		NovoJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
-	}
-	else if(response == 2){
-		// RECUPERAR JOGO (CARREGAR) //
-		RecuperarJogo(&jogador_da_vez, &pontuacao_global_branca, &pontuacao_global_preta);
-	}
-	else if(response == 3){
-		exit(3);
-	}
 
 	while(1){
 	
