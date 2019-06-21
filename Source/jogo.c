@@ -14,7 +14,7 @@
 
 static void Throw(char* str){
 	printf("%s\n",str);
-	system("timout 10");
+	system("timeout 10");
 	exit(1);
 }
 
@@ -213,8 +213,8 @@ int RecuperarJogo(PEC_color *first_player, int *pontuacao_global_color1, int *po
 	printf("Recuperando dados.....\n");
 
 	erro = fopen_s(&fp, "gamao-save.txt", "r");
-	// EXIT SE FALHAR //
 	if (erro != 0){
+		TearDown();
 		perror("Erro ao acessar arquivo de save");
 		system("timeout 5");
 		I_LimparRender();
@@ -334,7 +334,6 @@ void RestaurarDado(int value, int idx, int vector[4]){
 	}
 }
 
-
 static void RenderizarTudo(int pt_b, int pt_p, PEC_color jogadorAtual, int dices[4], int qtd_dice_valid, int vector[24], int qtd_casas){
 	PCAP_CondRet pcap_ret;
 	DPT_CondRet dpt_ret;
@@ -354,7 +353,6 @@ static void RenderizarTudo(int pt_b, int pt_p, PEC_color jogadorAtual, int dices
 	I_RenderizarJogadaAtual(jogadorAtual, dices, qtd_dice_valid, vector, qtd_casas);
 
 }
-
 
 
 int main (void){	
