@@ -67,11 +67,13 @@
 *     Cria um novo dado de pontos.
 *
 *  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser criado. Passado por referência.
+*     
 *
 *  $FV Valor retornado
 *     DPT_OK
 *     DPT_FalhaMemoria
+*  Assertiva de saída: Será criado um dado de pontos
+*
 *
 ***********************************************************************/
 
@@ -84,10 +86,10 @@
 *  $ED Descrição da função
 *     Atualiza o jogador que pode dobrar a partida.
 *
-*  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser utilizado.
+*  $EP Parâmetros.
 *     $P CorPeca - cor do jogador.
-*
+*  Assertiva de Entrada: Será passado como parâmetro uma variável do tipo PEC_color
+*  Assertiva de Saída  : Caso exista dadoPontos, ele será atualizado com a cor passada.
 *  $FV Valor retornado
 *     DPT_OK
 *	  DPT_NaoHaDadoPontos
@@ -106,7 +108,8 @@
 *
 *  $EP Parâmetros
 *     $P Pontuacao - inteiro com a pontuacao que deseja-se inserir no Dado Pontos
-*
+* Assertiva de Entrada: Será passada um variável do tipo Inteiro que será o novo valor da pontuação de dadopontos.
+* Assertiva de Saída  : Caso exista dado de pontos, o valor será atualizado com o valor passado como parâmetro
 *  $FV Valor retornado
 *     DPT_OK
 *    DPT_NaoHaDadoPontos
@@ -123,9 +126,9 @@
 *     Dobra a pontuação da partida.
 *
 *  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser utilizado.
 *     $P CorPeca - cor do jogador.
-*
+*  AE: Será passado como parâmetro uma variável do tipo PEC_Color
+*  AS: Caso o jogador passado possua o dado de pontos,será dobrado o valor da partida,caso exsita dado de pontos
 *  $FV Valor retornado
 *     DPT_OK
 *	  DPT_NaoHaDadoPontos
@@ -143,9 +146,9 @@
 *     Obtém o jogador que pode dobrar a partida.
 *
 *  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser utilizado.
 *     $P pCorPeca - ponteiro que receberá, por referência, a cor da peça do jogador.
-*
+*  AE: Existe um ponteiro que aponta para uma área do PEC_Color que será passado
+*  AS:Caso exista dadoPontos e Caso esse dado possua um dono, a variável passada passará a ter o valor dessa cor
 *  $FV Valor retornado
 *     DPT_OK
 *	  DPT_NaoHaDadoPontos
@@ -163,9 +166,9 @@
 *     Obtém a pontuação da partida.
 *
 *  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser utilizado.
 *     $P pPontuacao - ponteiro que receberá, por referência, a pontuação da partida.
-*
+*    AE: Existe um ponteiro que aponta para uma área do tipo INT que será passada por referência para a função
+*    AS: Caso exista o dado de Pontos, a variável passada por referência será atualizada com o valor da pontuação do jogo
 *  $FV Valor retornado
 *     DPT_OK
 *	  DPT_NaoHaDadoPontos
@@ -182,8 +185,7 @@
 *     Destrói a peça.
 *
 *  $EP Parâmetros
-*     $P pDadoPontos - ponteiro para o dado de pontos a ser destruído. Passado por referência.
-*
+*  AS: Caso exista o dado de pontos, será destruído.
 *  $FV Valor retornado
 *     DPT_OK
 *	  DPT_NaoHaDadoPontos
