@@ -60,6 +60,7 @@
 *     Cria uma estrutura para as pe�as Finalizadas do jogo de gam�o
 *
 *  $EP Par�metros
+*  AS: Caso não exista erro de memória, a estrutura será criada
 *
 *
 ***********************************************************************/
@@ -75,7 +76,8 @@
 *
 *  $EP Par�metros
 *	  cor			- A cor da peça adicionada
-*
+* AE: Será passado como parâmetro uma variável do tipo PEC_Color que indica a cor da peça a ser adicionada
+* AS: Caso exista a estrutura, uma peça com essa cor será adicionada ao final
 *
 ***********************************************************************/
 
@@ -92,7 +94,9 @@
 *	  cor			- A cor que retornará a quantidade
 *	  *tam			- Ponteiro de referencia para o tamanho da PF
 *
-*
+* AE: Serão passados como parâmetro uma variável do tipo PEC_Color que indica a cor de que queremos a quantidade
+* e um ponteiro que aponta para uma área de memória do tipo int que será passada como referência
+* AS: Caso exista a estrutura, a variável tam será atualizada com a quantidade de peças na estrutura que possuem a cor passada.
 ***********************************************************************/
 
    PF_CondRet PF_ObterTamanhoPecasFinalizadas(PEC_color cor, int *tam) ;
@@ -106,6 +110,7 @@
 *		Destroi a lista de pe�as finalizadas
 *
 *  $EP Par�metros
+* AS: Caso exista a estrutura, a mesma será destruída
 *
 ***********************************************************************/
 
