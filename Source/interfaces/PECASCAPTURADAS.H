@@ -5,7 +5,7 @@
 
 /***************************************************************************
 *
-*  $MCD MÛdulo de definiÁ„o: MÛdulo peÁas capturadas
+*  $MCD M√≥dulo de defini√ß√£o: M√≥dulo pe√ßas capturadas
 *
 *  Arquivo gerado:              PECASCAPTURADAS.H
 *  Letras identificadoras:      PCAP
@@ -16,16 +16,16 @@
             rdms - Rafael Damazio Monteiro da Silva
 *           fo  - Felipe de Oliveira
 *
-*  $HA HistÛrico de evoluÁ„o:
-*     Vers„o       Autor          Data         ObservaÁıes
-*       1.00         fo       10/06/2019     In˙Äio do desenvolvimento
+*  $HA Hist√≥rico de evolu√ß√£o:
+*     Vers√£o       Autor          Data         Observa√ß√µes
+*       1.00         fo       10/06/2019     In√∫‚Ç¨io do desenvolvimento
 *       2.00         svp      13/06/2019     Mudanca de approach para semelhante ao PecasFinalizadas
 *       3.00         svp      15/06/2019     Ajustes nos valores de retorno
 *
-*  $ED DescriÁ„o do mÛdulo
-*     Este mÛdulo implementa funÁıes para operar listas de peÁas capturadas
-*     O mÛdulo eh capaz de trabalhar com n peÁas.
-*     Ao iniciar a execuÁ„o do programa n„o existe lista de peÁas.
+*  $ED Descri√ß√£o do m√≥dulo
+*     Este m√≥dulo implementa fun√ß√µes para operar listas de pe√ßas capturadas
+*     O m√≥dulo eh capaz de trabalhar com n pe√ßas.
+*     Ao iniciar a execu√ß√£o do programa n√£o existe lista de pe√ßas.
 *
 ***************************************************************************/
  
@@ -35,15 +35,15 @@
    #define PECASCAPTURADAS_EXT extern
 #endif
 
-/***** DeclaraÁıes exportadas pelo mÛdulo *****/
+/***** Declara√ß√µes exportadas pelo m√≥dulo *****/
 
-/* Tipo referÍncia para uma lista de peÁas capturadas */
+/* Tipo refer√™ncia para uma lista de pe√ßas capturadas */
 
 typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $TC Tipo de dados: PCAP CondiÁıes de retorno
+*  $TC Tipo de dados: PCAP Condi√ß√µes de retorno
 *
 *
 ***********************************************************************/
@@ -54,7 +54,7 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
             /* Executou correto */
 
 		PCAP_CondRetFaltouMemoria,
-			   /* Faltou memÛria ao alocar dados */
+			   /* Faltou mem√≥ria ao alocar dados */
 
 		PCAP_CondRetErroInsercaoListaBranca,
 			   /* Erro ao inserir peca na lista de pecas brancas capturadas */
@@ -80,15 +80,16 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PCAP Criar listas de peÁas capturadas
+*  $FC Fun√ß√£o: PCAP Criar listas de pe√ßas capturadas
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Cria uma estrutura contendo duas listas de pecas capturadas: uma lista para as brancas e outra para as pretas.
 *
 *
 *  $FV Valor retornado
 *     PCAP_CondRetOK
 *     PCAP_CondRetFaltouMemoria
+* AS: Caso n√£o haja erro de mem√≥ria, ser√° criada a estrutura.
 *
 ***********************************************************************/
 
@@ -96,12 +97,12 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PCAP Inserir peca capturada
+*  $FC Fun√ß√£o: PCAP Inserir peca capturada
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Insere uma peÁa na lista de peÁas capturadas da cor correspondente
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Insere uma pe√ßa na lista de pe√ßas capturadas da cor correspondente
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     $P cor - cor da peca a ser inserida na sua devida lista de pecas capturadas
 *
 *  $FV Valor retornado
@@ -109,6 +110,8 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *     PCAP_CondRetErroInsercaoListaBranca
 *	   PCAP_CondRetErroInsercaoListaPreta
 *     PCAP_CondRetErroNaoExisteSingleton
+*   AE: Ser√° passada uma vari√°vel do tipo PEC_color 
+*   AS: Caso existe a estrutura e n√£o ocorra erro de mem√≥ria ao inserir a pe√ßa, uma pe√ßa com a cor passada ter√° sido adicionada √† estrutura
 *
 ***********************************************************************/
 
@@ -116,12 +119,12 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PCAP Remover peca capturada
+*  $FC Fun√ß√£o: PCAP Remover peca capturada
 *
-*  $ED DescriÁ„o da funÁ„o
-*     Remove uma peÁa na lista de peÁas capturadas da cor correspondente.
+*  $ED Descri√ß√£o da fun√ß√£o
+*     Remove uma pe√ßa na lista de pe√ßas capturadas da cor correspondente.
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     $P cor - cor da peca a ser removida de sua devida lista de pecas capturadas
 *
 *  $FV Valor retornado
@@ -130,6 +133,8 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *     PCAP_CondRetErroRemocaoPecaPreta
 *     PCAP_CondRetErroNaoExisteSingleton
 *     PCAP_CondRetCorInexistente
+*   AE: Ser√° passada uma vari√°vel do tipo PEC_color
+*   AS: Caso a estrutura exista, na estrutura exista uma pe√ßa com essa cor e n√£o ocorra erro ao remover, a pe√ßa ser√° removida.
 *
 ***********************************************************************/
 
@@ -138,12 +143,12 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PCAP Obter quantidade pecas capturadas
+*  $FC Fun√ß√£o: PCAP Obter quantidade pecas capturadas
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Conta o numero de pecas capturadas da cor especificada
 *
-*  $EP Par‚metros
+*  $EP Par√¢metros
 *     $P cor - cor das pecas que se deseja a contagem
 *     $P qtd - ponteiro para um inteiro onde sera devolvido o numero de pecas contadas
 *
@@ -151,31 +156,31 @@ typedef struct PCAP_tagPecasCapturadas PCAP_tpPecasCapturadas;
 *     PCAP_CondRetOK
 *     PCAP_CondRetErroNaoExisteSingleton
 *     PCAP_CondRetCorInexistente
-*
+* AE: Ser√° passada um vari√°vel do tipo PEC_Color e um ponteiro para uma √°rea de mem√≥ria do tipo int que ser√° passado por refer√™ncia.
+* AS: Caso exista a estrutura, a vari√°vel passada por refer√™ncia ter√° seu valor alterado para a quantodade de pecas na estrutura da cor passada.
 ***********************************************************************/
 
    PCAP_CondRet PCAP_ObterQuantidadePecasCapturadas(PEC_color cor, int *qtd);
 
 /***********************************************************************
 *
-*  $FC FunÁ„o: PCAP Destruir pecas capturadas
+*  $FC Fun√ß√£o: PCAP Destruir pecas capturadas
 *
-*  $ED DescriÁ„o da funÁ„o
+*  $ED Descri√ß√£o da fun√ß√£o
 *     Destroi as duas listas de pecas capturadas (lista de brancas e lista de pretas), assim
 *     como a propria estutura que contem as listas
 *
 *  $FV Valor retornado
 *    PCAP_CondRetOK
 *    PCAP_CondRetErroNaoExisteSingleton
-*    PCAP_CondRetCorInexistente
-*
+* AS: Caso exista a estrutura, a mesma ser√° destru√≠da.
 ***********************************************************************/
 
 	PCAP_CondRet PCAP_DestruirPecasCapturadas();
 
 #undef PCAP_EXT
 
-/********** Fim do mÛdulo de definiÁ„o: MÛdulo peÁas capturadas **********/
+/********** Fim do m√≥dulo de defini√ß√£o: M√≥dulo pe√ßas capturadas **********/
 
 #else
 #endif
