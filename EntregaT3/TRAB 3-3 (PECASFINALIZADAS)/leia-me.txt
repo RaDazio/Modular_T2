@@ -2,9 +2,10 @@ Autores:
 	Felipe de Oliveria
 	Gabriel Costa
 	Rafael Damazio
+	Stefano Vivacqua Pereira
 
 --Objetivo:
-Testar e gerenciar a estrutura do tabuleiro da aplicação do gamão
+Testar e gerenciar a estrutura de peças finalizadas da aplicação do gamão
 
 --Como Usar:
 1)	Execute o run_script
