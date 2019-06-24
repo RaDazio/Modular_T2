@@ -1,0 +1,69 @@
+--Autores:
+	
+	Felipe de Oliveria
+	Gabriel Costa
+	Rafael Damazio
+	Stefano Vivacqua Pereira
+
+--Objetivo:
+	
+	Este txt oferece um resumo do conteúdo do arquivo INF1301-Trab03-FGRS.zip.
+	Os programas contidos no zip realizam a execucao de um jogo de gamao e testam os módulos "PECASCAPTURADAS", "PECASFINALIZADAS" e "TABULEIRO".
+
+--Arquitetura de diretórios:
+	
+	As pastas do zip estam organizadas da seguinte maneira:
+
+	-Documentacao: (pasta)
+		Contém a especificação de requisitos do projeto como um todo, e o manual de usuário.
+
+	-Relatórios: (pasta)
+		Contém os relatórios feitos pelos alunos que desenvolveram este trabalho.
+
+	-Source: (pasta)
+		Contém os arquivos de código fonte do projeto;
+		Uma pasta para o ".c" de cada módulo desenvolvido, uma pasta "interfaces" contendo todos os ".h"s dos módulos desenvolvidos e o arquivo "jogo.c" (main).
+
+	-TRAB2-1 (TABULEIRO): (pasta)
+		Contém os testes relativos ao módulo TABULEIRO.C e o executavel para o teste do mesmo;
+		Para mais informações deste diretório específico, leia o arquivo "leia-me.txt" da própria pasta.
+
+	-TRAB3-2 (PECASFINALIZADAS): (pasta)
+		Contém os testes relativos ao módulo PECASFINALIZADAS.C e o executavel para o teste do mesmo;
+		Para mais informações deste diretório específico, leia o arquivo "leia-me.txt" da própria pasta.
+
+	-TRAB2-1 (PECASCAPTURADAS): (pasta)
+		Contém os testes relativos ao módulo PECASCAPTURADAS.C e o executavel para o teste do mesmo;
+		Para mais informações deste diretório específico, leia o arquivo "leia-me.txt" da própria pasta.
+
+	-gamao.exe: (arquivo)
+		A aplicação desenvolvida pelo grupo. Um jogo de gamão.
+
+	-leia-me.txt: (arquivo)
+		O presente documento.
+
+--Modo de uso:
+	
+	Após a extração do arquivo INF1301-Trab03-FGRS.zip:
+
+	-Para executar e testar o jogo:
+		Execute o arquivo ./gamao.exe;
+		Execute comandos conforme o guia do usuário.
+	
+	-Para executar os testes relativos ao módulo tabuleiro:
+		Navegue até ./TRAB2-1 (TABULEIRO)/
+		Leia o leia-me.txt
+		Execute o arquivo run_script.bat
+		O resultado do teste será exibido na tela
+
+	-Para executar os testes relativos ao módulo tabuleiro:
+		Navegue até ./TRAB3-2 (PECASFINALIZADAS)/
+		Leia o leia-me.txt
+		Execute o arquivo run_script.bat
+		O resultado do teste será exibido na tela
+
+	-Para executar os testes relativos ao módulo tabuleiro:
+		Navegue até ./TRAB3-3 (PECASCAPTURADAS)/
+		Leia o leia-me.txt
+		Execute o arquivo run_script.bat
+		O resultado do teste será exibido na tela
